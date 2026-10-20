@@ -638,7 +638,8 @@ function topbar(){
     <option value="mark"${S.user==='mark'?' selected':''}>Mark – team manager</option>
     <option value="fatima"${S.user==='fatima'?' selected':''}>Fatima – Learning &amp; Development</option>
    </select></label>
-  <button class="tb-btn" data-a="pop" data-v="signals" aria-label="Signals and tasks">${icon('bell',20)}${n?`<span class="dot num">${n}</span>`:''}</button>
+  <a class="lang-switch" href="index.html" hreflang="nl" title="Schakel naar Nederlands" style="color:inherit;text-decoration:none;font-weight:600;border:1px solid rgba(255,255,255,.4);border-radius:6px;padding:4px 10px">NL</a>
+ <button class="tb-btn" data-a="pop" data-v="signals" aria-label="Signals and tasks">${icon('bell',20)}${n?`<span class="dot num">${n}</span>`:''}</button>
   <button class="profile" data-a="pop" data-v="profile">${av(u.id,u.n)}<span class="who"><b>${esc(u.n)}</b><span>${esc(u.f)}</span></span></button>
   ${S.pop==='signals'?popSignals():''}${S.pop==='profile'?popProfile():''}
  </header>`;
