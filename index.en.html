@@ -1,0 +1,1402 @@
+<!doctype html><html lang="en"><head><meta name="description" content="Demo of the Leer Academie Breda: the digital learning platform for employees of the municipality of Breda."><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Leer Academie Breda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#EEF1F4; --surface:#FFFFFF; --surface-2:#F6F8FA; --line:#D8DEE5; --line-2:#E7EBEF;
+  --ink:#1B2733; --ink-2:#4A5866; --ink-3:#6E7B88;
+  --bar:#0F2F4A; --bar-ink:#E8EEF4; --bar-2:#18405F;
+  --nav:#FFFFFF; --nav-hover:#EEF3F8; --nav-active:#E1EAF3;
+  --brand:#C8102E; --brand-ink:#FFFFFF; --brand-soft:#FBE7EA;
+  --link:#1D5E96; --focus:#2F7BC4;
+  --xp:#B7791F; --xp-soft:#FBF1DE;
+  --ok:#2E7D4F; --ok-soft:#E3F2E8; --warn:#B26A00; --warn-soft:#FDF0DC; --bad:#B42318; --bad-soft:#FCE8E6;
+  --cop:#3B4FB8; --cop-soft:#ECEEFB;
+  --shadow:0 1px 2px rgba(15,47,74,.06),0 2px 8px rgba(15,47,74,.05);
+  --r:6px;
+  font-family:"Source Sans 3","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#10171E; --surface:#18222C; --surface-2:#1D2934; --line:#2C3A47; --line-2:#24313D;
+    --ink:#E6ECF2; --ink-2:#B3C0CC; --ink-3:#8795A3;
+    --bar:#0A1C2C; --bar-ink:#E6ECF2; --bar-2:#143049;
+    --nav:#141D26; --nav-hover:#1C2935; --nav-active:#22364A;
+    --brand:#E0425A; --brand-ink:#FFFFFF; --brand-soft:#3A1C22;
+    --link:#7DB5E8; --focus:#7DB5E8;
+    --xp:#E3A94A; --xp-soft:#3A2E17;
+    --ok:#5CC08A; --ok-soft:#173226; --warn:#E3A94A; --warn-soft:#382B14; --bad:#F07166; --bad-soft:#3B1C1A;
+    --cop:#9AA8F5; --cop-soft:#232A4D;
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#10171E; --surface:#18222C; --surface-2:#1D2934; --line:#2C3A47; --line-2:#24313D;
+  --ink:#E6ECF2; --ink-2:#B3C0CC; --ink-3:#8795A3;
+  --bar:#0A1C2C; --bar-ink:#E6ECF2; --bar-2:#143049;
+  --nav:#141D26; --nav-hover:#1C2935; --nav-active:#22364A;
+  --brand:#E0425A; --brand-ink:#FFFFFF; --brand-soft:#3A1C22;
+  --link:#7DB5E8; --focus:#7DB5E8;
+  --xp:#E3A94A; --xp-soft:#3A2E17;
+  --ok:#5CC08A; --ok-soft:#173226; --warn:#E3A94A; --warn-soft:#382B14; --bad:#F07166; --bad-soft:#3B1C1A;
+  --cop:#9AA8F5; --cop-soft:#232A4D;
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5;margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--link)}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+h1,h2,h3,h4{margin:0;line-height:1.25;text-wrap:balance}
+h1{font-size:24px;font-weight:600}
+h2{font-size:18px;font-weight:600}
+h3{font-size:16px;font-weight:600}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--ink-3)}
+.small{font-size:13px}
+
+/* ---- Top bar ---- */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;height:52px;background:var(--bar);color:var(--bar-ink);display:flex;align-items:center;gap:12px;padding:0 16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:600;white-space:nowrap}
+.logo-mark{width:28px;height:28px;border-radius:4px;background:var(--brand);display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px;letter-spacing:.02em}
+.logo small{display:block;font-weight:400;font-size:11px;opacity:.75;letter-spacing:.04em;text-transform:uppercase}
+.search{flex:1;max-width:420px;margin-left:12px;position:relative}
+.search input{width:100%;height:32px;border-radius:4px;border:1px solid transparent;background:var(--bar-2);color:var(--bar-ink);padding:0 10px 0 32px}
+.search input::placeholder{color:var(--bar-ink);opacity:.6}
+.search svg{position:absolute;left:9px;top:8px;opacity:.7}
+.tb-spacer{flex:1}
+.tb-btn{position:relative;background:none;border:0;color:var(--bar-ink);width:36px;height:36px;border-radius:4px;display:grid;place-items:center;cursor:pointer}
+.tb-btn:hover{background:var(--bar-2)}
+.dot{position:absolute;top:4px;right:3px;min-width:17px;height:17px;border-radius:9px;background:var(--brand);color:#fff;font-size:11px;font-weight:600;display:grid;place-items:center;padding:0 4px}
+.profile{display:flex;align-items:center;gap:8px;background:none;border:0;color:var(--bar-ink);cursor:pointer;padding:4px 6px;border-radius:4px}
+.profile:hover{background:var(--bar-2)}
+.avatar{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;color:#fff;flex:none}
+.profile .who{text-align:left;line-height:1.15}
+.profile .who b{font-weight:600;font-size:14px;display:block}
+.profile .who span{font-size:12px;opacity:.75}
+.demo-switch{display:flex;align-items:center;gap:6px;background:var(--bar-2);border-radius:4px;padding:3px 4px 3px 8px;font-size:12px}
+.demo-switch select{background:var(--bar);border:1px solid rgba(255,255,255,.18);color:var(--bar-ink);border-radius:3px;height:26px;font-size:13px}
+
+/* dropdowns */
+.pop{position:absolute;top:48px;right:12px;width:360px;max-width:calc(100vw - 24px);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:var(--r);box-shadow:0 8px 28px rgba(0,0,0,.18);z-index:40}
+.pop h3{padding:12px 14px;border-bottom:1px solid var(--line-2);font-size:15px}
+.pop ul{list-style:none;margin:0;padding:0;max-height:380px;overflow:auto}
+.pop li{padding:10px 14px;border-bottom:1px solid var(--line-2);display:flex;gap:10px;cursor:pointer}
+.pop li:hover{background:var(--surface-2)}
+.pop li.unread{background:var(--nav-active)}
+.pop .foot{padding:8px 14px;display:flex;justify-content:space-between}
+
+/* ---- Shell ---- */
+.shell{display:grid;grid-template-columns:232px 1fr;min-height:calc(100% - 52px)}
+.nav{background:var(--nav);border-right:1px solid var(--line);padding:12px 0}
+.nav .sect{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:14px 18px 6px}
+.nav button{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;padding:9px 18px;text-align:left;cursor:pointer;color:var(--ink-2);border-left:3px solid transparent}
+.nav button:hover{background:var(--nav-hover);color:var(--ink)}
+.nav button.on{background:var(--nav-active);color:var(--ink);border-left-color:var(--brand);font-weight:600}
+.nav button .count{margin-left:auto;font-size:12px;background:var(--brand);color:#fff;border-radius:9px;padding:0 7px}
+.nav svg{flex:none;opacity:.8}
+.main{padding:20px 24px 48px;min-width:0}
+.crumbs{font-size:13px;color:var(--ink-3);margin-bottom:6px}
+.crumbs button{background:none;border:0;padding:0;color:var(--link);cursor:pointer}
+.pagehead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.pagehead p{color:var(--ink-2);margin-top:4px}
+
+/* ---- Components ---- */
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.span2{grid-column:span 2}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);min-width:0}
+.tile-h{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line-2)}
+.tile-h h2,.tile-h h3{font-size:15px;font-weight:600}
+.tile-b{padding:14px 16px}
+.tile-b > * + *{margin-top:10px}
+.btn{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 14px;border-radius:4px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:500;white-space:nowrap;text-decoration:none;color:var(--ink)}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--link);border-color:var(--link);color:#fff}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.brand{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.ghost{border-color:transparent;background:none;color:var(--link)}
+.btn.sm{height:28px;padding:0 10px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.between{justify-content:space-between}
+.chip{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:11px;font-size:12px;font-weight:600;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line-2);white-space:nowrap}
+.chip.req{background:var(--bad-soft);color:var(--bad);border-color:transparent}
+.chip.ok{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+.chip.warn{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.chip.xp{background:var(--xp-soft);color:var(--xp);border-color:transparent}
+.chip.cop{background:var(--cop-soft);color:var(--cop);border-color:transparent}
+.chip.blend{background:var(--nav-active);color:var(--link);border-color:transparent}
+.bar{height:8px;border-radius:4px;background:var(--line-2);overflow:hidden}
+.bar > i{display:block;height:100%;background:var(--link);border-radius:4px}
+.bar.xpbar > i{background:var(--xp)}
+.bar.okbar > i{background:var(--ok)}
+.list{list-style:none;margin:0;padding:0}
+.list > li{padding:10px 0;border-bottom:1px solid var(--line-2);display:flex;gap:12px;align-items:flex-start}
+.list > li:last-child{border-bottom:0}
+.ico{width:34px;height:34px;border-radius:6px;display:grid;place-items:center;flex:none;background:var(--surface-2);color:var(--ink-2)}
+.ico.task{background:var(--bad-soft);color:var(--bad)}
+.ico.mission{background:var(--xp-soft);color:var(--xp)}
+.ico.info{background:var(--nav-active);color:var(--link)}
+.grow{flex:1;min-width:0}
+table.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;font-weight:600;color:var(--ink-2);font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.tbl td{padding:9px 10px;border-bottom:1px solid var(--line-2);vertical-align:middle}
+.tbl tr:hover td{background:var(--surface-2)}
+.scroll-x{overflow-x:auto}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:16px;overflow-x:auto}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:10px 14px;cursor:pointer;color:var(--ink-2);font-weight:500;white-space:nowrap}
+.tabs button.on{border-bottom-color:var(--brand);color:var(--ink);font-weight:600}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:13px;font-weight:600;color:var(--ink-2)}
+.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:4px;background:var(--surface);padding:7px 10px}
+.field textarea{min-height:84px;resize:vertical}
+.form-actions{display:flex;justify-content:flex-end;gap:8px;padding-top:6px}
+.notice{border-radius:var(--r);padding:10px 14px;background:var(--nav-active);color:var(--ink);font-size:14px}
+.notice.warn{background:var(--warn-soft)}
+.notice.ok{background:var(--ok-soft)}
+.empty{padding:24px;text-align:center;color:var(--ink-3)}
+.kpi{padding:14px 16px}
+.kpi .v{font-size:28px;font-weight:600;line-height:1.1}
+.kpi .l{font-size:13px;color:var(--ink-3)}
+
+/* ---- Learning offer cards ---- */
+.card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow)}
+.card .cover{height:84px;position:relative;display:flex;align-items:flex-end;padding:10px 14px;color:#fff}
+.card .cover b{font-size:12px;letter-spacing:.06em;text-transform:uppercase;opacity:.9}
+.card .body{padding:12px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card .body p{color:var(--ink-2);font-size:14px}
+.card .foot{padding:10px 14px;border-top:1px solid var(--line-2);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cov-ov{background:linear-gradient(135deg,#1D5E96,#0F2F4A)}
+.cov-ai{background:linear-gradient(135deg,#3B4FB8,#1F2A6B)}
+.cov-sec{background:linear-gradient(135deg,#C8102E,#7A0A1C)}
+.cov-sch{background:linear-gradient(135deg,#2E7D4F,#194D30)}
+.cov-data{background:linear-gradient(135deg,#6B4FA0,#3A2A5C)}
+
+/* ---- Module player ---- */
+.player{display:grid;grid-template-columns:220px minmax(0,1fr) 380px;gap:16px;align-items:start}
+.lessons{background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+.lessons h3{padding:12px 14px;border-bottom:1px solid var(--line-2);font-size:14px}
+.lessons ol{list-style:none;margin:0;padding:6px 0;counter-reset:l}
+.lessons li button{display:flex;gap:10px;width:100%;text-align:left;background:none;border:0;padding:8px 14px;cursor:pointer;color:var(--ink-2);font-size:14px;align-items:flex-start}
+.lessons li button.on{background:var(--nav-active);color:var(--ink);font-weight:600}
+.lessons .st{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex:none;display:grid;place-items:center;font-size:11px;margin-top:1px}
+.lessons .st.done{background:var(--ok);border-color:var(--ok);color:#fff}
+.lesson{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:20px 24px}
+.lesson .content{max-width:68ch}
+.lesson .content p,.lesson .content ul{margin:0 0 12px}
+.lesson .content ul{padding-left:20px}
+.lesson .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+.quiz{margin-top:18px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface-2);padding:14px 16px}
+.quiz .opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:4px;padding:9px 12px;margin-top:8px;cursor:pointer}
+.quiz .opt:hover{border-color:var(--link)}
+.quiz .opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.quiz .opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.quiz .fb{margin-top:10px;font-size:14px}
+.callout{border-left:3px solid var(--link);background:var(--nav-active);padding:10px 14px;border-radius:0 4px 4px 0;margin:0 0 12px}
+.datatable{border-collapse:collapse;font-size:14px;margin:0 0 12px}
+.datatable td,.datatable th{border:1px solid var(--line);padding:5px 10px;text-align:right}
+.datatable th:first-child,.datatable td:first-child{text-align:left}
+
+/* ---- Copilot ---- */
+.copilot{position:sticky;top:68px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);display:flex;flex-direction:column;height:calc(100vh - 92px);min-height:480px}
+.cop-h{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line-2)}
+.cop-logo{width:28px;height:28px;border-radius:7px;background:conic-gradient(from 200deg,#3B4FB8,#2F7BC4,#6B4FA0,#3B4FB8);display:grid;place-items:center;color:#fff}
+.cop-h b{font-size:15px}
+.cop-h span{font-size:12px;color:var(--ink-3);display:block;line-height:1.1}
+.cop-body{flex:1;overflow:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:92%;padding:9px 12px;border-radius:10px;font-size:14px;line-height:1.5}
+.msg.u{align-self:flex-end;background:var(--link);color:#fff;border-bottom-right-radius:3px;white-space:pre-wrap}
+.msg.a{align-self:flex-start;background:var(--cop-soft);color:var(--ink);border-bottom-left-radius:3px}
+.msg.a p{margin:0 0 8px}.msg.a p:last-child{margin:0}
+.msg.a ul,.msg.a ol{margin:0 0 8px;padding-left:18px}
+.msg .acts{display:flex;gap:4px;margin-top:6px}
+.msg .acts button{background:none;border:1px solid var(--line);border-radius:3px;font-size:12px;padding:1px 7px;cursor:pointer;color:var(--ink-2)}
+.msg .acts button.on{background:var(--surface);border-color:var(--cop);color:var(--cop)}
+.cop-prompts{display:flex;flex-wrap:wrap;gap:6px;padding:8px 14px;border-top:1px solid var(--line-2)}
+.cop-prompts button{border:1px solid var(--cop);color:var(--cop);background:var(--surface);border-radius:14px;font-size:13px;padding:3px 10px;cursor:pointer}
+.cop-prompts button:hover{background:var(--cop-soft)}
+.cop-in{padding:8px 14px 10px;border-top:1px solid var(--line-2)}
+.cop-in textarea{width:100%;border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:8px 10px;min-height:58px;resize:vertical;font-size:14px}
+.cop-in .row{margin-top:6px}
+.cop-disc{font-size:11.5px;color:var(--ink-3)}
+.thinking{display:inline-flex;gap:3px}
+.thinking i{width:6px;height:6px;border-radius:50%;background:var(--cop);animation:b 1s infinite}
+.thinking i:nth-child(2){animation-delay:.15s}.thinking i:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,80%,100%{opacity:.25}40%{opacity:1}}
+
+/* ---- Gamification ---- */
+.lvl{display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center;padding:8px 0}
+.lvl .badge-n{width:36px;height:36px;border-radius:8px;background:var(--xp-soft);color:var(--xp);display:grid;place-items:center;font-weight:700}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}
+.bdg{border:1px solid var(--line);border-radius:var(--r);padding:12px 10px;text-align:center;background:var(--surface)}
+.bdg .medal{width:44px;height:44px;margin:0 auto 6px;border-radius:50%;display:grid;place-items:center;background:var(--xp-soft);color:var(--xp)}
+.bdg.locked{opacity:.45}
+.bdg b{font-size:13px;display:block}
+.bdg span{font-size:12px;color:var(--ink-3)}
+
+/* ---- Feed / community ---- */
+.post{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-2)}
+.post:last-child{border-bottom:0}
+.post .meta{font-size:13px;color:var(--ink-3)}
+.q{display:grid;grid-template-columns:56px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-2)}
+.q .votes{text-align:center;font-size:13px;color:var(--ink-3)}
+.q .votes b{display:block;font-size:18px;color:var(--ink)}
+.answer{border-left:3px solid var(--line);padding:6px 12px;margin-top:8px}
+.answer.best{border-left-color:var(--ok);background:var(--ok-soft);border-radius:0 4px 4px 0}
+
+/* ---- Inbox ---- */
+.inbox{display:grid;grid-template-columns:320px 1fr;border:1px solid var(--line);border-radius:var(--r);background:var(--surface);min-height:460px;overflow:hidden}
+.inbox ul{list-style:none;margin:0;padding:0;border-right:1px solid var(--line)}
+.inbox li button{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line-2);padding:10px 14px;cursor:pointer}
+.inbox li button.on{background:var(--nav-active)}
+.inbox li button.unread b{font-weight:700}
+.inbox li .from{font-size:14px;display:flex;justify-content:space-between;gap:6px}
+.inbox li .subj{font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mail{padding:18px 22px}
+.mail .mh{border-bottom:1px solid var(--line-2);padding-bottom:10px;margin-bottom:14px}
+.mail .body p{margin:0 0 10px;max-width:70ch}
+.mail .fake-link{color:var(--link);text-decoration:underline;cursor:pointer;background:none;border:0;padding:0;font:inherit}
+.mail .fake-btn{background:#E8551B;color:#fff;border:0;border-radius:4px;padding:8px 16px;font-weight:600;cursor:pointer;margin:6px 0 12px}
+.lure{border:2px solid var(--ok);border-radius:var(--r);background:var(--surface);padding:22px}
+.lure ol{padding-left:20px}
+
+/* ---- Toast ---- */
+.toasts{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:8px;z-index:60}
+.toast{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--xp);border-radius:6px;box-shadow:0 6px 20px rgba(0,0,0,.18);padding:10px 14px;min-width:260px;max-width:340px;animation:tin .25s ease-out}
+.toast.lvlup{border-left-color:var(--brand)}
+.toast b{display:block}
+@keyframes tin{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion: reduce){.toast{animation:none}.thinking i{animation:none;opacity:.7}}
+
+/* ---- Modal ---- */
+.modal-bg{position:fixed;inset:0;background:rgba(10,20,30,.45);display:grid;place-items:center;z-index:70;padding:16px}
+.modal{background:var(--surface);border-radius:8px;max-width:560px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.3);max-height:90vh;overflow:auto}
+.modal .tile-b{padding:18px 20px}
+
+/* ---- Bar chart ---- */
+.hbar{display:grid;grid-template-columns:150px 1fr 48px;gap:10px;align-items:center;padding:5px 0;font-size:14px}
+.hbar .bar{height:14px}
+
+/* ---- Responsive ---- */
+@media (max-width:1180px){
+  .player{grid-template-columns:200px minmax(0,1fr)}
+  .copilot{grid-column:1/-1;position:static;height:560px}
+}
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .nav{display:flex;overflow-x:auto;padding:0;border-right:0;border-bottom:1px solid var(--line)}
+  .nav .sect{display:none}
+  .nav button{width:auto;white-space:nowrap;border-left:0;border-bottom:3px solid transparent;padding:10px 14px}
+  .nav button.on{border-bottom-color:var(--brand)}
+  .g3,.g4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .player{grid-template-columns:1fr}
+  .inbox{grid-template-columns:1fr}
+  .inbox ul{border-right:0;border-bottom:1px solid var(--line)}
+  .search,.profile .who{display:none}
+}
+@media (max-width:600px){
+  .main{padding:16px 16px 40px}
+  .g2,.g3,.g4{grid-template-columns:1fr}
+  .span2{grid-column:auto}
+  .demo-switch span{display:none}
+  .hbar{grid-template-columns:100px 1fr 40px}
+}
+
+/* ---- Workspaces ---- */
+.ws-card .kinds{display:flex;gap:6px;flex-wrap:wrap}
+.kind{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:4px;padding:6px 10px;background:var(--surface);cursor:pointer;font-size:14px}
+.kind:hover{border-color:var(--link)}
+.kind .k{width:22px;height:22px;border-radius:3px;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700}
+.k-doc{background:#2B579A}.k-ppt{background:#C43E1C}.k-board{background:#E0A100;color:#1B2733!important}
+.facepile{display:flex;align-items:center}
+.facepile .avatar{border:2px solid var(--surface);margin-left:-8px}
+.facepile .avatar:first-child{margin-left:0}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--ok);display:inline-block}
+.ws-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);border-radius:var(--r) var(--r) 0 0;padding:10px 14px}
+.ws-head h1{font-size:18px}
+.ws-tools{display:flex;align-items:center;gap:4px;flex-wrap:wrap;background:var(--surface-2);border:1px solid var(--line);border-top:0;padding:6px 10px}
+.ws-tools .sep{width:1px;height:22px;background:var(--line);margin:0 6px}
+.tbtn{min-width:32px;height:30px;border:1px solid transparent;border-radius:4px;background:none;cursor:pointer;font-size:14px;color:var(--ink);padding:0 8px}
+.tbtn:hover{background:var(--surface);border-color:var(--line)}
+.ws-stage{border:1px solid var(--line);border-top:0;border-radius:0 0 var(--r) var(--r);background:var(--bg);min-height:560px;position:relative}
+.ws-split{display:grid;grid-template-columns:minmax(0,1fr) 300px}
+.ws-side{border-left:1px solid var(--line);background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:12px}
+.ws-side h3{font-size:14px}
+.paper{background:#fff;color:#1B2733;max-width:794px;margin:24px auto;min-height:900px;padding:64px 72px;box-shadow:0 1px 3px rgba(0,0,0,.12),0 6px 18px rgba(0,0,0,.06);font-family:Calibri,"Carlito","Source Sans 3",sans-serif;font-size:15px;line-height:1.55}
+.paper:focus{outline:none}
+.paper h1{font-size:26px;color:#1F3864;margin:0 0 12px;font-weight:600}
+.paper h2{font-size:19px;color:#2F5496;margin:18px 0 8px;font-weight:600}
+.paper p{margin:0 0 10px}
+.paper ul,.paper ol{margin:0 0 10px;padding-left:24px}
+.paper table{border-collapse:collapse;margin:0 0 12px}.paper td,.paper th{border:1px solid #999;padding:4px 8px}
+.ws-status{font-size:12px;color:var(--ink-3)}
+.slides-wrap{display:grid;grid-template-columns:180px minmax(0,1fr);min-height:560px}
+.thumbs{border-right:1px solid var(--line);background:var(--surface);padding:10px;display:flex;flex-direction:column;gap:10px;overflow:auto;max-height:640px}
+.thumb{border:2px solid var(--line);border-radius:4px;background:#fff;aspect-ratio:16/9;padding:6px 8px;cursor:pointer;text-align:left;color:#1B2733;font-size:8px;line-height:1.3;overflow:hidden;width:100%}
+.thumb b{display:block;font-size:9px;color:#1F3864}
+.thumb.on{border-color:var(--brand)}
+.thumb-n{font-size:11px;color:var(--ink-3)}
+.slide-area{padding:24px;display:flex;justify-content:center;align-items:flex-start}
+.slide{width:100%;max-width:880px;aspect-ratio:16/9;background:#fff;color:#1B2733;box-shadow:0 1px 3px rgba(0,0,0,.12),0 8px 24px rgba(0,0,0,.08);padding:5% 6%;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.slide::before{content:"";position:absolute;left:0;top:0;bottom:0;width:10px;background:#C8102E}
+.slide .s-title{font-size:clamp(18px,3vw,34px);font-weight:600;color:#0F2F4A;margin-bottom:4%;outline:none;font-family:"Source Sans 3",sans-serif}
+.slide .s-body{font-size:clamp(12px,1.8vw,20px);line-height:1.45;outline:none;flex:1}
+.slide .s-body ul{margin:0;padding-left:1.2em}
+.slide .s-foot{position:absolute;bottom:3%;right:4%;font-size:11px;color:#6E7B88}
+.present{position:fixed;inset:0;background:#000;z-index:90;display:grid;place-items:center}
+.present .slide{max-width:min(96vw,170vh);box-shadow:none}
+.present .pctl{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:91}
+.board-scroll{overflow:auto;height:640px;background:var(--surface-2)}
+.board{position:relative;width:1600px;height:1000px;background-color:#FAFBFC;background-image:radial-gradient(#D5DBE2 1px,transparent 1px);background-size:22px 22px;touch-action:none}
+:root[data-theme="dark"] .board{background-color:#1A232C;background-image:radial-gradient(#2E3B47 1px,transparent 1px)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .board{background-color:#1A232C;background-image:radial-gradient(#2E3B47 1px,transparent 1px)}}
+.zone{position:absolute;top:20px;height:960px;border:2px dashed var(--line);border-radius:10px}
+.zone > b{position:absolute;top:10px;left:14px;font-size:15px;color:var(--ink-2);letter-spacing:.02em}
+.sticky{position:absolute;width:170px;min-height:110px;padding:10px 10px 26px;border-radius:3px;box-shadow:0 2px 6px rgba(0,0,0,.18);cursor:grab;color:#1B2733;font-size:14px;line-height:1.35;user-select:none}
+.sticky.dragging{cursor:grabbing;box-shadow:0 10px 24px rgba(0,0,0,.25);z-index:5}
+.sticky .txt{white-space:pre-wrap;word-wrap:break-word;outline:none;min-height:40px}
+.sticky .txt[contenteditable="true"]{background:rgba(255,255,255,.55);cursor:text;user-select:text}
+.sticky .by{position:absolute;left:10px;bottom:6px;font-size:11px;opacity:.7}
+.sticky .vote{position:absolute;right:6px;bottom:4px;border:0;background:rgba(0,0,0,.08);border-radius:9px;font-size:11px;padding:1px 7px;cursor:pointer;color:#1B2733}
+.sticky .del{position:absolute;right:4px;top:2px;border:0;background:none;font-size:14px;cursor:pointer;opacity:0;color:#1B2733}
+.sticky:hover .del{opacity:.6}
+.c-yellow{background:#FFE98A}.c-pink{background:#FFC6D3}.c-blue{background:#BFE0FF}.c-green{background:#C8EFC4}.c-orange{background:#FFD2A6}
+.swatch{width:22px;height:22px;border-radius:4px;border:2px solid transparent;cursor:pointer}
+.swatch.on{border-color:var(--ink)}
+.cursor{position:absolute;pointer-events:none;z-index:8;transition:left .08s linear,top .08s linear}
+.cursor span{position:absolute;left:14px;top:12px;font-size:11px;color:#fff;padding:1px 6px;border-radius:3px;white-space:nowrap}
+.ntxt{width:100%;min-height:72px;border:0;border-radius:3px;background:rgba(255,255,255,.65);font:inherit;color:#1B2733;resize:none;padding:4px}
+.cop-out{font-size:14px;background:var(--cop-soft);border-radius:6px;padding:10px 12px;max-height:340px;overflow:auto}
+.cop-out p{margin:0 0 8px}.cop-out ul{margin:0 0 8px;padding-left:18px}
+@media (max-width:900px){.ws-split{grid-template-columns:1fr}.ws-side{border-left:0;border-top:1px solid var(--line)}.slides-wrap{grid-template-columns:1fr}.thumbs{flex-direction:row;max-height:none;border-right:0;border-bottom:1px solid var(--line)}.thumb{width:140px;flex:none}.paper{padding:32px 24px;margin:12px}}
+</style>
+
+<div id="app"></div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<script>
+/* ============ DATA (fictional, for demo) ============ */
+const LEVELS=[{n:'Explorer',x:0},{n:'Practitioner',x:150},{n:'Advanced',x:400},{n:'Specialist',x:800},{n:'Expert',x:1500}];
+const DOMAINS={ov:'Public transport policy',data:'Data & evidence',ai:'AI & Copilot',sec:'Working securely',sch:'Writing (B1)'};
+const AVCOL={sanne:'#1D5E96',mark:'#2E7D4F',fatima:'#6B4FA0'};
+
+const MODULES={
+ ov:{id:'ov',title:'Public transport policy: from vision to concession',domain:'ov',cover:'cov-ov',dur:'45 min',required:false,blended:true,
+  intro:'How do you turn a public transport vision into concrete requirements and a clear advisory memo? Five short lessons with exercises, a role play and two missions.',
+  lessons:[
+   {t:'Who does what in public transport?',body:`<p>Three parties work together in urban and regional transport. The <b>province</b> is the concession authority: it tenders the bus services and sets the programme of requirements. The <b>operator</b> runs the timetable within the concession. The <b>municipality</b> is responsible for public space: stops, traffic flow, bicycle parking at hubs and the spatial development that generates passengers.</p>
+<div class="callout">As a municipality you therefore have no formal say over the timetable, but you do have a lot of influence: through your input on the programme of requirements, through infrastructure, and through consultation at executive level.</div>
+<p>Good public transport policy officers know this division of roles exactly, so that they address their advice to the party that really decides.</p>`,
+    quiz:{q:'Who sets the programme of requirements for a bus concession?',o:['The municipality','The province','The operator'],c:1,e:'The province is the concession authority and sets the programme of requirements. The municipality provides input for it.'}},
+   {t:'From public transport vision to programme of requirements',body:`<p>A public transport vision describes what you want to achieve, for example: "Every neighbourhood within a 10-minute walk of a stop with at least a service every 15 minutes." A programme of requirements makes that measurable and enforceable.</p>
+<ul><li><b>Vision:</b> direction and ambition, for the executive board.</li><li><b>Municipal input:</b> concrete wishes per corridor or neighbourhood, with supporting evidence.</li><li><b>Programme of requirements:</b> measurable requirements, such as frequency, service hours, accessibility and emissions.</li></ul>
+<p>The key is to phrase ambitions so that the province can adopt them: specific, measurable and with a clear benefit for passengers.</p>`,
+    quiz:{q:'Which wording is most usable as input for a programme of requirements?',o:['Public transport in Breda-Noord needs to improve.','Line Breda-Noord: at least every 15 minutes between 7:00 and 19:00 on weekdays.','We want an attractive and sustainable public transport network.'],c:1,e:'Only the second is specific and measurable. The other two are ambitions that belong in a vision.'}},
+   {t:'Supporting your case with passenger data',body:`<p>A request carries more weight when you support it with evidence. Look at boardings and alightings per stop, travel times, and where new homes are being built. Below is a fictional example of a corridor.</p>
+<table class="datatable num"><tr><th>Stop (fictional)</th><th>Boardings/day</th><th>Growth '24–'26</th><th>New homes until 2030</th></tr>
+<tr><td>Station Noord</td><td>1,840</td><td>+12%</td><td>650</td></tr>
+<tr><td>Wijkcentrum Haagse Beemden</td><td>920</td><td>+4%</td><td>120</td></tr>
+<tr><td>Bedrijventerrein Hazeldonk</td><td>410</td><td>+21%</td><td>0</td></tr></table>
+<p>Note: growth in percentages says little without the absolute numbers. And housing plans are a forecast, not a certainty. Say so honestly in your memo.</p>`,
+    quiz:{q:'Which conclusion is best supported by the table?',o:['Hazeldonk has the most passengers.','Station Noord has many passengers and the most new homes, so extra capacity there is the easiest to justify.','Haagse Beemden can do without a bus connection.'],c:1,e:'Station Noord combines the highest number of boardings with the largest housing development. Hazeldonk is growing fast, but from a low base.'}},
+   {t:'Weighing interests',body:`<p>Public transport choices affect several interests at once: <b>accessibility</b> (fast, frequent lines), <b>inclusion</b> (keeping older people and small villages connected), <b>costs</b> (operating cost per passenger) and <b>sustainability</b>. These interests often clash: a fast, straight line serves fewer streets.</p>
+<div class="callout">Council members often ask: "Who loses out?" Make sure you have that answer ready, with numbers.</div>
+<p>Practise this with the Copilot: choose <b>Practise a conversation</b> and let a critical council member question you.</p>`,
+    quiz:{q:'A council member asks: "Who loses out if we straighten the line?" What is the strongest answer?',o:['Nobody, everyone benefits.','About 300 residents in two streets will have a longer walking distance (from 300 to 550 metres); in return, 2,100 passengers per day save 6 minutes of travel time.','You will have to ask the province.'],c:1,e:'An honest answer with numbers and the trade-off makes your advice credible.'}},
+   {t:'A clear advisory memo',body:`<p>A good advisory memo for the executive board (college) and council starts with the core: what is being asked, what is your advice and why. Write in B1 plain language, use short sentences and put numbers in a table.</p>
+<ul><li><b>Decision point</b> in one sentence.</li><li><b>Background</b> in five lines at most.</li><li><b>Trade-off</b> with the interests from lesson 4.</li><li><b>What does this mean for residents?</b> Concrete and honest.</li></ul>
+<p>Paste a paragraph from your own memo into the Copilot and choose <b>Check my text</b>.</p>`,
+    quiz:{q:'What does a good advisory memo start with?',o:['A detailed description of the history of the file','The decision point and your advice','An overview of all parties involved'],c:1,e:'Decision-makers read the core first. Start with what has to be decided and what you recommend.'}}
+  ],
+  prompts:['Explain this simply','Quiz me','Apply to my work','Practise a conversation','Check my text','What suits me?'],
+  roleplay:'a critical council member from an opposition party who is worried about residents in small villages'},
+ ai:{id:'ai',title:'Working with Copilot and AI',domain:'ai',cover:'cov-ai',dur:'30 min',required:false,blended:false,
+  intro:'Use AI responsibly and smartly in policy work: what can it do, what is allowed, and how do you write good prompts?',
+  lessons:[
+   {t:'What is generative AI, and what is it not?',body:`<p>Generative AI, such as Copilot, predicts text based on patterns. It is strong at summarising, rewriting, structuring and thinking along. It is <b>not</b> a source of truth: it can make up facts that sound convincing.</p><div class="callout">Rule of thumb: use AI as a sparring partner, not as a source. Always check figures, laws and quotes yourself.</div>`,
+    quiz:{q:'Copilot cites a legal article you don\'t know. What do you do?',o:['Use it as is, because AI is usually correct','Look the article up and check it yourself','Ask Copilot whether it is sure'],c:1,e:'AI can invent sources. Always check yourself in the official source, for example wetten.overheid.nl.'}},
+   {t:'Writing good prompts',body:`<p>A good prompt has four parts: <b>role</b> (who the AI should be), <b>task</b> (what should happen), <b>context</b> (background, target audience) and <b>format</b> (length, structure).</p><p>Example: "You are an experienced policy adviser. Summarise this memo for an alderman in five bullets, in B1 plain language."</p>`,
+    quiz:{q:'Which parts are missing from the prompt "Summarise this text"?',o:['Only the role','Role, context and format','Nothing, it is complete'],c:1,e:'The task is there, but role, context (for whom?) and format (how long, what structure?) are missing.'}},
+   {t:'What is and is not allowed?',body:`<p>Only use the AI tools that the municipality has approved. Never paste personal data (names, citizen service numbers, residents\' addresses) or confidential documents into an AI tool that is not set up for that. Mention it if AI made a substantial contribution to a document.</p>`,
+    quiz:{q:'May you paste a complaint letter with a resident\'s name and address into a public AI chatbot?',o:['Yes, if you delete the letter afterwards','No, that is personal data','Yes, if it is for your work'],c:1,e:'Personal data does not belong in AI tools that are not approved for it. Anonymise first or use the approved environment.'}},
+   {t:'AI as a sparring partner',body:`<p>Let AI look for counterarguments, read your text critically or simulate a tough question from a council member. You remain responsible for the judgement.</p><p>Try it: ask the Copilot for three counterarguments to a proposal you are working on now.</p>`,
+    quiz:{q:'Who is responsible for advice written with the help of AI?',o:['The AI supplier','You, as the author','Nobody'],c:1,e:'The author remains responsible for the content and the trade-offs.'}}
+  ],
+  prompts:['Explain this simply','Quiz me','Apply to my work','Check my text','What suits me?'],
+  roleplay:'a colleague who doubts whether AI may be used at all'},
+ sec:{id:'sec',title:'Working securely: recognising phishing',domain:'sec',cover:'cov-sec',dur:'20 min',required:true,deadline:'15 Oct 2026',blended:false,
+  intro:'Mandatory module. Learn to recognise phishing, know what to do when in doubt, and report suspicious emails.',
+  lessons:[
+   {t:'Why phishing works',body:`<p>Phishing plays on haste, curiosity and authority. An email saying your parcel cannot be delivered or that your password expires today puts you under pressure. We click faster precisely when we are busy.</p>`,
+    quiz:{q:'Why does phishing often work on busy employees?',o:['Busy people read less email','Under time pressure we check less carefully','Phishing is only sent on busy days'],c:1,e:'Time pressure makes us act faster and less critically.'}},
+   {t:'Six warning signs',body:`<ul><li><b>Sender:</b> is the domain exactly right? (e.g. breda-servicedesk.net instead of breda.nl)</li><li><b>Urgency:</b> "within 24 hours", "final warning".</li><li><b>Link:</b> hover over it without clicking. Where does it really lead?</li><li><b>Greeting:</b> "Dear user" instead of your name.</li><li><b>Request:</b> for login details, payment or to open an attachment.</li><li><b>Language and style:</b> slightly different from normal.</li></ul>`,
+    quiz:{q:'Which sender is the most suspicious?',o:['servicedesk@breda.nl','servicedesk@breda-servicedesk.net','m.janssen@breda.nl'],c:1,e:'The domain breda-servicedesk.net looks like the municipality, but it is not.'}},
+   {t:'Unsure, or already clicked?',body:`<p>If you are unsure: don\'t click, but report the email with the <b>Report phishing</b> button. Already clicked or entered something? Report it straight away to the service desk. There is no shame in that: the sooner you report, the smaller the damage.</p>`,
+    quiz:{q:'You accidentally entered your password on a suspicious page. What do you do first?',o:['Say nothing and hope for the best','Report it to the service desk immediately and change your password','Ask about it tomorrow'],c:1,e:'Reporting quickly limits the damage. Nobody will blame you for this.'}},
+   {t:'Reporting is good',body:`<p>Every report helps your colleagues: Information Security can then block the email for everyone. Practise with the demo inbox under <b>Working securely</b>. You earn XP for every correct report.</p>`,
+    quiz:{q:'What happens to a reported phishing email?',o:['Nothing','Information Security can block it for everyone','You get a warning'],c:1,e:'One report can protect hundreds of colleagues.'}}
+  ],
+  prompts:['Explain this simply','Quiz me','Is this phishing?','What suits me?'],
+  roleplay:'a scammer posing as the IT service desk; afterwards you explain which signals the employee could have spotted'},
+ sch:{id:'sch',title:'Writing clearly for the council (B1)',domain:'sch',cover:'cov-sch',dur:'25 min',required:false,blended:true,intro:'Short sentences, active voice, key point first. With rewriting exercises.',lessons:[],prompts:[],stub:true},
+ data:{id:'data',title:'Supporting policy with data',domain:'data',cover:'cov-data',dur:'35 min',required:false,blended:true,intro:'From figures to an honest conclusion, without exaggerating.',lessons:[],prompts:[],stub:true}
+};
+
+const MISSIONS=[
+ {id:'M-01',t:'Support it with data',d:'ov',xp:50,task:'Add one piece of supporting evidence based on passenger data to your current memo. Ask a colleague for feedback.',why:'Well-supported input carries more weight with the province and the council.'},
+ {id:'M-02',t:'Clear for the council',d:'sch',xp:50,task:'Rewrite the summary of a memo in B1 plain language, with help from the Copilot.',why:'Council members read the summary first.'},
+ {id:'M-03',t:'Copilot as a sparring partner',d:'ai',xp:50,task:'Ask the Copilot to find three counterarguments to your proposal. Assess them yourself and incorporate one.',why:'Your proposal gets stronger when you have already answered the counterarguments.'},
+ {id:'M-04',t:'Report it!',d:'sec',xp:50,task:'Report one suspicious email this month using the Report phishing button.',why:'One report can protect the whole team.'},
+ {id:'M-05',t:'Learn from the mistake',d:'ov',xp:50,task:'Share one thing that went wrong in the learning minute and what you learned from it.',why:'Teams that discuss mistakes learn faster.'}
+];
+
+const BADGES=[
+ {id:'first',n:'First mission',c:'First mission completed'},
+ {id:'spar',n:'Sparring partner',c:'Gave feedback 5 times'},
+ {id:'phish',n:'Phishing detective',c:'Reported 3 suspicious emails',goal:3},
+ {id:'share',n:'Knowledge sharer',c:'3 best answers'},
+ {id:'streak',n:'Stayer',c:'4 weeks of review questions'},
+ {id:'team',n:'Team player',c:'Team challenge achieved'}
+];
+
+const TEAM=[
+ {id:'sanne',n:'Sanne de Vries',f:'Policy Officer, Public Transport',sec:false,m:2},
+ {id:'iris',n:'Iris van Dijk',f:'Policy Officer, Public Transport',sec:true,m:3},
+ {id:'ruben',n:'Ruben Koster',f:'Policy Officer, Cycling',sec:true,m:1},
+ {id:'eva',n:'Eva Smits',f:'Policy Officer, Cycling',sec:true,m:2},
+ {id:'lotte',n:'Lotte Verbeek',f:'Policy Officer, Parking',sec:true,m:1},
+ {id:'kees',n:'Kees Willems',f:'Policy Officer, Parking',sec:true,m:0},
+ {id:'ahmed',n:'Ahmed Benali',f:'Policy Officer, Road Safety',sec:true,m:2},
+ {id:'noor',n:'Noor Bakker',f:'Data Analyst, Mobility',sec:true,m:3},
+ {id:'tom',n:'Tom Hendriks',f:'Project Manager',sec:false,m:0}
+];
+
+const COMMUNITIES=[
+ {id:'ov',n:'Mobility & Public Transport',d:'For everyone working on accessibility, public transport, cycling and parking.',leden:64,mod:'Fatima El Amrani'},
+ {id:'data',n:'Data & evidence',d:'Finding, interpreting and honestly presenting figures.',leden:88,mod:'Fatima El Amrani'},
+ {id:'ai',n:'AI & Copilot in policy',d:'Experiences, prompts and agreements on responsible AI use.',leden:142,mod:'Fatima El Amrani'},
+ {id:'b1',n:'Writing clearly (B1)',d:'Clear letters, memos and web texts.',leden:97,mod:'Fatima El Amrani'},
+ {id:'sec',n:'Working securely',d:'Phishing, passwords and handling information safely.',leden:51,mod:'Fatima El Amrani'},
+ {id:'fout',n:'Learning from mistakes',d:'What went wrong and what did we learn? No blame.',leden:39,mod:'Fatima El Amrani'}
+];
+
+const CAMPAIGN_TEMPLATES={
+ pakket:{n:'Parcel delivery',from:'PakketSnel Delivery Service',addr:'noreply@pakketsnel-bezorging.info',subj:'Your parcel could not be delivered – action required',
+  body:`<p>Dear customer,</p><p>We tried to deliver your parcel today, but <b>€ 1.95 in shipping costs</b> is missing. Pay within 24 hours, otherwise your parcel will be returned.</p>`,
+  cta:'Pay now and schedule delivery',signs:['The sender (pakketsnel-bezorging.info) is not a known company and you are not expecting a parcel at your work address.','It puts you under time pressure: "within 24 hours".','The greeting is generic: "Dear customer".','It asks for a payment via a link.']},
+ wachtwoord:{n:'Password expiring',from:'Service Desk Gemeente Breda',addr:'servicedesk@breda-servicedesk.net',subj:'Your password expires today',
+  body:`<p>Dear user,</p><p>Your password expires <b>today at 17:00</b>. Confirm your current password to keep access to your mailbox.</p>`,
+  cta:'Keep password',signs:['The domain breda-servicedesk.net is not breda.nl.','It puts you under time pressure: "today at 17:00".','The greeting is "Dear user" instead of your name.','The service desk never asks for your current password.']}
+};
+
+function initialState(){
+ return {
+  user:'sanne', view:'home', params:{}, theme:null, calm:false,
+  users:{
+   sanne:{id:'sanne',n:'Sanne de Vries',f:'Policy Officer, Mobility (Public Transport)',role:'medewerker',team:'Mobility & Accessibility',ini:'SV',
+     xp:{ov:340,data:60,ai:120,sec:40,sch:90},badges:['first','spar','share','streak'],phishReports:0,
+     progress:{ov:{done:[0,1],cur:2},ai:{done:[0],cur:1},sec:{done:[],cur:0}},
+     missions:{'M-01':'lopend','M-02':'beschikbaar','M-03':'beschikbaar','M-04':'beschikbaar','M-05':'afgerond'},
+     share:true, xplog:[{t:'Mission “Learn from the mistake” completed',x:50,d:'ov',when:'last week'},{t:'Best answer in Mobility & Public Transport',x:30,d:'ov',when:'2 weeks ago'},{t:'Lesson “From public transport vision to programme of requirements”',x:10,d:'ov',when:'2 weeks ago'}],
+     signals:[{id:1,type:'taak',t:'Mandatory module “Working securely: recognising phishing” – deadline 15 Oct',go:['module','sec'],read:false},
+              {id:2,type:'signaal',t:'Iris van Dijk asks you for feedback on her mission “Support it with data”',go:['team','feed'],read:false},
+              {id:3,type:'signaal',t:'New answer to your question in Mobility & Public Transport',go:['community','ov'],read:true}],
+     inbox:[{id:'i1',from:'Mark Janssen',addr:'m.janssen@breda.nl',subj:'Schedule for the council proposal on the public transport vision',time:'09:12',read:true,
+             body:'<p>Hi Sanne,</p><p>Could you share the first version of the summary on Friday? Then on Monday we can look at the trade-off for the small villages together.</p><p>Regards, Mark</p>'},
+            {id:'i2',from:'Noor Bakker',addr:'n.bakker@breda.nl',subj:'Passenger figures for the Noord corridor',time:'yesterday',read:false,
+             body:'<p>Hi Sanne,</p><p>Attached (in the real version) are the boarding figures per stop for 2024–2026. Let me know if you want a breakdown by time of day.</p><p>Noor</p>'}]},
+   mark:{id:'mark',n:'Mark Janssen',f:'Team Manager, Mobility & Accessibility',role:'manager',team:'Mobility & Accessibility',ini:'MJ',
+     xp:{ov:520,data:210,ai:160,sec:180,sch:140},badges:['first','team'],phishReports:1,progress:{sec:{done:[0,1,2,3],cur:3}},missions:{'M-01':'beschikbaar','M-02':'beschikbaar','M-03':'afgerond','M-04':'afgerond','M-05':'beschikbaar'},share:true,xplog:[],
+     signals:[{id:1,type:'signaal',t:'Learning minute is scheduled: team meeting Thursday 10:00',go:['team','leerminuut'],read:false},
+              {id:2,type:'signaal',t:'2 team members have not yet completed the mandatory phishing module',go:['team','beheer'],read:false}],
+     inbox:[{id:'i1',from:'Fatima El Amrani',addr:'f.elamrani@breda.nl',subj:'Phishing campaign Q4',time:'Monday',read:true,body:'<p>Hi Mark,</p><p>In October we are planning a practice campaign for your team. You will only receive anonymised team results.</p><p>Fatima</p>'}]},
+   fatima:{id:'fatima',n:'Fatima El Amrani',f:'Learning & Development Adviser',role:'lo',team:'HR – Leer Academie Breda',ini:'FA',
+     xp:{ov:60,data:300,ai:640,sec:420,sch:510},badges:['first','spar','share'],phishReports:2,progress:{},missions:{},share:true,xplog:[],
+     signals:[{id:1,type:'signaal',t:'Copilot feedback: 3 answers marked as “not helpful” in the Public transport policy module',go:['beheer','content'],read:false}],
+     inbox:[]}
+  },
+  team:{goal:{t:'Q4: everyone completes one public transport or data mission',done:5,of:9},challenge:{t:'Phishing-proof',d:'100% have completed the phishing module and together we make 10 reports',pctMod:78,reports:6,goal:10},
+   minutes:{next:'Thursday 10:00',items:[{when:'last week',q:['The data proposal for the Noord corridor was well received.','We learned: having Noor check the figures first prevents discussion.','From now on: every memo with figures goes past a colleague.']}]},
+   feed:[{who:'iris',t:'Mission “Support it with data” completed. Who wants to give feedback on my table of boardings?',when:'2 hours ago',likes:2,kind:'missie'},
+         {who:'noor',t:'Tip: the new dataset of passengers per stop is in the Data & evidence knowledge base.',when:'yesterday',likes:5,kind:'tip'},
+         {who:'mark',t:'Learning minute last week: have a colleague check the figures first. Thanks for the open discussion!',when:'last week',likes:7,kind:'leerminuut'}]},
+  recommendations:[],
+  campaigns:[{id:'c0',tpl:'wachtwoord',target:'Team Civil Affairs',status:'afgerond',when:'September',res:{sent:24,open:17,click:3,report:11}},
+             {id:'c1',tpl:'pakket',target:'Team Mobility & Accessibility',status:'gepland',when:'8 Oct 2026 09:30',res:null}],
+  community:{
+   ov:{qs:[{id:'q1',who:'Sanne de Vries',t:'What accessibility requirements for stops do other municipalities include in their input for the concession?',tags:['concession','accessibility'],votes:4,when:'3 days ago',ans:[{who:'Iris van Dijk',t:'We refer to the CROW guidelines for stops and ask for at least 90% accessible stops on the main routes.',best:true,expert:true},{who:'Ruben Koster',t:'Don\'t forget the bicycle parking at hubs, that usually belongs with it.',best:false}]},
+               {id:'q2',who:'Ahmed Benali',t:'How do you factor road safety into a trade-off about a straightened bus line?',tags:['trade-off'],votes:2,when:'1 week ago',ans:[]}],
+       kb:[{t:'Template for input to the programme of requirements (draft)',k:'template'},{t:'Lessons learned: previous concession input',k:'lessons learned'},{t:'Dataset boardings per stop 2024–2026 (fictional)',k:'data'}],
+       events:[{t:'Meetup: from vision to concession requirements',when:'Thu 16 Oct, 15:30–17:00',where:'Stadskantoor, room 3.12',type:'fysiek',going:12},{t:'Online: reading passenger data in 30 minutes',when:'Tue 21 Oct, 12:00–12:30',where:'Teams',type:'online',going:23}]}
+  },
+  copilot:{}, quizAns:{}, lure:null, inboxSel:null, pop:null, modal:null, msgSeq:1
+ };
+}
+</script>
+<script>
+/* ============ STATE ============ */
+const LS_KEY='lab-demo-v1';
+let S;
+try{ const raw=localStorage.getItem(LS_KEY); S=raw?JSON.parse(raw):null; }catch(e){ S=null; }
+if(!S||!S.users) S=initialState();
+S.pop=null; S.modal=null;
+Object.values(S.copilot||{}).forEach(c=>{c.busy=false});
+function save(){ try{ const c=JSON.parse(JSON.stringify(S)); localStorage.setItem(LS_KEY,JSON.stringify(c)); }catch(e){} }
+const U=()=>S.users[S.user];
+
+let SAMPLE; // undefined = loading, null = unavailable
+if(window.claude && typeof window.claude.use==='function'){
+  window.claude.use('sample').then(s=>{SAMPLE=s||null; if(S.view==='module') render();}).catch(()=>{SAMPLE=null; if(S.view==='module') render();});
+} else { SAMPLE=null; }
+
+/* ============ HELPERS ============ */
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function lvl(x){ let i=0; LEVELS.forEach((l,k)=>{ if(x>=l.x) i=k; }); const next=LEVELS[i+1]; const pct=next?Math.round((x-LEVELS[i].x)/(next.x-LEVELS[i].x)*100):100; return {i,name:LEVELS[i].n,next,pct}; }
+const totalXP=u=>Object.values(u.xp).reduce((a,b)=>a+b,0);
+function av(id,name,size){ const ini=(name||'?').split(' ').filter(w=>w[0]===w[0].toUpperCase()).map(w=>w[0]).slice(0,2).join(''); const col=AVCOL[id]||['#1D5E96','#2E7D4F','#6B4FA0','#B26A00','#3B4FB8','#C8102E'][(name||'').length%6]; return `<span class="avatar" style="background:${col};${size?`width:${size}px;height:${size}px;font-size:${Math.round(size/2.6)}px`:''}">${esc(ini)}</span>`; }
+const teamName=id=>(TEAM.find(t=>t.id===id)||{}).n||S.users[id]?.n||id;
+function icon(n,s=18){ const p={
+ home:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/>',
+ book:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 5v16"/>',
+ grow:'<path d="M4 20h16"/><path d="M7 16v-4"/><path d="M12 16V8"/><path d="M17 16V5"/>',
+ target:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/>',
+ users:'<circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/><circle cx="17" cy="9" r="2.5"/><path d="M16 15c3 0 5 2 5 4"/>',
+ chat:'<path d="M4 5h16v11H9l-5 4z"/>',
+ shield:'<path d="M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z"/>',
+ cog:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/>',
+ bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+ task:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12l3 3 5-6"/>',
+ search:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/>',
+ star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+ cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+ spark:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M6 18l2.5-2.5M15.5 8.5L18 6"/>',
+ send:'<path d="M4 12l16-8-6 16-2-7z"/>',
+ stop:'<rect x="6" y="6" width="12" height="12" rx="1"/>',
+ trophy:'<path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 21h8"/>',
+ mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+ flag:'<path d="M5 21V4h11l-2 4 2 4H5"/>',
+ check:'<path d="M5 12l5 5 9-10"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',
+ heart:'<path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/>',
+ grid:'<rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/>',
+ chart:'<path d="M4 20V4M4 20h16"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/>',
+ medal:'<circle cx="12" cy="14" r="5"/><path d="M8 3l2 6M16 3l-2 6"/>'
+ }[n]||''; return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`; }
+function md(t){
+ const lines=esc(t).split('\n'); let out='',list=null;
+ const inl=s=>s.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/(^|[^*])\*([^*\n]+)\*/g,'$1<i>$2</i>');
+ const close=()=>{ if(list){ out+=`</${list}>`; list=null; } };
+ let para=[];
+ const flush=()=>{ if(para.length){ out+=`<p>${inl(para.join('<br>'))}</p>`; para=[]; } };
+ lines.forEach(l=>{
+  const b=l.match(/^\s*[-*•]\s+(.*)/), n=l.match(/^\s*\d+[.)]\s+(.*)/), h=l.match(/^#{1,4}\s+(.*)/);
+  if(b||n){ flush(); const k=b?'ul':'ol'; if(list!==k){ close(); out+=`<${k}>`; list=k; } out+=`<li>${inl((b||n)[1])}</li>`; }
+  else if(h){ flush(); close(); out+=`<p><b>${inl(h[1])}</b></p>`; }
+  else if(!l.trim()){ flush(); close(); }
+  else { close(); para.push(l); }
+ });
+ flush(); close(); return out;
+}
+function toast(title,sub,kind){ if(S.calm && kind!=='plain') return; const box=document.getElementById('toasts'); const d=document.createElement('div'); d.className='toast'+(kind==='lvl'?' lvlup':''); d.innerHTML=`<b>${esc(title)}</b>${sub?`<span class="small muted">${esc(sub)}</span>`:''}`; box.appendChild(d); setTimeout(()=>d.remove(),4200); }
+function note(title,sub){ const box=document.getElementById('toasts'); const d=document.createElement('div'); d.className='toast'; d.style.borderLeftColor='var(--link)'; d.innerHTML=`<b>${esc(title)}</b>${sub?`<span class="small muted">${esc(sub)}</span>`:''}`; box.appendChild(d); setTimeout(()=>d.remove(),4200); }
+function addXP(d,x,reason){ const u=U(); const before=lvl(u.xp[d]); u.xp[d]=(u.xp[d]||0)+x; const after=lvl(u.xp[d]); u.xplog.unshift({t:reason,x,d,when:'just now'});
+ toast(`+${x} XP · ${DOMAINS[d]}`,reason);
+ if(after.i>before.i) setTimeout(()=>toast(`Level up: ${after.name}`,`${DOMAINS[d]} – you are now ${after.name}.${after.i>=3?' You can now sign up as an expert in the community.':''}`,'lvl'),600);
+}
+function badge(id){ const u=U(); if(!u.badges.includes(id)){ u.badges.push(id); const b=BADGES.find(b=>b.id===id); setTimeout(()=>toast(`Badge earned: ${b.n}`,b.c),900);} }
+function go(view,params={}){ if(window.wsUnmount) wsUnmount(); S.lure=null; S.view=view; S.params=params; S.pop=null; save(); render(); window.scrollTo(0,0); }
+function addSignal(uid,type,t,goTo){ const u=S.users[uid]; u.signals.unshift({id:Date.now()+Math.random(),type,t,go:goTo,read:false}); }
+const unread=u=>u.signals.filter(s=>!s.read).length;
+function modDone(u,mid){ const m=MODULES[mid]; const p=u.progress[mid]; return !!(p && m.lessons.length && p.done.length>=m.lessons.length); }
+function modPct(u,mid){ const m=MODULES[mid]; const p=u.progress[mid]; if(!p||!m.lessons.length) return 0; return Math.round(p.done.length/m.lessons.length*100); }
+
+/* ============ SHELL ============ */
+function navItems(){
+ const u=U(); const items=[['home','Home','home'],['aanbod','Learning catalogue','book'],['mijn','My learning','grow'],['missies','Missions','target']];
+ if(u.role!=='lo') items.push(['team',u.role==='manager'?'My team':'My team','users']);
+ items.push(['communities','Communities','chat'],['werkruimtes','Workspaces','grid'],['veilig','Working securely','shield']);
+ if(u.role==='lo') items.push(['beheer','Administration','cog']);
+ return items;
+}
+function topbar(){
+ const u=U(); const n=unread(u);
+ return `<header class="topbar">
+  <div class="logo"><span class="logo-mark">LAB</span><div>Leer Academie Breda<small>My learning &amp; development</small></div></div>
+  <form class="search" data-form="search" role="search"><span>${icon('search',16)}</span><input id="q" name="q" placeholder="Search modules, missions, communities" aria-label="Search"></form>
+  <div class="tb-spacer"></div>
+  <label class="demo-switch"><span>Demo account</span>
+   <select id="acct" data-change="acct" aria-label="Switch demo account">
+    <option value="sanne"${S.user==='sanne'?' selected':''}>Sanne – public transport policy officer</option>
+    <option value="mark"${S.user==='mark'?' selected':''}>Mark – team manager</option>
+    <option value="fatima"${S.user==='fatima'?' selected':''}>Fatima – Learning &amp; Development</option>
+   </select></label>
+  <a class="lang-switch" href="index.html" hreflang="nl" title="Schakel naar Nederlands" style="color:inherit;text-decoration:none;font-weight:600;border:1px solid rgba(255,255,255,.4);border-radius:6px;padding:4px 10px">NL</a>
+ <button class="tb-btn" data-a="pop" data-v="signals" aria-label="Signals and tasks">${icon('bell',20)}${n?`<span class="dot num">${n}</span>`:''}</button>
+  <button class="profile" data-a="pop" data-v="profile">${av(u.id,u.n)}<span class="who"><b>${esc(u.n)}</b><span>${esc(u.f)}</span></span></button>
+  ${S.pop==='signals'?popSignals():''}${S.pop==='profile'?popProfile():''}
+ </header>`;
+}
+function popSignals(){ const u=U(); return `<div class="pop" role="dialog" aria-label="Signals"><h3>Signals and tasks</h3><ul>${u.signals.length?u.signals.map(s=>`<li class="${s.read?'':'unread'}" data-a="signal" data-v="${s.id}"><span class="ico ${s.type==='taak'?'task':'info'}">${icon(s.type==='taak'?'task':'bell',16)}</span><div class="grow"><div class="small muted">${s.type==='taak'?'Task':'Signal'}</div>${esc(s.t)}</div></li>`).join(''):'<li class="empty">No signals</li>'}</ul><div class="foot"><button class="btn ghost sm" data-a="readall">Mark all as read</button><button class="btn ghost sm" data-a="pop" data-v="">Close</button></div></div>`; }
+function popProfile(){ const u=U(); return `<div class="pop" style="width:300px"><h3>${esc(u.n)}</h3><div class="tile-b">
+ <div class="small muted">${esc(u.f)} · ${esc(u.team)}</div>
+ <label class="row"><input type="checkbox" id="calm" data-change="calm" ${S.calm?'checked':''}> Calm mode (no XP notifications)</label>
+ <label class="row"><input type="checkbox" id="share" data-change="share" ${u.share?'checked':''}> Show my badges and missions in the team feed</label>
+ <div class="notice small">This is a demo with fictional data. Your progress is only stored in this browser.</div>
+ <button class="btn sm" data-a="reset">Reset demo</button></div></div>`; }
+function render(){
+ const nav=navItems();
+ const app=document.getElementById('app');
+ const keep={}; ['cop-input','post-text'].forEach(id=>{const el=document.getElementById(id); if(el) keep[id]=el.value;});
+ app.innerHTML = topbar()+`<div class="shell"><nav class="nav" aria-label="Main menu"><div class="sect">Learning</div>${nav.map(([v,l,i])=>`<button data-a="go" data-v="${v}" class="${S.view===v||(v==='aanbod'&&S.view==='module')||(v==='communities'&&S.view==='community')||(v==='werkruimtes'&&S.view==='wsitem')?'on':''}">${icon(i)}<span>${l}</span>${v==='home'&&unread(U())?`<span class="count num">${unread(U())}</span>`:''}</button>`).join('')}</nav><main class="main" id="main">${view()}</main></div>${S.modal?modal():''}`;
+ Object.entries(keep).forEach(([id,v])=>{const el=document.getElementById(id); if(el&&!el.value) el.value=v;});
+ const cb=document.querySelector('.cop-body'); if(cb) cb.scrollTop=cb.scrollHeight;
+ if(window.wsAfterRender) wsAfterRender();
+}
+function view(){ const v=S.view; const u=U();
+ if(v==='home') return u.role==='manager'?homeManager():u.role==='lo'?homeLO():homeEmp();
+ if(v==='aanbod') return viewAanbod(); if(v==='module') return viewModule(); if(v==='mijn') return viewMijn();
+ if(v==='missies') return viewMissies(); if(v==='team') return viewTeam(); if(v==='communities') return viewCommunities();
+ if(v==='community') return viewCommunity(); if(v==='wsitem') return viewWSItem(); if(v==='werkruimtes') return viewWSAll(); if(v==='veilig') return viewVeilig(); if(v==='beheer') return viewBeheer();
+ return '';
+}
+
+/* ============ HOME ============ */
+function greeting(){ const h=new Date().getHours(); return h<12?'Good morning':h<18?'Good afternoon':'Good evening'; }
+function qotd(){ const u=U(); const pool=[['sec',1],['ov',0],['ai',2],['ov',3]]; const [mid,li]=pool[(u.id.length+new Date().getDate())%pool.length]; const q=MODULES[mid].lessons[li].quiz; const key='qotd-'+u.id; const ans=S.quizAns[key];
+ return `<div class="tile"><div class="tile-h"><h2>Question of the day</h2><span class="chip xp">+5 XP</span></div><div class="tile-b"><p><b>${esc(q.q)}</b></p>${q.o.map((o,i)=>`<button class="btn sm" style="display:flex;width:100%;height:auto;min-height:32px;padding:6px 10px;white-space:normal;text-align:left;margin-top:6px;${ans!=null?(i===q.c?'border-color:var(--ok);background:var(--ok-soft)':i===ans?'border-color:var(--bad);background:var(--bad-soft)':''):''}" data-a="qotd" data-v="${i}" data-m="${mid}" data-l="${li}" ${ans!=null?'disabled':''}>${esc(o)}</button>`).join('')}${ans!=null?`<p class="small" style="margin-top:8px">${ans===q.c?'Correct! ':'Not quite. '}${esc(q.e)}</p>`:''}<p class="small muted">Takes 1 minute · from “${esc(MODULES[mid].title)}”</p></div></div>`; }
+function tasksTile(){ const u=U(); const tasks=u.signals.filter(s=>s.type==='taak'); const recs=S.recommendations.filter(r=>r.to===u.id);
+ return `<div class="tile"><div class="tile-h"><h2>My tasks</h2><span class="chip">${tasks.length+recs.length}</span></div><div class="tile-b"><ul class="list">
+ ${u.role!=='lo'&&!modDone(u,'sec')?`<li><span class="ico task">${icon('shield',16)}</span><div class="grow"><b>Working securely: recognising phishing</b><div class="small muted">Mandatory · deadline 15 Oct 2026 · ${modPct(u,'sec')}% done</div></div><button class="btn sm primary" data-a="open" data-v="sec">Start</button></li>`:''}
+ ${tasks.filter(t=>!/phishing/i.test(t.t)).map(t=>`<li><span class="ico task">${icon('task',16)}</span><div class="grow">${esc(t.t)}</div><button class="btn sm" data-a="signal" data-v="${t.id}">Open</button></li>`).join('')}
+ ${recs.map(r=>`<li><span class="ico info">${icon('star',16)}</span><div class="grow"><b>${esc(MODULES[r.mod].title)}</b><div class="small muted">Recommended by ${esc(r.by)}${r.msg?` · “${esc(r.msg)}”`:''}</div></div><button class="btn sm" data-a="open" data-v="${r.mod}">View</button></li>`).join('')}
+ ${u.signals.filter(s=>s.type==='signaal'&&!s.read).slice(0,2).map(s=>`<li><span class="ico info">${icon('bell',16)}</span><div class="grow">${esc(s.t)}</div><button class="btn sm" data-a="signal" data-v="${s.id}">Open</button></li>`).join('')}
+ </ul></div></div>`; }
+function missionTile(){ const u=U(); const m=MISSIONS.find(m=>u.missions[m.id]==='lopend')||MISSIONS.find(m=>u.missions[m.id]==='beschikbaar'); if(!m) return '';
+ return `<div class="tile"><div class="tile-h"><h2>Mission of the week</h2><span class="chip xp">+${m.xp} XP</span></div><div class="tile-b"><div class="row"><span class="ico mission">${icon('target',18)}</span><div class="grow"><b>${esc(m.t)}</b><div class="small muted">${DOMAINS[m.d]} · ${u.missions[m.id]==='lopend'?'In progress':'Not started'}</div></div></div><p>${esc(m.task)}</p><div class="row"><button class="btn primary sm" data-a="mission" data-v="${m.id}">${u.missions[m.id]==='lopend'?'Complete':'Start mission'}</button><span class="small muted">Fits in with your work</span></div></div></div>`; }
+function growthTile(){ const u=U(); const top=Object.entries(u.xp).sort((a,b)=>b[1]-a[1]).slice(0,3);
+ return `<div class="tile"><div class="tile-h"><h2>My growth path</h2><button class="btn ghost sm" data-a="go" data-v="mijn">View all</button></div><div class="tile-b">${top.map(([d,x])=>{const l=lvl(x); return `<div class="lvl"><span class="badge-n num">${l.i+1}</span><div><b>${DOMAINS[d]}</b><div class="small muted">${l.name}${l.next?` · ${l.next.x-x} XP to go until ${l.next.n}`:''}</div><div class="bar xpbar" style="margin-top:4px"><i style="width:${l.pct}%"></i></div></div><span class="small num muted">${x} XP</span></div>`;}).join('')}<div class="row small muted">${icon('medal',16)} ${u.badges.length} badges</div></div></div>`; }
+function challengeTile(){ const c=S.team.challenge; const pr=Math.round((c.pctMod/100*0.5+Math.min(1,c.reports/c.goal)*0.5)*100);
+ return `<div class="tile"><div class="tile-h"><h2>Team challenge</h2><span class="chip">${icon('trophy',14)} Team</span></div><div class="tile-b"><b>${esc(c.t)}</b><p class="small muted">${esc(c.d)}</p><div class="bar okbar"><i style="width:${pr}%"></i></div><div class="row between small"><span>Module completed: <b class="num">${c.pctMod}%</b></span><span>Reports: <b class="num">${c.reports}/${c.goal}</b></span></div></div></div>`; }
+function eventsTile(){ const ev=S.community.ov.events; return `<div class="tile"><div class="tile-h"><h2>Upcoming meetings</h2></div><div class="tile-b"><ul class="list">${ev.map((e,i)=>`<li><span class="ico info">${icon('cal',16)}</span><div class="grow"><b>${esc(e.t)}</b><div class="small muted">${esc(e.when)} · ${esc(e.where)}</div></div><span class="chip ${e.type==='fysiek'?'blend':''}">${e.type}</span></li>`).join('')}</ul></div></div>`; }
+function homeEmp(){ const u=U(); return `<div class="pagehead"><div><h1>${greeting()}, ${esc(u.n.split(' ')[0])}</h1><p>Here is what's lined up for you this week. Everything takes a few minutes and fits into your work.</p></div><div class="row"><button class="btn" data-a="go" data-v="werkruimtes">${icon('grid',16)} Workspaces</button><button class="btn" data-a="go" data-v="aanbod">${icon('book',16)} Learning catalogue</button></div></div>
+ <div class="grid g3">${tasksTile()}${missionTile()}${qotd()}</div>
+ <div class="grid g3" style="margin-top:16px">${growthTile()}${challengeTile()}${eventsTile()}</div>
+ <div class="tile" style="margin-top:16px"><div class="tile-h"><h2>Pick up where you left off</h2></div><div class="tile-b"><div class="grid g2">${['ov','ai'].map(mid=>{const m=MODULES[mid]; const p=u.progress[mid]; return `<div class="row"><span class="ico info">${icon('book',16)}</span><div class="grow"><b>${esc(m.title)}</b><div class="small muted">Lesson ${(p?.cur??0)+1}: ${esc(m.lessons[p?.cur??0]?.t||'')}</div><div class="bar" style="margin-top:4px"><i style="width:${modPct(u,mid)}%"></i></div></div><button class="btn sm primary" data-a="open" data-v="${mid}">Continue</button></div>`;}).join('')}</div></div></div>`; }
+function secDoneCount(){ return TEAM.filter(t=>t.id==='sanne'?modDone(S.users.sanne,'sec'):t.sec).length; }
+function homeManager(){ const u=U(); const done=secDoneCount(); return `<div class="pagehead"><div><h1>${greeting()}, ${esc(u.n.split(' ')[0])}</h1><p>Team ${esc(u.team)} · 9 employees</p></div><button class="btn primary" data-a="go" data-v="team" data-p="beheer">${icon('users',16)} Manage team</button></div>
+ <div class="grid g4">
+  <div class="tile kpi"><div class="l">Mandatory phishing module</div><div class="v num">${done}/9</div><div class="bar okbar" style="margin-top:6px"><i style="width:${Math.round(done/9*100)}%"></i></div></div>
+  <div class="tile kpi"><div class="l">Active this month</div><div class="v num">78%</div><div class="small muted">7 of 9 team members</div></div>
+  <div class="tile kpi"><div class="l">Missions applied (Q4)</div><div class="v num">${S.team.goal.done}/${S.team.goal.of}</div><div class="small muted">${esc(S.team.goal.t)}</div></div>
+  <div class="tile kpi"><div class="l">Phishing reports</div><div class="v num">${S.team.challenge.reports}</div><div class="small muted">team challenge goal: ${S.team.challenge.goal}</div></div>
+ </div>
+ <div class="grid g3" style="margin-top:16px">
+  <div class="tile"><div class="tile-h"><h2>Learning minute</h2><span class="chip">${esc(S.team.minutes.next)}</span></div><div class="tile-b"><p>Prepare the learning minute for the team meeting using the standard template: what went well, what do we learn, what will we do differently?</p><button class="btn primary sm" data-a="go" data-v="team" data-p="leerminuut">Prepare</button></div></div>
+  ${challengeTile()}
+  ${tasksTile()}
+ </div>
+ <div class="notice small" style="margin-top:16px">${icon('shield',14)} As a manager, you only see the status of mandatory training per person. Everything else you see as team totals, so learning stays voluntary and safe.</div>`; }
+function homeLO(){ const u=U(); const fb=S.copFeedback||{up:41,down:7}; return `<div class="pagehead"><div><h1>${greeting()}, ${esc(u.n.split(' ')[0])}</h1><p>Leer Academie Breda · organisation overview (demo data)</p></div><div class="row"><button class="btn" data-a="go" data-v="beheer" data-p="content">Manage content</button><button class="btn primary" data-a="go" data-v="beheer" data-p="campagnes">${icon('flag',16)} Plan campaign</button></div></div>
+ <div class="grid g4">
+  <div class="tile kpi"><div class="l">Weekly active employees</div><div class="v num">61%</div><div class="small muted">+9 points vs. last month</div></div>
+  <div class="tile kpi"><div class="l">Missions applied at work</div><div class="v num">412</div><div class="small muted">last 30 days</div></div>
+  <div class="tile kpi"><div class="l">Copilot “useful”</div><div class="v num">${Math.round(fb.up/(fb.up+fb.down)*100)}%</div><div class="small muted num">${fb.up+fb.down} ratings</div></div>
+  <div class="tile kpi"><div class="l">Mandatory phishing completed</div><div class="v num">83%</div><div class="small muted">deadline 15 Oct</div></div>
+ </div>
+ <div class="grid g2" style="margin-top:16px">
+  <div class="tile"><div class="tile-h"><h2>Campaigns</h2><button class="btn ghost sm" data-a="go" data-v="beheer" data-p="campagnes">Manage</button></div><div class="tile-b"><ul class="list">${S.campaigns.map(c=>`<li><span class="ico task">${icon('flag',16)}</span><div class="grow"><b>${esc(CAMPAIGN_TEMPLATES[c.tpl].n)}</b><div class="small muted">${esc(c.target)} · ${esc(c.when)}</div></div><span class="chip ${c.status==='afgerond'?'ok':c.status==='actief'?'warn':''}">${({afgerond:"completed",actief:"active",gepland:"scheduled"})[c.status]||c.status}</span></li>`).join('')}</ul></div></div>
+  <div class="tile"><div class="tile-h"><h2>Signals</h2></div><div class="tile-b"><ul class="list">${u.signals.map(s=>`<li><span class="ico info">${icon('bell',16)}</span><div class="grow">${esc(s.t)}</div><button class="btn sm" data-a="signal" data-v="${s.id}">Open</button></li>`).join('')}<li><span class="ico info">${icon('chat',16)}</span><div class="grow">New unanswered question in <b>Mobility &amp; Public Transport</b> (Ahmed Benali)</div><button class="btn sm" data-a="community" data-v="ov">Open</button></li></ul></div></div>
+ </div>`; }
+
+/* ============ LEERAANBOD ============ */
+function viewAanbod(){ const f=S.params.f||'alle'; const q=(S.params.q||'').toLowerCase(); const u=U();
+ const mods=Object.values(MODULES).filter(m=>(f==='alle'||(f==='verplicht'?m.required:f==='blended'?m.blended:m.domain===f))&&(!q||(m.title+m.intro).toLowerCase().includes(q)));
+ return `<div class="crumbs">Home › Learning catalogue</div><div class="pagehead"><div><h1>Learning catalogue</h1><p>Short modules that fit your work. Choose for yourself what you want to learn.</p></div></div>
+ <div class="row" style="margin-bottom:14px">${[['alle','All'],['verplicht','Mandatory'],['blended','With meeting'],...Object.entries(DOMAINS)].map(([k,l])=>`<button class="btn sm ${f===k?'primary':''}" data-a="filter" data-v="${k}">${esc(l)}</button>`).join('')}${q?`<span class="chip">Search term: ${esc(q)}</span>`:''}</div>
+ <div class="grid g3">${mods.map(m=>`<article class="card"><div class="cover ${m.cover}"><b>${DOMAINS[m.domain]}</b></div><div class="body"><h3>${esc(m.title)}</h3><p>${esc(m.intro)}</p><div class="row">${m.required?'<span class="chip req">Mandatory</span>':''}${m.blended?'<span class="chip blend">With meeting</span>':''}<span class="chip">${m.dur}</span>${m.stub?'':'<span class="chip cop">With Copilot</span>'}</div></div><div class="foot"><span class="small muted">${m.stub?'Coming soon in the demo':modPct(u,m.id)?modPct(u,m.id)+'% done':m.lessons.length+' lessons'}</span>${m.stub?'':`<button class="btn sm primary" data-a="open" data-v="${m.id}">${modPct(u,m.id)?'Continue':'Start'}</button>`}</div></article>`).join('')||'<div class="empty">No modules found.</div>'}</div>`; }
+
+/* ============ MODULE + COPILOT ============ */
+function viewModule(){ const u=U(); const m=MODULES[S.params.id]; if(!m) return ''; if(!u.progress[m.id]) u.progress[m.id]={done:[],cur:0};
+ const p=u.progress[m.id]; const li=S.params.l??p.cur; const L=m.lessons[li]; const qk=`${u.id}-${m.id}-${li}`; const ans=S.quizAns[qk]; const isDone=p.done.includes(li);
+ return `<div class="crumbs"><button data-a="go" data-v="aanbod">Learning catalogue</button> › ${esc(m.title)}</div>
+ <div class="pagehead"><div><h1>${esc(m.title)}</h1><div class="row" style="margin-top:6px">${m.required?`<span class="chip req">Mandatory · deadline ${m.deadline}</span>`:''}${m.blended?'<span class="chip blend">With meeting</span>':''}<span class="chip">${modPct(u,m.id)}% done</span></div></div></div>
+ <div class="player">
+  <aside class="lessons"><h3>Lessons</h3><ol>${m.lessons.map((l,i)=>`<li><button class="${i===li?'on':''}" data-a="lesson" data-v="${i}"><span class="st ${p.done.includes(i)?'done':''}">${p.done.includes(i)?'✓':i+1}</span><span>${esc(l.t)}</span></button></li>`).join('')}</ol>
+   ${m.blended?`<div class="tile-b small" style="border-top:1px solid var(--line-2)"><b>Meeting</b><div class="muted">Meetup: from vision to concession requirements · Thu 16 Oct, Stadskantoor</div><button class="btn sm" style="margin-top:6px" data-a="event" data-v="0">Sign up</button></div>`:''}</aside>
+  <section class="lesson"><div class="eyebrow">Lesson ${li+1} of ${m.lessons.length} · ± 5 minutes</div><h2 style="font-size:22px;margin-bottom:12px">${esc(L.t)}</h2>
+   <div class="content">${L.body}</div>
+   <div class="quiz"><div class="row between"><b>Practice question</b>${S.calm?'':'<span class="chip xp">+5 XP if correct on first attempt</span>'}</div><p style="margin-top:6px">${esc(L.quiz.q)}</p>
+    ${L.quiz.o.map((o,i)=>`<button class="opt ${ans!=null?(i===L.quiz.c?'right':i===ans?'wrong':''):''}" data-a="quiz" data-v="${i}" ${ans!=null?'disabled':''}><span class="st">${String.fromCharCode(65+i)}</span><span>${esc(o)}</span></button>`).join('')}
+    ${ans!=null?`<div class="fb">${ans===L.quiz.c?'<b style="color:var(--ok)">Correct.</b> ':'<b style="color:var(--bad)">Not quite.</b> '}${esc(L.quiz.e)} <button class="btn ghost sm" data-a="quizreset">Try again</button></div>`:''}</div>
+   <div class="row between" style="margin-top:18px"><button class="btn" data-a="lesson" data-v="${li-1}" ${li===0?'disabled':''}>Previous lesson</button>
+    ${isDone?(li<m.lessons.length-1?`<button class="btn primary" data-a="lesson" data-v="${li+1}">Next lesson</button>`:'<span class="chip ok">Module completed</span>'):`<button class="btn primary" data-a="finish" data-v="${li}">Complete lesson${S.calm?'':' · +10 XP'}</button>`}</div>
+  </section>
+  ${copilotPanel(m)}
+ </div>`; }
+function cop(mid){ if(!S.copilot[mid]) S.copilot[mid]={turns:[],busy:false}; return S.copilot[mid]; }
+function copilotPanel(m){ const c=cop(m.id+'-'+S.user); const avail=SAMPLE!==null;
+ return `<aside class="copilot" aria-label="Learning Copilot"><div class="cop-h"><span class="cop-logo">${icon('spark',16)}</span><div class="grow"><b>Learning Copilot</b><span>Helps with this module · ${esc(m.title)}</span></div>${c.turns.length?'<button class="btn ghost sm" data-a="copclear">New conversation</button>':''}</div>
+  <div class="cop-body" id="cop-body">${copBody(c,m)}</div>
+  ${avail?`<div class="cop-prompts">${(S.promptLib?.[m.id]||m.prompts).map(p=>`<button data-a="copprompt" data-v="${esc(p)}" ${c.busy?'disabled':''}>${esc(p)}</button>`).join('')}</div>
+  <form class="cop-in" data-form="cop"><textarea id="cop-input" placeholder="Ask a question about the lesson or paste a piece of your own text…" aria-label="Message to Copilot" ${c.busy?'disabled':''}></textarea>
+   <div class="row between"><span class="cop-disc">AI can make mistakes. Do not paste personal data.</span>${c.busy?`<button type="button" class="btn sm" data-a="copstop">${icon('stop',14)} Stop</button>`:`<button class="btn sm primary" type="submit">${icon('send',14)} Send</button>`}</div></form>`
+  :`<div class="cop-in"><div class="notice warn small">${SAMPLE===undefined?'Loading Copilot…':'The AI Copilot is switched off in this online demo. The rest of the demo works as normal.'}</div></div>`}
+ </aside>`; }
+function copBody(c,m){ if(!c.turns.length) return `<div class="msg a"><p>Hi ${esc(U().n.split(' ')[0])}. I'm here to help with <b>${esc(m.title)}</b>. You can ask me questions about the lesson, have me quiz you, practise a conversation or apply the material to your own work.</p><p>Pick a button below or type a question yourself.</p></div>`;
+ return c.turns.map((t,i)=>t.role==='user'?`<div class="msg u">${esc(t.show||t.content)}</div>`:`<div class="msg a">${md(t.content)}${t.err?`<p class="small" style="color:var(--bad)">${esc(t.err)}</p>`:''}<div class="acts"><button data-a="copfb" data-v="${i}" data-k="up" class="${t.fb==='up'?'on':''}">Helpful</button><button data-a="copfb" data-v="${i}" data-k="down" class="${t.fb==='down'?'on':''}">Not helpful</button><button data-a="copcopy" data-v="${i}">Copy</button></div></div>`).join('')
+  + (c.busy?`<div class="msg a" id="cop-stream"><span class="thinking"><i></i><i></i><i></i></span> <span class="small muted">Copilot is thinking…</span></div>`:''); }
+const PROMPT_INSTR={
+ 'Explain this simply':'Explain the current lesson in plain, simple English (roughly B1 level), with one concrete example from municipal practice. Maximum 150 words.',
+ 'Quiz me':'Quiz me on the current lesson. Ask one practice question at a time (open or multiple choice). Wait for my answer, then give a short explanation and ask the next question. 3 questions in total, then a short summary of what went well.',
+ 'Apply to my work':'Help me apply the material from the current lesson to my own work. Start with one short question about what I am currently working on (use what you already know about my role). Then give 2-3 concrete, practical suggestions.',
+ 'Practise a conversation':'Start a role play. You play {ROLE}. Begin straight away in your role with one critical, realistic question to me. Ask one question at a time and stay in role. When I type "stop", step out of your role and give feedback in 3 points based on the lesson material.',
+ 'Check my text':'I want feedback on a text of my own. First ask me to paste the text (without personal data). Then give feedback based on the lesson material: does it lead with the key point, is it B1 level, is it well-founded and honest? Provide an improved version of at most 5 sentences.',
+ 'What suits me?':'Give me personal learning advice based on my role and growth path: choose exactly one module, one mission and one community from the lists below, with one sentence per choice explaining why. Short and concrete.',
+ 'Is this phishing?':'Help me assess whether an email is phishing. First ask me to describe the email: sender, subject, what is being asked and whether it contains a link or attachment. Then go through the six warning signs from lesson 2 and give a clear recommendation (report it or not).'
+};
+function strip(h){ return h.replace(/<tr>/g,'\n').replace(/<\/t[dh]>/g,' | ').replace(/<li>/g,'\n- ').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/\n{3,}/g,'\n\n').trim(); }
+function rules(m,li){ const u=U(); const lib=S.promptLib?.[m.id]||m.prompts;
+ return `You are the Learning Copilot of Leer Academie Breda, the learning platform of the municipality of Breda. You sit alongside an e-learning module and help employees learn and apply the material in their work.
+Rules:
+- Always answer in clear, plain English at B1 level. Keep it short: usually 60-150 words, short paragraphs or bullet lists.
+- Base explanations on the lesson material below and say which lesson something comes from ("From lesson 3: ..."). If something is not in the lesson material, say so and give general explanation with a caveat.
+- Do not invent legal articles, figures or sources. The figures in the lesson material are fictional sample data.
+- Never ask for personal data. If the user pastes names, addresses or citizen service numbers (BSN) of residents, warn them kindly and continue without that data.
+- You do not assess employees for HR purposes and share nothing with managers. Be encouraging and concrete.
+- This is a demo with fictional people; stay realistic and professional.
+
+User: ${u.n}, ${u.f}, team ${u.team}.${u.id==='sanne'?' Is working on the Breda public transport vision and a council proposal about it (deadline in six weeks), and on the municipality\'s input for the new bus concession.':''}
+Growth path: ${Object.entries(u.xp).map(([d,x])=>`${DOMAINS[d]} ${lvl(x).name} (${x} XP)`).join('; ')}.
+
+Module: ${m.title}. The user is currently in lesson ${li+1}: "${m.lessons[li].t}".
+Lesson material:
+${m.lessons.map((l,i)=>`Lesson ${i+1}: ${l.t}\n${strip(l.body)}`).join('\n\n')}
+
+Available modules: ${Object.values(MODULES).map(x=>x.title).join('; ')}.
+Missions: ${MISSIONS.map(x=>`${x.t} (${x.task})`).join('; ')}.
+Communities: ${COMMUNITIES.map(x=>x.n).join('; ')}.
+Buttons in this module: ${lib.join(', ')}.`; }
+let copCtl=null;
+async function askCopilot(text,show){ const m=MODULES[S.params.id]; const u=U(); const li=S.params.l??u.progress[m.id].cur; const c=cop(m.id+'-'+S.user); if(c.busy||!SAMPLE) return;
+ c.turns.push({role:'user',content:text,show}); c.busy=true; render();
+ const turns=c.turns.slice(-14).map(t=>({role:t.role,content:t.content})); while(turns.length&&turns[0].role!=='user') turns.shift();
+ const input=[{role:'user',content:rules(m,li)},...turns];
+ copCtl=new AbortController(); const el=()=>document.getElementById('cop-stream');
+ try{
+  const {text:out,truncated}=await SAMPLE(input,{cache:false,signal:copCtl.signal,onText:({text})=>{const e=el(); if(e){ e.innerHTML=md(text); const b=document.getElementById('cop-body'); if(b) b.scrollTop=b.scrollHeight; }}});
+  c.turns.push({role:'assistant',content:out+(truncated?'\n\n*(Answer shortened. Ask for less at a time.)*':'')});
+ }catch(e){
+  const map={not_granted:'You have not granted the Copilot permission. Reload the page to try again.',rate_limited:'It is a bit busy right now. Please try again in a minute.',refused:'I cannot help with that. Try phrasing your question differently.',session_expired:'Your session has expired. Please sign in to Claude again.',prompt_too_large:'The conversation has become too long. Start a new conversation.',sampling_disabled:'The Copilot is not available for this account.'};
+  if(e&&e.code==='cancelled'){ c.turns.push({role:'assistant',content:(e.text||'')+(e.text?'\n\n':'')+'*(Stopped)*'}); }
+  else c.turns.push({role:'assistant',content:e?.text||'',err:map[e?.code]||'Something went wrong with the Copilot. Please try again.'});
+  if(e&&['not_granted','sampling_disabled','capability_disabled','not_declared'].includes(e.code)) SAMPLE=null;
+ }
+ c.busy=false; copCtl=null; save(); if(S.view==='module') render();
+}
+
+/* ============ MY LEARNING ============ */
+function viewMijn(){ const u=U(); return `<div class="crumbs">Home › My learning</div><div class="pagehead"><div><h1>My learning</h1><p>Your growth per subject area. You earn most XP by applying what you learn in your work.</p></div><span class="chip xp num">${totalXP(u)} XP total</span></div>
+ <div class="grid g2"><div class="tile"><div class="tile-h"><h2>Growth path by domain</h2></div><div class="tile-b">${Object.entries(u.xp).map(([d,x])=>{const l=lvl(x); return `<div class="lvl"><span class="badge-n num">${l.i+1}</span><div><b>${DOMAINS[d]}</b> <span class="small muted">· ${l.name}</span><div class="bar xpbar" style="margin-top:4px"><i style="width:${l.pct}%"></i></div><div class="small muted">${l.next?`${l.next.x-x} XP to go until ${l.next.n}`:'Highest level reached'}</div></div><span class="small num">${x} XP</span></div>`;}).join('')}
+ <p class="small muted">Levels: ${LEVELS.map(l=>`${l.n} (${l.x})`).join(' · ')}. From Kenner level you can become an expert in a community.</p></div></div>
+ <div class="tile"><div class="tile-h"><h2>Badges</h2><span class="small muted">${u.badges.length} of ${BADGES.length}</span></div><div class="tile-b"><div class="badges">${BADGES.map(b=>`<div class="bdg ${u.badges.includes(b.id)?'':'locked'}"><div class="medal">${icon('medal',22)}</div><b>${b.n}</b><span>${b.c}${b.goal&&!u.badges.includes(b.id)?` · ${u.phishReports}/${b.goal}`:''}</span></div>`).join('')}</div></div></div></div>
+ <div class="grid g2" style="margin-top:16px"><div class="tile"><div class="tile-h"><h2>Modules</h2></div><div class="tile-b scroll-x"><table class="tbl"><tr><th>Module</th><th>Status</th><th>Progress</th></tr>${Object.values(MODULES).filter(m=>!m.stub).map(m=>`<tr><td><button class="btn ghost sm" style="padding:0" data-a="open" data-v="${m.id}">${esc(m.title)}</button></td><td>${modDone(u,m.id)?'<span class="chip ok">Completed</span>':m.required?'<span class="chip req">Mandatory</span>':modPct(u,m.id)?'<span class="chip warn">In progress</span>':'<span class="chip">Not started</span>'}</td><td class="num">${modPct(u,m.id)}%</td></tr>`).join('')}</table>${modDone(u,'sec')?'<p class="small" style="margin-top:8px">The “Working securely” certificate has been registered in your HR file (in the real version: AFAS).</p>':''}</div></div>
+ <div class="tile"><div class="tile-h"><h2>Recent XP</h2></div><div class="tile-b"><ul class="list">${u.xplog.slice(0,8).map(l=>`<li><span class="chip xp num">+${l.x}</span><div class="grow">${esc(l.t)}<div class="small muted">${DOMAINS[l.d]} · ${esc(l.when)}</div></div></li>`).join('')||'<li class="empty">No XP yet</li>'}</ul></div></div></div>`; }
+
+/* ============ MISSIONS ============ */
+function viewMissies(){ const u=U(); const st=s=>s==='afgerond'?'<span class="chip ok">Completed</span>':s==='lopend'?'<span class="chip warn">In progress</span>':'<span class="chip">Available</span>';
+ return `<div class="crumbs">Home › Missions</div><div class="pagehead"><div><h1>Missions</h1><p>Real work assignments that let you learn while you work. You choose which ones to take on.</p></div></div>
+ <div class="grid g3">${MISSIONS.map(m=>{const s=u.missions[m.id]||'beschikbaar'; return `<div class="tile"><div class="tile-h"><span class="small muted">${m.id} · ${DOMAINS[m.d]}</span>${st(s)}</div><div class="tile-b"><h3>${esc(m.t)}</h3><p>${esc(m.task)}</p><p class="small muted">Why: ${esc(m.why)}</p><div class="row between"><span class="chip xp">+${m.xp} XP</span>${s==='afgerond'?'':`<button class="btn sm primary" data-a="mission" data-v="${m.id}">${s==='lopend'?'Complete':'Start'}</button>`}</div></div></div>`;}).join('')}</div>`; }
+function missionModal(id){ const m=MISSIONS.find(x=>x.id===id); const u=U(); const s=u.missions[id];
+ if(s!=='lopend') return `<div class="tile-h"><h2>Start mission: ${esc(m.t)}</h2></div><div class="tile-b"><p>${esc(m.task)}</p><p class="small muted">${esc(m.why)}</p><div class="notice small">You do this mission as part of your regular work. Come back to complete it with a short reflection.</div><div class="form-actions"><button class="btn" data-a="modal" data-v="">Cancel</button><button class="btn primary" data-a="mstart" data-v="${id}">Start mission</div></div>`;
+ return `<div class="tile-h"><h2>Complete mission: ${esc(m.t)}</h2></div><form class="tile-b" data-form="mission" data-v="${id}"><p class="small muted">${esc(m.task)}</p>
+  <div class="field"><label for="r1">What did you do?</label><textarea id="r1" required>${id==='M-01'?'In the memo on the North corridor, I added a table of boardings per stop and linked the growth at Station Noord to the housing development plans.':''}</textarea></div>
+  <div class="field"><label for="r2">What did you learn and what will you do differently next time?</label><textarea id="r2" required>${id==='M-01'?'State absolute numbers first, then percentages. Next time I will ask Noor earlier to check the figures.':''}</textarea></div>
+  <div class="field"><label for="r3">Ask a colleague for feedback (optional)</label><select id="r3"><option value="">No one</option>${TEAM.filter(t=>t.id!==u.id).map(t=>`<option value="${t.id}"${t.id==='noor'&&id==='M-01'?' selected':''}>${esc(t.n)}</option>`).join('')}</select></div>
+  <div class="form-actions"><button type="button" class="btn" data-a="modal" data-v="">Cancel</button><button class="btn primary" type="submit">Complete · +${m.xp} XP</button></div></form>`; }
+
+/* ============ TEAM ============ */
+function viewTeam(){ const u=U(); const tab=S.params.p||'overzicht'; const tabs=[['overzicht','Overview'],['leerminuut','Learning minute'],['feed','Feed'],['uitdaging','Challenge']]; if(u.role==='manager') tabs.push(['beheer','Manage team']);
+ return `<div class="crumbs">Home › My team</div><div class="pagehead"><div><h1>Team ${esc(u.team)}</h1><p>9 employees · manager Mark Janssen</p></div></div>
+ <div class="tabs" role="tablist">${tabs.map(([k,l])=>`<button class="${tab===k?'on':''}" data-a="tab" data-v="${k}">${l}</button>`).join('')}</div>${teamTab(tab)}`; }
+function teamTab(tab){ const u=U(); const T=S.team;
+ if(tab==='overzicht') return `<div class="grid g3"><div class="tile"><div class="tile-h"><h2>Team goal</h2></div><div class="tile-b"><b>${esc(T.goal.t)}</b><div class="bar okbar"><i style="width:${Math.round(T.goal.done/T.goal.of*100)}%"></i></div><p class="small num">${T.goal.done} of ${T.goal.of} team members</p></div></div>${challengeTile()}<div class="tile"><div class="tile-h"><h2>Next learning minute</h2></div><div class="tile-b"><p><b>${esc(T.minutes.next)}</b> in the team meeting</p><p class="small muted">Standing questions: What went well? What do we learn? What do we do differently?</p><button class="btn sm" data-a="tab" data-v="leerminuut">View</button></div></div></div>
+  <div class="tile" style="margin-top:16px"><div class="tile-h"><h2>Recommended for the team</h2></div><div class="tile-b"><div class="grid g3">${['ov','ai','sec'].map(mid=>`<div class="row"><span class="ico info">${icon('book',16)}</span><div class="grow"><b>${esc(MODULES[mid].title)}</b><div class="small muted">${MODULES[mid].dur}</div></div><button class="btn sm" data-a="open" data-v="${mid}">Open</button></div>`).join('')}</div></div></div>`;
+ if(tab==='leerminuut') return `<div class="grid g2"><div class="tile"><div class="tile-h"><h2>${u.role==='manager'?'Prepare and record learning minute':'Learning minute'}</h2><span class="chip">${esc(T.minutes.next)}</span></div>
+  ${u.role==='manager'?`<form class="tile-b" data-form="minute"><p class="small muted">15 minutes in the team meeting. Afterwards, record 1–3 lessons; they will appear in the team feed.</p>
+   <div class="field"><label for="m1">What went well?</label><textarea id="m1" required>The input for the concession was submitted to the province on time.</textarea></div>
+   <div class="field"><label for="m2">What do we learn?</label><textarea id="m2" required>By consulting the province early, there were fewer questions afterwards.</textarea></div>
+   <div class="field"><label for="m3">What do we do differently?</label><textarea id="m3" required>For the next memo, we will schedule an informal meeting with the province before the first draft.</textarea></div>
+   <div class="form-actions"><button class="btn primary" type="submit">Record and share</button></div></form>`
+  :`<div class="tile-b"><p>On Thursday in the team meeting, we discuss one thing that went well, what we learn and what we do differently.</p><div class="notice small">Tip: the “Learn from mistakes” mission fits well here. Share one thing that went wrong; no one will be held accountable for it.</div><button class="btn sm" data-a="mission" data-v="M-05">Go to mission</button></div>`}</div>
+  <div class="tile"><div class="tile-h"><h2>Previous learning minutes</h2></div><div class="tile-b">${T.minutes.items.map(it=>`<div style="padding:8px 0;border-bottom:1px solid var(--line-2)"><div class="small muted">${esc(it.when)}</div><ul class="small" style="margin:4px 0 0;padding-left:18px"><li><b>Went well:</b> ${esc(it.q[0])}</li><li><b>Learned:</b> ${esc(it.q[1])}</li><li><b>Differently:</b> ${esc(it.q[2])}</li></ul></div>`).join('')}</div></div></div>`;
+ if(tab==='feed') return `<div class="grid g2"><div class="tile span2"><div class="tile-h"><h2>Team feed</h2></div><div class="tile-b"><form class="row" data-form="post"><input id="post-text" class="grow" style="border:1px solid var(--line);border-radius:4px;padding:7px 10px;background:var(--surface)" placeholder="Share a tip, success or question with your team" aria-label="Message"><button class="btn primary sm" type="submit">Post</button></form>
+  ${T.feed.map((p,i)=>`<div class="post">${av(p.who,teamName(p.who),36)}<div class="grow"><div class="meta"><b style="color:var(--ink)">${esc(teamName(p.who))}</b> · ${esc(p.when)} · <span class="chip">${({missie:'mission',tip:'tip',leerminuut:'learning minute'})[p.kind]||esc(p.kind)}</span></div><p>${esc(p.t)}</p><div class="row" style="margin-top:6px"><button class="btn ghost sm" data-a="like" data-v="${i}">${icon('heart',14)} Thanks · ${p.likes}</button>${p.kind==='missie'&&p.who!==u.id?`<button class="btn sm" data-a="feedback" data-v="${i}">Give feedback${S.calm?'':' · +20 XP'}</button>`:''}</div></div></div>`).join('')}</div></div></div>`;
+ if(tab==='uitdaging'){ const c=T.challenge; return `<div class="grid g2"><div class="tile"><div class="tile-h"><h2>${icon('trophy',16)} ${esc(c.t)}</h2><span class="chip warn">Runs until 31 Oct</span></div><div class="tile-b"><p>${esc(c.d)}</p><div><div class="row between small"><span>Phishing module completed</span><b class="num">${c.pctMod}%</b></div><div class="bar okbar"><i style="width:${c.pctMod}%"></i></div></div><div><div class="row between small"><span>Suspicious emails reported together</span><b class="num">${c.reports}/${c.goal}</b></div><div class="bar okbar"><i style="width:${Math.min(100,c.reports/c.goal*100)}%"></i></div></div><p class="small muted">Team totals only. No one can see who did or did not report.</p></div></div>
+  <div class="tile"><div class="tile-h"><h2>Other teams (optional)</h2></div><div class="tile-b"><p class="small muted">Teams taking part in the comparison. Percentages only.</p>${[['Mobility & Accessibility',Math.round((c.pctMod+Math.min(100,c.reports/c.goal*100))/2)],['Civil Affairs',71],['Spatial Development',64],['Finance',58]].map(([n,v])=>`<div class="hbar"><span>${n}</span><div class="bar okbar"><i style="width:${v}%"></i></div><b class="num">${v}%</b></div>`).join('')}</div></div></div>`; }
+ if(tab==='beheer'&&u.role==='manager') return teamBeheer();
+ return ''; }
+function teamBeheer(){ const done=secDoneCount(); return `<div class="grid g2"><div class="tile"><div class="tile-h"><h2>Mandatory training</h2><span class="chip num">${done}/9 completed</span></div><div class="tile-b scroll-x"><table class="tbl"><tr><th>Employee</th><th>Working securely (phishing)</th><th></th></tr>${TEAM.map(t=>{const d=t.id==='sanne'?modDone(S.users.sanne,'sec'):t.sec; return `<tr><td>${esc(t.n)}<div class="small muted">${esc(t.f)}</div></td><td>${d?'<span class="chip ok">Completed</span>':'<span class="chip req">Open · deadline 15 Oct</span>'}</td><td>${d?'':`<button class="btn sm" data-a="remind" data-v="${t.id}">Remind</button>`}</td></tr>`;}).join('')}</table><p class="small muted" style="margin-top:8px">You cannot see team members' other modules, XP, levels or Copilot conversations.</p></div></div>
+ <div class="tile"><div class="tile-h"><h2>Recommend or assign</h2></div><form class="tile-b" data-form="recommend">
+  <div class="field"><label for="rm">Module</label><select id="rm">${Object.values(MODULES).filter(m=>!m.stub).map(m=>`<option value="${m.id}"${m.id==='ai'?' selected':''}>${esc(m.title)}</option>`).join('')}</select></div>
+  <div class="field"><label>For whom</label><div class="grid g2" style="gap:4px">${TEAM.map(t=>`<label class="row small"><input type="checkbox" name="who" value="${t.id}" ${['sanne','iris','ruben'].includes(t.id)?'checked':''}> ${esc(t.n)}</label>`).join('')}</div></div>
+  <div class="field"><label for="rk">Type</label><select id="rk"><option value="aanraden">Recommend (voluntary)</option><option value="toewijzen">Assign with deadline</option></select></div>
+  <div class="field"><label for="rmsg">Message (optional)</label><input id="rmsg" value="Useful for the memos on the concession."></div>
+  <div class="form-actions"><button class="btn primary" type="submit">Send</button></div></form></div>
+ <div class="tile span2"><div class="tile-h"><h2>Team totals</h2><span class="small muted">Only shown with at least 5 team members</span></div><div class="tile-b"><div class="grid g4"><div class="kpi"><div class="v num">78%</div><div class="l">active this month</div></div><div class="kpi"><div class="v num">14</div><div class="l">missions applied in October</div></div><div class="kpi"><div class="v num">${S.team.challenge.reports}</div><div class="l">suspicious emails reported</div></div><div class="kpi"><div class="v num">${campaignRes().click}</div><div class="l">clicks in practice campaign (of ${campaignRes().sent})</div></div></div></div></div></div>`; }
+
+/* ============ COMMUNITIES ============ */
+function viewCommunities(){ return `<div class="crumbs">Home › Communities</div><div class="pagehead"><div><h1>Communities</h1><p>Learn from peers in other teams. Ask questions, share knowledge and meet each other.</p></div></div>
+ <div class="grid g3">${COMMUNITIES.map(c=>`<div class="tile"><div class="tile-b"><div class="row"><span class="ico info">${icon('chat',18)}</span><div class="grow"><h3>${esc(c.n)}</h3><div class="small muted num">${c.leden} members</div></div></div><p>${esc(c.d)}</p><div class="row between"><span class="small muted">Moderator: ${esc(c.mod)}</span><button class="btn sm primary" data-a="community" data-v="${c.id}">Open</button></div></div></div>`).join('')}</div>`; }
+function viewCommunity(){ const id=S.params.id; const c=COMMUNITIES.find(x=>x.id===id); const data=S.community[id]||{qs:[],kb:[],events:[]}; const tab=S.params.p||'vragen';
+ return `<div class="crumbs"><button data-a="go" data-v="communities">Communities</button> › ${esc(c.n)}</div><div class="pagehead"><div><h1>${esc(c.n)}</h1><p>${esc(c.d)} · <span class="num">${c.leden}</span> members</p></div><span class="chip ok">You are a member</span></div>
+ <div class="tabs">${[['vragen','Questions'],['werkruimtes','Workspaces'],['kennisbank','Knowledge base'],['events','Events'],['leden','Members & experts']].map(([k,l])=>`<button class="${tab===k?'on':''}" data-a="ctab" data-v="${k}">${l}</button>`).join('')}</div>
+ ${tab==='vragen'?`<div class="grid g2"><div class="tile span2"><div class="tile-h"><h2>Ask a question</h2></div><form class="tile-b" data-form="ask"><div class="field"><label for="askq">Your question</label><input id="askq" data-input="ask" placeholder="E.g. How do other municipalities substantiate their requirements for the concession?" required></div><div id="asksugg"></div><div class="form-actions"><button class="btn primary" type="submit">Post</button></div></form></div>
+  <div class="tile span2"><div class="tile-h"><h2>Questions</h2></div><div class="tile-b">${data.qs.map(q=>`<div class="q"><div class="votes"><b class="num">${q.votes}</b>votes</div><div><b>${esc(q.t)}</b><div class="small muted">${esc(q.who)} · ${esc(q.when)} · ${q.tags.map(t=>`<span class="chip">${esc(t)}</span>`).join(' ')}</div>${q.ans.map(a=>`<div class="answer ${a.best?'best':''}"><div class="small"><b>${esc(a.who)}</b>${a.expert?' <span class="chip ok">Expert</span>':''}${a.best?' <span class="chip ok">Best answer</span>':''}</div><p>${esc(a.t)}</p></div>`).join('')}${q.ans.length?'':'<p class="small muted" style="margin-top:6px">No answer yet. Do you know it?</p>'}</div></div>`).join('')||'<div class="empty">No questions yet.</div>'}</div></div></div>`:''}
+ ${tab==='werkruimtes'?viewWSList(id):''}
+ ${tab==='kennisbank'?`<div class="tile"><div class="tile-b"><ul class="list">${(data.kb.length?data.kb:[{t:'No articles yet in this demo',k:''}]).map(k=>`<li><span class="ico info">${icon('book',16)}</span><div class="grow"><b>${esc(k.t)}</b></div>${k.k?`<span class="chip">${esc(k.k)}</span>`:''}</li>`).join('')}</ul></div></div>`:''}
+ ${tab==='events'?`<div class="grid g2">${(data.events.length?data.events:[]).map((e,i)=>`<div class="tile"><div class="tile-b"><span class="chip ${e.type==='fysiek'?'blend':''}">${({fysiek:'in person',online:'online'})[e.type]||e.type}</span><h3>${esc(e.t)}</h3><p class="small">${icon('cal',14)} ${esc(e.when)}<br>${esc(e.where)}</p><div class="row between"><span class="small muted num">${e.going} registrations</span><button class="btn sm ${e.me?'':'primary'}" data-a="event" data-v="${i}">${e.me?'Registered ✓ · cancel':'Register'}</button></div></div></div>`).join('')||'<div class="empty">No events scheduled.</div>'}</div>`:''}
+ ${tab==='leden'?`<div class="tile"><div class="tile-b"><ul class="list"><li>${av('x','Iris van Dijk',34)}<div class="grow"><b>Iris van Dijk</b> <span class="chip ok">Expert</span><div class="small muted">PT policy · Kenner</div></div></li><li>${av('fatima','Fatima El Amrani',34)}<div class="grow"><b>Fatima El Amrani</b> <span class="chip">Moderator</span><div class="small muted">Leer Academie Breda</div></div></li><li>${av('sanne','Sanne de Vries',34)}<div class="grow"><b>Sanne de Vries</b><div class="small muted">PT policy · ${lvl(S.users.sanne.xp.ov).name}</div></div></li></ul></div></div>`:''}`; }
+
+/* ============ WORKING SECURELY ============ */
+function viewVeilig(){ const u=U();
+ if(S.lure) { const t=CAMPAIGN_TEMPLATES[S.lure]; return `<div class="lure"><span class="chip ok">Exercise</span><h1 style="margin-top:8px">This was a practice email</h1><p style="margin-top:6px">Don't worry: nothing happened and no one gets to see your name. We really do receive emails like this, so it's good to learn to recognise them.</p><h3 style="margin-top:14px">Here is how you could have recognised it</h3><ol>${t.signs.map(s=>`<li>${esc(s)}</li>`).join('')}</ol><div class="row"><button class="btn primary" data-a="open" data-v="sec">Go to the module (5 min)</button><button class="btn" data-a="lureclose">Back to inbox</button></div></div>`; }
+ const inbox=u.inbox; const sel=inbox.find(m=>m.id===S.inboxSel)||inbox[0];
+ return `<div class="crumbs">Home › Working securely</div><div class="pagehead"><div><h1>Working securely</h1><p>Practise with the demo inbox. Unsure about an email? Don't click, report it.</p></div><div class="row"><span class="chip">${icon('flag',14)} ${u.phishReports} reported</span><button class="btn" data-a="open" data-v="sec">Phishing module</button></div></div>
+ ${inbox.length?`<div class="inbox"><ul aria-label="Inbox">${inbox.map(m=>`<li><button class="${sel&&sel.id===m.id?'on':''} ${m.read?'':'unread'}" data-a="mailsel" data-v="${m.id}"><div class="from">${m.read?esc(m.from):`<b>${esc(m.from)}</b>`}<span class="small muted">${esc(m.time)}</span></div><div class="subj">${esc(m.subj)}</div>${m.reported?'<span class="chip ok" style="margin-top:4px">Reported</span>':''}</button></li>`).join('')}</ul>
+  <div class="mail">${sel?`<div class="mh"><div class="row between"><h2>${esc(sel.subj)}</h2>${sel.reported?'<span class="chip ok">Reported</span>':`<button class="btn brand sm" data-a="report" data-v="${sel.id}">${icon('flag',14)} Report phishing</button>`}</div><div class="small" style="margin-top:4px"><b>${esc(sel.from)}</b> &lt;${esc(sel.addr)}&gt; · ${esc(sel.time)}</div></div><div class="body">${sel.body}${sel.phish?`<button class="fake-btn" data-a="lure" data-v="${sel.phish}">${esc(CAMPAIGN_TEMPLATES[sel.phish].cta)}</button><p class="small muted">Kind regards,<br>${esc(sel.from)}</p>`:''}</div>`:''}</div></div>`
+ :'<div class="tile"><div class="empty">Your inbox is empty.</div></div>'}
+ <div class="grid g3" style="margin-top:16px"><div class="tile"><div class="tile-b"><h3>Six warning signs</h3><p class="small">Sender · urgency · link · greeting · request for data or money · unusual style</p></div></div><div class="tile"><div class="tile-b"><h3>Clicked? Report it immediately</h3><p class="small">Call the service desk (demo: 076-000 0000). Reporting quickly limits the damage. No one will blame you.</p></div></div><div class="tile"><div class="tile-b"><h3>Phishing Detective badge</h3><div class="bar xpbar"><i style="width:${Math.min(100,u.phishReports/3*100)}%"></i></div><p class="small muted num">${Math.min(u.phishReports,3)} of 3 reports</p></div></div></div>`; }
+function campaignRes(){ const c=S.campaigns.find(c=>c.id==='c1'); return c.res||{sent:9,open:0,click:0,report:0}; }
+
+/* ============ MANAGEMENT (L&D) ============ */
+function viewBeheer(){ const tab=S.params.p||'dashboard'; return `<div class="crumbs">Home › Management</div><div class="pagehead"><div><h1>Leer Academie management</h1><p>Content, Copilot prompts, campaigns, communities and impact.</p></div></div>
+ <div class="tabs">${[['dashboard','Dashboard'],['content','Content & Copilot'],['campagnes','Campaigns'],['communities','Communities']].map(([k,l])=>`<button class="${tab===k?'on':''}" data-a="btab" data-v="${k}">${l}</button>`).join('')}</div>${beheerTab(tab)}`; }
+function beheerTab(tab){
+ if(tab==='dashboard'){ const rows=[['Mobility & Accessibility',78,2.1],['Civil Affairs',66,1.4],['Spatial Development',59,1.2],['Social Services',54,0.9],['Finance',48,0.7],['HR',72,1.8]];
+  return `<div class="notice small" style="margin-bottom:12px">All figures are fictitious demo data and are only shown in aggregate (minimum 5 people per group).</div>
+  <div class="grid g2"><div class="tile"><div class="tile-h"><h2>Weekly active per department</h2></div><div class="tile-b">${rows.map(r=>`<div class="hbar"><span>${r[0]}</span><div class="bar"><i style="width:${r[1]}%"></i></div><b class="num">${r[1]}%</b></div>`).join('')}</div></div>
+  <div class="tile"><div class="tile-h"><h2>Missions applied per employee (per month)</h2></div><div class="tile-b">${rows.map(r=>`<div class="hbar"><span>${r[0]}</span><div class="bar xpbar"><i style="width:${r[2]/2.5*100}%"></i></div><b class="num">${r[2].toString()}</b></div>`).join('')}<p class="small muted">Target from the PRD: ≥ 2 per person per month.</p></div></div>
+  <div class="tile"><div class="tile-h"><h2>Copilot per module</h2></div><div class="tile-b scroll-x"><table class="tbl num"><tr><th>Module</th><th>Conversations</th><th>Helpful</th><th>Most used button</th></tr><tr><td>PT policy</td><td>182</td><td>84%</td><td>Apply to my work</td></tr><tr><td>Working with Copilot and AI</td><td>344</td><td>88%</td><td>Quiz me</td></tr><tr><td>Working securely</td><td>97</td><td>91%</td><td>Is this phishing?</td></tr></table></div></div>
+  <div class="tile"><div class="tile-h"><h2>Phishing practice campaigns</h2></div><div class="tile-b scroll-x">${campaignTable()}</div></div></div>`; }
+ if(tab==='content'){ const mid=S.params.m||'ov'; const m=MODULES[mid]; const lib=S.promptLib?.[mid]||m.prompts;
+  return `<div class="grid g2"><div class="tile"><div class="tile-h"><h2>Modules</h2><button class="btn sm">${icon('plus',14)} New module</button></div><div class="tile-b scroll-x"><table class="tbl"><tr><th>Title</th><th>Status</th><th>Lessons</th><th></th></tr>${Object.values(MODULES).map(x=>`<tr><td>${esc(x.title)}${x.required?' <span class="chip req">Mandatory</span>':''}</td><td>${x.stub?'<span class="chip">Draft</span>':'<span class="chip ok">Published</span>'}</td><td class="num">${x.lessons.length}</td><td><button class="btn sm ${x.id===mid?'primary':''}" data-a="cmod" data-v="${x.id}" ${x.stub?'disabled':''}>Prompts</button></td></tr>`).join('')}</table></div></div>
+  <div class="tile"><div class="tile-h"><h2>Copilot buttons: ${esc(m.title)}</h2></div><form class="tile-b" data-form="prompts" data-v="${mid}"><p class="small muted">Choose which fixed prompts employees see in this module. The instruction behind each button determines what Copilot does.</p>
+   ${Object.keys(PROMPT_INSTR).map(p=>`<label class="row" style="align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--line-2)"><input type="checkbox" name="pr" value="${esc(p)}" ${lib.includes(p)?'checked':''} style="margin-top:4px"><span class="grow"><b>${esc(p)}</b><span class="small muted" style="display:block">${esc(PROMPT_INSTR[p].replace('{ROLE}',m.roleplay||''))}</span></span></label>`).join('')}
+   <div class="form-actions"><button class="btn primary" type="submit">Publish</button></div></form></div></div>`; }
+ if(tab==='campagnes') return `<div class="grid g2"><div class="tile"><div class="tile-h"><h2>New practice campaign</h2></div><form class="tile-b" data-form="campaign">
+   <div class="field"><label for="ct">Template</label><select id="ct">${Object.entries(CAMPAIGN_TEMPLATES).map(([k,t])=>`<option value="${k}">${esc(t.n)} – “${esc(t.subj)}”</option>`).join('')}</select></div>
+   <div class="field"><label for="cg">Target group</label><select id="cg"><option>Team Mobility &amp; Accessibility</option><option>Team Civil Affairs</option><option>Whole organisation</option></select></div>
+   <div class="field"><label>Learning moment on click</label><div class="small">Friendly page “This was an exercise” with the warning signs and a link to the module.</div></div>
+   <div class="notice warn small">Agreed with Information Security and the works council. Managers only see team totals; individual clicks are never shown.</div>
+   <div class="form-actions"><button class="btn primary" type="submit">${icon('send',14)} Send now (demo)</button></div></form></div>
+  <div class="tile"><div class="tile-h"><h2>Campaigns</h2></div><div class="tile-b scroll-x">${campaignTable()}</div></div></div>`;
+ if(tab==='communities') return `<div class="tile"><div class="tile-b scroll-x"><table class="tbl"><tr><th>Community</th><th>Members</th><th>Open questions</th><th>Experts</th><th></th></tr>${COMMUNITIES.map((c,i)=>`<tr><td>${esc(c.n)}</td><td class="num">${c.leden}</td><td class="num">${c.id==='ov'?S.community.ov.qs.filter(q=>!q.ans.length).length:[2,1,0,3,1][i-1]??0}</td><td class="num">${[3,4,6,2,2,1][i]}</td><td><button class="btn sm" data-a="community" data-v="${c.id}">Moderate</button></td></tr>`).join('')}</table></div></div>`;
+ return ''; }
+function campaignTable(){ return `<table class="tbl num"><tr><th>Campaign</th><th>Target group</th><th>Status</th><th>Opened</th><th>Clicked</th><th>Reported</th></tr>${S.campaigns.map(c=>{const r=c.res; return `<tr><td>${esc(CAMPAIGN_TEMPLATES[c.tpl].n)}</td><td>${esc(c.target)}</td><td><span class="chip ${c.status==='afgerond'?'ok':c.status==='actief'?'warn':''}">${({afgerond:'completed',actief:'active',gepland:'scheduled'})[c.status]||c.status}</span></td>${r?`<td>${Math.round(r.open/r.sent*100)}%</td><td>${Math.round(r.click/r.sent*100)}%</td><td>${Math.round(r.report/r.sent*100)}%</td>`:'<td>–</td><td>–</td><td>–</td>'}</tr>`;}).join('')}</table>`; }
+
+/* ============ MODAL ============ */
+function modal(){ const [k,v]=S.modal; let inner='';
+ if(k==='mission') inner=missionModal(v);
+ if(k==='newws') inner=window.wsNewModal?wsNewModal(v):'';
+ if(k==='feedback'){ const p=S.team.feed[v]; inner=`<div class="tile-h"><h2>Feedback for ${esc(teamName(p.who))}</h2></div><form class="tile-b" data-form="feedback" data-v="${v}"><p class="small muted">“${esc(p.t)}”</p><div class="field"><label for="fbt">Your feedback</label><textarea id="fbt" required>Strong table! Tip: state the absolute numbers first and only then the growth; it reads more calmly for the council.</textarea></div><div class="form-actions"><button type="button" class="btn" data-a="modal" data-v="">Cancel</button><button class="btn primary" type="submit">Send</button></div></form>`; }
+ return `<div class="modal-bg" data-a="modalbg"><div class="modal" role="dialog" aria-modal="true">${inner}</div></div>`; }
+
+/* ============ EVENTS ============ */
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-a]');
+ if(!t){ if(S.pop && !e.target.closest('.pop')){ S.pop=null; render(); } return; }
+ const a=t.dataset.a, v=t.dataset.v, u=U();
+ if(a==='modalbg'){ if(e.target===t){ S.modal=null; render(); } return; }
+ switch(a){
+  case 'go': go(v,t.dataset.p?{p:t.dataset.p}:{}); break;
+  case 'pop': S.pop=S.pop===v||!v?null:v; render(); break;
+  case 'signal': { const s=u.signals.find(x=>String(x.id)===v); if(s){ s.read=true; const [vw,p]=s.go||['home']; if(vw==='module') go('module',{id:p}); else if(vw==='community') go('community',{id:p}); else go(vw,p?{p}:{}); } break; }
+  case 'readall': u.signals.forEach(s=>s.read=true); save(); render(); break;
+  case 'reset': try{localStorage.removeItem(LS_KEY);}catch(_){} S=initialState(); render(); note('Demo reset','All accounts are back to their initial state.'); break;
+  case 'open': go('module',{id:v}); break;
+  case 'filter': go('aanbod',{f:v}); break;
+  case 'lesson': { const i=+v; if(i<0) return; S.params.l=i; u.progress[S.params.id].cur=i; save(); render(); window.scrollTo(0,0); break; }
+  case 'quiz': { const m=MODULES[S.params.id]; const li=S.params.l??u.progress[m.id].cur; const k=`${u.id}-${m.id}-${li}`; const i=+v; const first=!(k in S.quizAns)&&!S.quizAns[k+'-tried']; S.quizAns[k]=i; if(i===m.lessons[li].quiz.c&&first){ addXP(m.domain,5,'Correct practice question on the first try'); } S.quizAns[k+'-tried']=true; save(); render(); break; }
+  case 'quizreset': { const m=MODULES[S.params.id]; const li=S.params.l??u.progress[m.id].cur; delete S.quizAns[`${u.id}-${m.id}-${li}`]; render(); break; }
+  case 'finish': { const m=MODULES[S.params.id]; const p=u.progress[m.id]; const li=+v; if(!p.done.includes(li)){ p.done.push(li); addXP(m.domain,10,`Lesson “${m.lessons[li].t}” completed`); }
+   if(p.done.length>=m.lessons.length){ setTimeout(()=>toast('Module completed',m.required?'Your certificate has been registered.':'Great work!','plain'),300); if(m.id==='sec'&&u.id==='sanne'){ S.team.challenge.pctMod=Math.min(100,Math.round(secDoneCount()/9*100)); u.signals=u.signals.filter(s=>!/recogni[sz]ing phishing|phishing herkennen/.test(s.t)); } }
+   else { p.cur=Math.min(li+1,m.lessons.length-1); S.params.l=p.cur; } save(); render(); window.scrollTo(0,0); break; }
+  case 'qotd': { const k='qotd-'+u.id; const i=+v; const q=MODULES[t.dataset.m].lessons[+t.dataset.l].quiz; S.quizAns[k]=i; if(i===q.c) addXP(MODULES[t.dataset.m].domain,5,'Question of the day answered correctly'); else toast('Thanks for taking part','A new question tomorrow.','plain'); save(); render(); break; }
+  case 'mission': S.modal=['mission',v]; render(); break;
+  case 'mstart': u.missions[v]='lopend'; S.modal=null; save(); render(); note('Mission started','You can find it on Home and under Missions.'); break;
+  case 'modal': S.modal=null; render(); break;
+  case 'tab': go('team',{p:v}); break;
+  case 'ctab': go('community',{id:S.params.id,p:v}); break;
+  case 'btab': go('beheer',{p:v}); break;
+  case 'cmod': go('beheer',{p:'content',m:v}); break;
+  case 'community': go('community',{id:v}); break;
+  case 'like': S.team.feed[+v].likes++; save(); render(); break;
+  case 'feedback': S.modal=['feedback',+v]; render(); break;
+  case 'remind': note('Reminder sent',`${teamName(v)} will receive a notification in the Leer Academie.`); if(v==='sanne') addSignal('sanne','signaal','Reminder from Mark: complete the mandatory phishing module before 15 Oct',['module','sec']); save(); break;
+  case 'event': { const ev=S.community.ov.events[+v]; ev.me=!ev.me; ev.going+=ev.me?1:-1; save(); render(); if(ev.me) note('Registered',`${ev.t} · ${ev.when}. A calendar invitation will follow (in the real version via Outlook).`); break; }
+  case 'mailsel': { S.inboxSel=v; const m=u.inbox.find(x=>x.id===v); if(m) m.read=true; save(); render(); break; }
+  case 'report': { const m=u.inbox.find(x=>x.id===v); if(!m||m.reported) return; m.reported=true;
+   if(m.phish){ u.phishReports++; addXP('sec',25,'Suspicious email reported'); S.team.challenge.reports++; const r=campaignRes(); r.report++; S.campaigns.find(c=>c.id==='c1').res=r;
+     if(u.phishReports>=3) badge('phish'); else setTimeout(()=>toast('Well spotted! This was a practice email.',`Phishing Detective badge: ${u.phishReports}/3`),700);
+     if(u.missions['M-04']!=='afgerond'){ u.missions['M-04']='afgerond'; setTimeout(()=>addXP('sec',50,'Mission “Report it!” completed'),1400); } }
+   else note('Report received','Information Security will look into it. This email was genuine, but reporting when in doubt is always good.');
+   save(); render(); break; }
+  case 'lure': { S.lure=v; const r=campaignRes(); r.click++; S.campaigns.find(c=>c.id==='c1').res=r; save(); render(); window.scrollTo(0,0); break; }
+  case 'lureclose': S.lure=null; render(); break;
+  case 'copprompt': { const m=MODULES[S.params.id]; askCopilot(`[Button: ${v}] ${(PROMPT_INSTR[v]||v).replace('{ROLE}',m.roleplay||'a critical sparring partner')}`,v); break; }
+  case 'copstop': copCtl?.abort(); break;
+  case 'copclear': { const c=cop(S.params.id+'-'+S.user); c.turns=[]; save(); render(); break; }
+  case 'copfb': { const c=cop(S.params.id+'-'+S.user); const tr=c.turns[+v]; tr.fb=t.dataset.k; S.copFeedback=S.copFeedback||{up:41,down:7}; S.copFeedback[t.dataset.k]++; save(); render(); break; }
+  default: if(window.wsClick) wsClick(a,v,t,e); break;
+  case 'copcopy': { const c=cop(S.params.id+'-'+S.user); const txt=c.turns[+v].content; if(navigator.clipboard) navigator.clipboard.writeText(txt).then(()=>note('Copied')).catch(()=>note('Copy failed','Select the text manually.')); break; }
+ }
+});
+document.addEventListener('change',e=>{ const t=e.target; const k=t.dataset.change; if(!k) return;
+ if(k==='acct'){ S.user=t.value; S.view='home'; S.params={}; S.lure=null; S.inboxSel=null; save(); render(); note(`Logged in as ${U().n}`,U().f); }
+ if(k==='calm'){ S.calm=t.checked; save(); }
+ if(k==='share'){ U().share=t.checked; save(); }
+});
+document.addEventListener('input',e=>{ if(e.target.dataset.input==='ask'){ const q=e.target.value.toLowerCase(); const box=document.getElementById('asksugg'); if(!box) return; const words=q.split(/\W+/).filter(w=>w.length>4); const hits=(S.community[S.params.id]?.qs||[]).filter(x=>words.some(w=>x.t.toLowerCase().includes(w))); const kb=(S.community[S.params.id]?.kb||[]).filter(x=>words.some(w=>x.t.toLowerCase().includes(w)));
+ box.innerHTML=(hits.length||kb.length)?`<div class="notice small"><b>${icon('spark',14)} Copilot found something similar:</b><ul style="margin:4px 0 0;padding-left:18px">${hits.map(h=>`<li>Question: ${esc(h.t)}${h.ans.some(a=>a.best)?' (has a best answer)':''}</li>`).join('')}${kb.map(k=>`<li>Knowledge base: ${esc(k.t)}</li>`).join('')}</ul></div>`:''; } });
+document.addEventListener('keydown',e=>{ if(window.wsKey&&wsKey(e)) return; if(e.key==='Escape'&&(S.modal||S.pop)){ S.modal=null; S.pop=null; render(); }
+ if(e.key==='Enter'&&!e.shiftKey&&e.target.id==='cop-input'){ e.preventDefault(); e.target.form.requestSubmit(); } });
+document.addEventListener('submit',e=>{ const f=e.target; const k=f.dataset.form; if(!k) return; e.preventDefault(); const u=U(); const val=id=>(document.getElementById(id)?.value||'').trim();
+ if(k==='search'){ go('aanbod',{q:val('q')}); }
+ if(window.wsSubmit&&wsSubmit(k,f,val)) return;
+ if(k==='cop'){ const x=val('cop-input'); if(!x) return; document.getElementById('cop-input').value=''; askCopilot(x); }
+ if(k==='mission'){ const id=f.dataset.v; const m=MISSIONS.find(x=>x.id===id); u.missions[id]='afgerond'; S.modal=null; addXP(m.d,m.xp,`Mission “${m.t}” completed`); const who=val('r3');
+  if(who){ note('Feedback requested',`${teamName(who)} receives a task to give feedback.`); }
+  if(u.share) S.team.feed.unshift({who:u.id,t:`Mission “${m.t}” completed. ${val('r2')}`,when:'just now',likes:0,kind:'missie'});
+  if(id==='M-01'&&u.id==='sanne'){ S.team.goal.done=Math.min(S.team.goal.of,S.team.goal.done+1); }
+  save(); render(); }
+ if(k==='feedback'){ S.modal=null; addXP('ov',20,'Feedback given to a colleague'); save(); render(); note('Feedback sent',`${teamName(S.team.feed[+f.dataset.v].who)} can see your feedback on her mission.`); }
+ if(k==='post'){ const x=val('post-text'); if(!x) return; S.team.feed.unshift({who:u.id,t:x,when:'just now',likes:0,kind:'tip'}); document.getElementById('post-text').value=''; save(); render(); }
+ if(k==='minute'){ S.team.minutes.items.unshift({when:'today',q:[val('m1'),val('m2'),val('m3')]}); S.team.feed.unshift({who:u.id,t:`Learning minute: ${val('m2')} Next time: ${val('m3')}`,when:'just now',likes:0,kind:'leerminuut'}); save(); render(); note('Learning minute recorded','The lessons are in the team feed.'); }
+ if(k==='recommend'){ const mod=val('rm'); const kind=val('rk'); const who=[...f.querySelectorAll('input[name=who]:checked')].map(x=>x.value); if(!who.length) return note('Select at least one team member');
+  who.forEach(w=>{ if(w==='sanne'){ S.recommendations=S.recommendations.filter(r=>!(r.to==='sanne'&&r.mod===mod)); S.recommendations.push({to:'sanne',mod,by:'Mark Janssen',msg:val('rmsg')}); addSignal('sanne',kind==='toewijzen'?'taak':'signaal',`Mark has ${kind==='toewijzen'?'assigned':'recommended'} “${MODULES[mod].title}” to you`,['module',mod]); } });
+  save(); note(kind==='toewijzen'?'Assigned':'Recommended',`${MODULES[mod].title} → ${who.length} team members. They will receive a notification.`); }
+ if(k==='prompts'){ const mid=f.dataset.v; S.promptLib=S.promptLib||{}; S.promptLib[mid]=[...f.querySelectorAll('input[name=pr]:checked')].map(x=>x.value); save(); note('Published',`The Copilot buttons of ${MODULES[mid].title} have been updated.`); }
+ if(k==='campaign'){ const tpl=val('ct'); const tg=val('cg'); const T=CAMPAIGN_TEMPLATES[tpl]; let c=S.campaigns.find(c=>c.id==='c1'); c.tpl=tpl; c.target=tg; c.status='actief'; c.when='today'; c.res={sent:9,open:4,click:1,report:2};
+  ['sanne','mark'].forEach(uid=>{ const ib=S.users[uid].inbox; if(!ib.some(m=>m.phish)) ib.unshift({id:'p'+Date.now()+uid,from:T.from,addr:T.addr,subj:T.subj,time:'just now',read:false,phish:tpl,body:T.body}); });
+  save(); render(); note('Campaign sent',`The practice email is now in the inbox of ${tg}. Switch to Sanne and open Working securely.`); }
+});
+</script>
+<script>
+/* ============ WORKSPACES (shared: db + room) ============ */
+const WS_DEFAULTS={
+ 'ws/inbreng':{title:'Input for West-Brabant bus concession',desc:'Working together on Breda\'s input for the programme of requirements.',community:'ov',members:['Sanne de Vries','Iris van Dijk','Noor Bakker','Ruben Koster'],created:'20 Sep 2026'},
+ 'wsdoc/inbreng':{title:'Municipality of Breda input – draft v0.3',updatedBy:'Iris van Dijk',updatedAt:0,html:`<h1>Municipality of Breda input for the West-Brabant bus concession</h1><p><i>Draft v0.3 · Mobility &amp; Accessibility working group · fictitious demo content</i></p><h2>1. Decision point</h2><p>The municipal executive adopts Breda's input for the programme of requirements of the new bus concession and submits it to the province.</p><h2>2. Core of our input</h2><ul><li>A bus at least every 15 minutes on the North and East corridors, on weekdays between 7:00 and 19:00.</li><li>Small villages remain accessible with at least an hourly service or a good alternative, such as a neighbourhood bus or demand-responsive transport.</li><li>All stops on the main lines are accessible.</li><li>Zero-emission buses from the start of the concession.</li></ul><h2>3. Substantiation</h2><p>Station Noord has over 1,800 boardings per day and the largest housing development task up to 2030 (650 homes). The Hazeldonk business park is growing fast (+21%), but from a low base.</p><h2>4. Trade-offs</h2><p>[Iris: elaborate the trade-off between fast lines and accessibility of small villages here.]</p><h2>5. What does this mean for residents?</h2><p>[To be completed]</p>`},
+ 'wsslides/inbreng':{title:'Pitch to PT steering group – 14 Oct',slides:[
+  {title:'Breda input – West-Brabant bus concession',body:'<p>PT steering group · 14 October 2026</p><p>Team Mobility &amp; Accessibility</p>'},
+  {title:'What are we asking for?',body:'<ul><li>A bus every 15 minutes on the North and East corridors</li><li>Small villages remain accessible</li><li>Accessible stops on the main lines</li><li>Zero emission from day 1</li></ul>'},
+  {title:'Why?',body:'<ul><li>Station Noord: 1,840 boardings per day (+12%)</li><li>650 new homes up to 2030</li><li>Hazeldonk is growing fast (+21%)</li></ul>'},
+  {title:'What does the municipality do itself?',body:'<ul><li>Improve traffic flow at intersections</li><li>Bicycle parking at hubs</li><li>Make stops accessible</li></ul>'}]},
+ 'wsboard/inbreng':{title:'Brainstorm: reachability of small villages',notes:{
+  n1:{x:40,y:70,text:'Neighbourhood bus for Teteringen and Ulvenhout',color:'yellow',votes:3,by:'Iris van Dijk'},
+  n2:{x:225,y:70,text:'Shared bikes at terminal stops',color:'yellow',votes:1,by:'Ruben Koster'},
+  n3:{x:40,y:215,text:'On-demand transport in the evening',color:'yellow',votes:2,by:'Sanne de Vries'},
+  n4:{x:440,y:70,text:'Join forces with neighbouring municipalities towards the province',color:'green',votes:4,by:'Noor Bakker'},
+  n5:{x:440,y:215,text:'Link the Station Noord hub to housing development',color:'green',votes:2,by:'Sanne de Vries'},
+  n6:{x:840,y:70,text:'Fewer stops = longer walking distance for older people',color:'pink',votes:5,by:'Ahmed Benali'},
+  n7:{x:840,y:215,text:'Cost per passenger in small villages is high',color:'pink',votes:1,by:'Noor Bakker'},
+  n8:{x:1240,y:70,text:'Request passenger data for small villages from the province',color:'blue',votes:0,by:'Noor Bakker'}}}
+};
+const ZONES=[['Ideas',20],['Opportunities',420],['Concerns',820],['Actions',1220]];
+const KINDS={doc:{n:'Document',k:'W',cls:'k-doc',col:'wsdoc'},slides:{n:'Presentation',k:'P',cls:'k-ppt',col:'wsslides'},board:{n:'Whiteboard',k:'B',cls:'k-board',col:'wsboard'}};
+const WS={db:undefined,room:null,peers:[],list:{},cache:{},subs:[],mountedKey:null,q:{},local:{},timers:{},slideIdx:0,color:'yellow',presenting:false,simDone:false,undoSlides:null,editing:null};
+
+/* ---- storage: db if available, otherwise local ---- */
+function clone(o){ return JSON.parse(JSON.stringify(o)); }
+function deepMerge(a,b){ const out=Array.isArray(a)||typeof a!=='object'||a===null?{}:{...a}; for(const k in b){ const v=b[k]; out[k]=(v&&typeof v==='object'&&!Array.isArray(v)&&out[k]&&typeof out[k]==='object'&&!Array.isArray(out[k]))?deepMerge(out[k],v):v; } return out; }
+function localData(){ if(!S.wsLocal) S.wsLocal=clone(WS_DEFAULTS); return S.wsLocal; }
+const store={
+ sub(path,cb){ if(WS.db){ return WS.db.doc(path).onSnapshot(s=>cb(s.exists?s.data():null),e=>{ console.warn('db',e); }); }
+  (WS.local[path]=WS.local[path]||[]).push(cb); setTimeout(()=>cb(localData()[path]||null),0); return ()=>{ WS.local[path]=(WS.local[path]||[]).filter(f=>f!==cb); }; },
+ write(path,data,merge){ if(WS.db){ const ref=WS.db.doc(path); WS.q[path]=(WS.q[path]||Promise.resolve()).then(()=>merge?ref.update(data).catch(e=>{ if(e&&e.code==='invalid_argument') return ref.set(data); throw e; }):ref.set(data)).catch(e=>{ console.warn(e); note('Saving failed','Your change was not shared. Please try again.'); }); return WS.q[path]; }
+  const L=localData(); L[path]=merge&&L[path]?deepMerge(L[path],data):clone(data); save(); (WS.local[path]||[]).forEach(f=>f(L[path])); if(path.startsWith('ws/')) refreshLocalList(); return Promise.resolve(); }
+};
+function refreshLocalList(){ const L=localData(); WS.list={}; Object.keys(L).filter(k=>k.startsWith('ws/')).forEach(k=>WS.list[k.slice(3)]=L[k]); if((S.view==='community'&&S.params.p==='werkruimtes')||S.view==='werkruimtes') render(); }
+function listSubscribe(){ if(WS.db){ WS.db.collection('ws').onSnapshot(snap=>{ WS.list={}; snap.docs.forEach(d=>{ WS.list[d.id]=d.data(); }); if((S.view==='community'&&S.params.p==='werkruimtes')||S.view==='werkruimtes') render(); },e=>console.warn(e)); } else refreshLocalList(); }
+(async()=>{
+ let db=null, room=null;
+ try{ if(window.claude&&typeof window.claude.use==='function') db=await window.claude.use('db'); }catch(e){ db=null; }
+ WS.db=db||null; listSubscribe();
+ if(S.view==='wsitem'||S.view==='werkruimtes'||(S.view==='community'&&S.params.p==='werkruimtes')){ WS.mountedKey=null; render(); }
+ try{ if(window.claude&&typeof window.claude.use==='function') room=await window.claude.use('room'); }catch(e){ room=null; }
+ WS.room=room; if(room){ room.onPeers(ch=>{ WS.peers=ch.peers; paintPresence(); if(S.view==='werkruimtes'||(S.view==='community'&&S.params.p==='werkruimtes')) paintListLive(); },()=>{}); setPresence(); }
+})();
+function setPresence(extra){ if(!WS.room) return; const u=U(); const base={who:u.n,ini:u.ini,color:AVCOL[u.id]||'#1D5E96',ws:S.view==='wsitem'?S.params.ws:null,item:S.view==='wsitem'?S.params.kind:null}; WS.room.presence({...base,...(extra||{})}).catch(()=>{}); }
+function livePeers(ws,kind){ return (WS.peers||[]).filter(p=>p.presence&&p.presence.ws===ws&&(!kind||p.presence.item===kind)); }
+
+/* ---- list in community ---- */
+function viewWSList(cid){ const u=U();
+ if(WS.db===undefined) return `<div class="tile"><div class="empty">Loading workspaces…</div></div>`;
+ const items=Object.entries(WS.list).filter(([id,w])=>w&&(!cid||w.community===cid));
+ return `<div class="row between" style="margin-bottom:12px"><p class="muted">Collaborate on documents, presentations and brainstorms. Everyone in the community can view; members can contribute.</p><button class="btn primary" data-a="ws-new" data-v="${cid||'ov'}">${icon('plus',16)} New workspace</button></div>
+ ${WS.db?'':'<div class="notice warn small" style="margin-bottom:12px">In this online demo, changes are only saved in your own browser.</div>'}
+ <div class="grid g2">${items.map(([id,w])=>{ const member=(w.members||[]).includes(u.n); return `<div class="tile ws-card"><div class="tile-h"><h2>${esc(w.title)}</h2><span class="small" id="live-${esc(id)}">${liveLabel(id)}</span></div><div class="tile-b"><p>${esc(w.desc||'')}</p>
+  <div class="row between"><div class="row"><div class="facepile">${(w.members||[]).slice(0,5).map(n=>av(n==='Sanne de Vries'?'sanne':n==='Mark Janssen'?'mark':n==='Fatima El Amrani'?'fatima':'x',n,28)).join('')}</div><span class="small muted">${(w.members||[]).length} members</span></div>${member?'<span class="chip ok">You\'re in</span>':`<button class="btn sm primary" data-a="ws-join" data-v="${esc(id)}">Join</button>`}</div>
+  <div class="kinds">${Object.entries(KINDS).map(([k,K])=>`<button class="kind" data-a="ws-open" data-v="${esc(id)}" data-k="${k}"><span class="k ${K.cls}">${K.k}</span>${K.n}</button>`).join('')}</div></div></div>`; }).join('')||'<div class="tile"><div class="empty">No workspaces yet. Start one.</div></div>'}</div>`; }
+function liveLabel(id){ const n=livePeers(id).length; return n?`<span class="live-dot"></span> ${n} active now`:'<span class="muted">Nobody active</span>'; }
+function paintListLive(){ Object.keys(WS.list).forEach(id=>{ const el=document.getElementById('live-'+id); if(el) el.innerHTML=liveLabel(id); }); }
+
+function viewWSAll(){ return `<div class="crumbs">Home › Workspaces</div><div class="pagehead"><div><h1>Workspaces</h1><p>Write, present and brainstorm together with colleagues from your communities.</p></div></div>${viewWSList(null)}`; }
+/* ---- item view ---- */
+function viewWSItem(){ const {ws,kind}=S.params; const w=WS.list[ws]||WS.cache['ws/'+ws]||{}; const u=U(); const member=(w.members||[]).includes(u.n); const K=KINDS[kind];
+ return `<div class="crumbs"><button data-a="go" data-v="werkruimtes">Workspaces</button> › ${esc(w.title||'')}</div>
+ <div class="ws-head"><span class="k ${K.cls}" style="width:28px;height:28px;border-radius:4px;display:grid;place-items:center;color:#fff;font-weight:700">${K.k}</span>
+  <div class="grow" style="min-width:200px"><input id="ws-title" aria-label="Title" style="font-size:18px;font-weight:600;border:1px solid transparent;background:none;width:100%;padding:2px 4px;border-radius:4px" value="${esc((WS.cache[K.col+'/'+ws]||{}).title||'')}"><div class="small muted">${esc(w.title||'')} · <span id="ws-status" class="ws-status">${WS.db?'Shared with the workspace':'Local only (open in Claude to collaborate)'}</span></div></div>
+  <div class="row"><div class="facepile" id="ws-faces"></div>${member?'':`<button class="btn sm primary" data-a="ws-join" data-v="${esc(ws)}">Join</button>`}</div>
+  <div class="row">${Object.entries(KINDS).map(([k,X])=>`<button class="btn sm ${k===kind?'primary':''}" data-a="ws-open" data-v="${esc(ws)}" data-k="${k}">${X.n}</button>`).join('')}</div></div>
+ ${kind==='doc'?docShell():kind==='slides'?slidesShell():boardShell()}`; }
+function wsAfterRender(){ if(S.view!=='wsitem') return; const key=S.params.ws+'|'+S.params.kind; if(WS.mountedKey!==key&&WS.db!==undefined) wsMount(); paintAll(); }
+function wsMount(){ wsUnmount(true); const {ws,kind}=S.params; WS.mountedKey=ws+'|'+kind; const K=KINDS[kind];
+ WS.subs.push(store.sub('ws/'+ws,d=>{ WS.cache['ws/'+ws]=d; if(d) WS.list[ws]=d; }));
+ WS.subs.push(store.sub(K.col+'/'+ws,d=>{ WS.cache[K.col+'/'+ws]=d||{}; paintItem(true); }));
+ setPresence();
+ if(kind==='board') setTimeout(()=>simulateIris(ws),6000);
+}
+function wsUnmount(keepPresence){ flushDoc(); WS.subs.forEach(f=>{try{f()}catch(e){}}); WS.subs=[]; WS.mountedKey=null; WS.presenting=false; if(!keepPresence&&WS.room) WS.room.presence({ws:null,item:null,cursor:null}).catch(()=>{}); }
+function paintAll(){ paintItem(false); paintPresence(); }
+function paintItem(remote){ const k=S.params.kind; const t=document.getElementById('ws-title'); const d=WS.cache[KINDS[k].col+'/'+S.params.ws]; if(t&&d&&document.activeElement!==t) t.value=d.title||'';
+ if(k==='doc') paintDoc(remote); else if(k==='slides') paintSlides(remote); else paintBoard(); }
+function paintPresence(){ const box=document.getElementById('ws-faces'); if(!box) return; const {ws,kind}=S.params; const u=U();
+ const peers=livePeers(ws,kind).filter(p=>!p.sameTab); const me=`<span title="${esc(u.n)} (you)">${av(u.id,u.n,30)}</span>`;
+ const demo=kind==='board'||kind==='doc'?`<span title="Iris van Dijk (demo)">${av('x','Iris van Dijk',30)}</span>`:'';
+ box.innerHTML=me+peers.map(p=>`<span title="${esc(p.presence.who||'Colleague')}${p.guest?' (guest)':''}"><span class="avatar" style="background:${esc(p.presence.color||'#6E7B88')};width:30px;height:30px;font-size:12px">${esc(String(p.presence.ini||'?').slice(0,2))}</span></span>`).join('')+demo+`<span class="small muted" style="margin-left:8px">${peers.length+1+(demo?1:0)} present${demo?' · Iris is demo':''}</span>`;
+ if(kind==='board') paintCursors(); }
+function setStatus(t){ const el=document.getElementById('ws-status'); if(el) el.textContent=t; }
+
+/* ---- Document ---- */
+function docShell(){ return `<div class="ws-tools" id="doc-tools">
+  <button class="tbtn" data-a="ws-fmt" data-v="undo" title="Undo">↶</button><button class="tbtn" data-a="ws-fmt" data-v="redo" title="Redo">↷</button><span class="sep"></span>
+  <button class="tbtn" data-a="ws-fmt" data-v="h1">Heading 1</button><button class="tbtn" data-a="ws-fmt" data-v="h2">Heading 2</button><button class="tbtn" data-a="ws-fmt" data-v="p">Text</button><span class="sep"></span>
+  <button class="tbtn" data-a="ws-fmt" data-v="bold" title="Bold"><b>B</b></button><button class="tbtn" data-a="ws-fmt" data-v="italic" title="Italic"><i>I</i></button><button class="tbtn" data-a="ws-fmt" data-v="underline" title="Underline"><u>U</u></button><span class="sep"></span>
+  <button class="tbtn" data-a="ws-fmt" data-v="ul" title="Bulleted list">• List</button><button class="tbtn" data-a="ws-fmt" data-v="ol" title="Numbered list">1. List</button><span class="sep"></span>
+  <button class="tbtn" data-a="ws-fmt" data-v="hilite" title="Highlight" style="background:#FFF3A0;color:#1B2733">Highlight</button>
+  <span class="tb-spacer" style="flex:1"></span><span class="small muted" id="doc-count"></span></div>
+ <div class="ws-stage ws-split"><div style="overflow:auto;max-height:720px"><div class="paper" id="paper" contenteditable="true" spellcheck="true" aria-label="Document content"></div></div>
+ <aside class="ws-side"><h3>${icon('spark',16)} Copilot in this document</h3><div class="row">${['Summarise','Simplify','Find counterarguments','What is still missing?'].map(p=>`<button class="btn sm" data-a="ws-cop" data-v="${p}">${p}</button>`).join('')}</div><div class="cop-out" id="ws-cop-out"><p class="muted">Choose an action. Copilot reads the whole document.</p></div><p class="cop-disc">AI can make mistakes. Check the result.</p>
+ <h3>Last edited</h3><p class="small" id="doc-last"></p></aside></div>`; }
+function paintDoc(remote){ const p=document.getElementById('paper'); if(!p) return; const d=WS.cache['wsdoc/'+S.params.ws]; if(!d) return;
+ if(document.activeElement!==p&&p.innerHTML!==d.html){ p.innerHTML=d.html||'<p></p>'; if(remote&&d.updatedBy&&d.updatedBy!==U().n) setStatus(`Updated by ${d.updatedBy}`); }
+ else if(document.activeElement===p&&remote&&d.html!==p.innerHTML&&d.updatedBy!==U().n) setStatus(`${d.updatedBy} has also edited. Click outside the text to refresh.`);
+ const last=document.getElementById('doc-last'); if(last) last.textContent=d.updatedBy?`${d.updatedBy}${d.updatedAt?' · '+new Date(d.updatedAt).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):''}`:'–';
+ const c=document.getElementById('doc-count'); if(c) c.textContent=(p.innerText.trim().split(/\s+/).filter(Boolean).length)+' words'; }
+function flushDoc(){ if(WS.timers.doc){ clearTimeout(WS.timers.doc); WS.timers.doc=null; saveDoc(); } }
+function saveDoc(){ const p=document.getElementById('paper'); const path='wsdoc/'+S.params.ws; if(!p||!WS.cache[path]) return; const html=p.innerHTML; WS.cache[path]={...WS.cache[path],html,updatedBy:U().n,updatedAt:Date.now()}; store.write(path,{html,updatedBy:U().n,updatedAt:Date.now()},true).then(()=>setStatus('Saved · shared with the workspace')); }
+document.addEventListener('input',e=>{
+ if(e.target.id==='paper'){ setStatus('Saving changes…'); clearTimeout(WS.timers.doc); WS.timers.doc=setTimeout(()=>{WS.timers.doc=null; saveDoc();},900); const c=document.getElementById('doc-count'); if(c) c.textContent=(e.target.innerText.trim().split(/\s+/).filter(Boolean).length)+' words'; }
+ if(e.target.classList&&(e.target.classList.contains('s-title')||e.target.classList.contains('s-body'))){ const d=WS.cache['wsslides/'+S.params.ws]; const s=d.slides[WS.slideIdx]; if(e.target.classList.contains('s-title')) s.title=e.target.innerText; else s.body=e.target.innerHTML; paintThumbs(); setStatus('Saving changes…'); clearTimeout(WS.timers.sl); WS.timers.sl=setTimeout(saveSlides,900); }
+});
+document.addEventListener('focusout',e=>{ if(e.target.id==='paper'){ flushDoc(); setTimeout(()=>paintDoc(false),50); }
+ if(e.target.classList&&e.target.classList.contains('ntxt')){ const st=e.target.closest('.sticky'); const id=st.dataset.id; const text=e.target.value.trim()||'…'; WS.editing=null; st.querySelector('.txt').textContent=text; const path='wsboard/'+S.params.ws; if(WS.cache[path]?.notes?.[id]) WS.cache[path].notes[id].text=text; store.write(path,{notes:{[id]:{text}}},true); } });
+document.addEventListener('change',e=>{ if(e.target.id==='ws-title'){ const K=KINDS[S.params.kind]; const path=K.col+'/'+S.params.ws; const title=e.target.value.trim(); if(!title) return; WS.cache[path]={...(WS.cache[path]||{}),title}; store.write(path,{title},true); setStatus('Title saved'); } });
+document.addEventListener('mousedown',e=>{ if(e.target.closest('#doc-tools')) e.preventDefault(); });
+
+/* ---- Presentation ---- */
+function slidesShell(){ return `<div class="ws-tools"><button class="tbtn" data-a="ws-sl" data-v="add">${icon('plus',14)} New slide</button><button class="tbtn" data-a="ws-sl" data-v="dup">Duplicate</button><button class="tbtn" data-a="ws-sl" data-v="up">↑</button><button class="tbtn" data-a="ws-sl" data-v="down">↓</button><button class="tbtn" data-a="ws-sl" data-v="del">Delete</button><span class="sep"></span><button class="tbtn" data-a="ws-sl" data-v="bul">• List</button><span style="flex:1"></span><button class="btn sm brand" data-a="ws-sl" data-v="present">▶ Present</button></div>
+ <div class="ws-stage ws-split"><div class="slides-wrap"><div class="thumbs" id="thumbs"></div><div class="slide-area"><div class="slide" id="slide"><div class="s-title" contenteditable="true" aria-label="Slide title"></div><div class="s-body" contenteditable="true" aria-label="Slide content"></div><div class="s-foot">Leer Academie Breda · workspace</div></div></div></div>
+ <aside class="ws-side"><h3>${icon('spark',16)} Copilot</h3><button class="btn sm" data-a="ws-cop" data-v="Create slides from the document">Create slides from the document</button><button class="btn sm" data-a="ws-cop" data-v="Speaker notes">Speaker notes for this slide</button><div id="ws-undo"></div><div class="cop-out" id="ws-cop-out"><p class="muted">Copilot can create slides based on the shared document in this workspace.</p></div><p class="cop-disc">AI can make mistakes. Check the result.</p></aside></div>`; }
+function paintThumbs(){ const box=document.getElementById('thumbs'); const d=WS.cache['wsslides/'+S.params.ws]; if(!box||!d||!d.slides) return; box.innerHTML=d.slides.map((s,i)=>`<div><div class="thumb-n num">${i+1}</div><button class="thumb ${i===WS.slideIdx?'on':''}" data-a="ws-slide" data-v="${i}"><b>${esc(s.title||'Title')}</b>${esc(strip(s.body||'')).slice(0,120)}</button></div>`).join(''); }
+function paintSlides(remote){ const d=WS.cache['wsslides/'+S.params.ws]; if(!d) return; if(!d.slides||!d.slides.length) d.slides=[{title:'New slide',body:'<ul><li></li></ul>'}]; WS.slideIdx=Math.min(WS.slideIdx,d.slides.length-1);
+ paintThumbs(); const sl=document.getElementById('slide'); if(!sl) return; const s=d.slides[WS.slideIdx]; const t=sl.querySelector('.s-title'), b=sl.querySelector('.s-body');
+ if(document.activeElement!==t) t.innerText=s.title||''; if(document.activeElement!==b) b.innerHTML=s.body||'';
+ if(remote) setStatus('Updated'); if(WS.presenting) paintPresent(); }
+function saveSlides(){ const d=WS.cache['wsslides/'+S.params.ws]; if(!d) return; store.write('wsslides/'+S.params.ws,{title:d.title||'Presentation',slides:d.slides},false).then(()=>setStatus('Saved · shared with the workspace')); }
+function paintPresent(){ let o=document.getElementById('present'); const d=WS.cache['wsslides/'+S.params.ws]; if(!WS.presenting){ if(o) o.remove(); return; } if(!o){ o=document.createElement('div'); o.id='present'; o.className='present'; document.body.appendChild(o); }
+ const s=d.slides[WS.slideIdx]; o.innerHTML=`<div class="slide"><div class="s-title">${esc(s.title)}</div><div class="s-body">${s.body}</div><div class="s-foot num">${WS.slideIdx+1} / ${d.slides.length}</div></div><div class="pctl"><button class="btn sm" data-a="ws-pv" data-v="-1">← Previous</button><button class="btn sm" data-a="ws-pv" data-v="1">Next →</button><button class="btn sm" data-a="ws-pv" data-v="x">Stop (Esc)</button></div>`; }
+
+/* ---- Whiteboard ---- */
+function boardShell(){ return `<div class="ws-tools"><button class="tbtn" data-a="ws-note">${icon('plus',14)} Sticky</button><span class="sep"></span>${['yellow','pink','blue','green','orange'].map(c=>`<button class="swatch c-${c} ${WS.color===c?'on':''}" data-a="ws-color" data-v="${c}" aria-label="Colour ${c}"></button>`).join('')}<span class="sep"></span><span class="small muted">Double-click to edit · drag to move · +1 to vote</span></div>
+ <div class="ws-stage ws-split"><div class="board-scroll" id="board-scroll"><div class="board" id="board">${ZONES.map(([n,x])=>`<div class="zone" style="left:${x}px;width:370px"><b>${n}</b></div>`).join('')}<div id="notes"></div><div id="cursors"></div></div></div>
+ <aside class="ws-side"><h3>${icon('spark',16)} Copilot</h3>${['Summarise the brainstorm','Create action points','Which ideas are missing?'].map(p=>`<button class="btn sm" data-a="ws-cop" data-v="${p}">${p}</button>`).join('')}<div class="cop-out" id="ws-cop-out"><p class="muted">Copilot reads all sticky notes and votes on the board.</p></div><p class="cop-disc">AI can make mistakes.</p><h3>Top 3 by votes</h3><ol class="small" id="board-top" style="margin:0;padding-left:18px"></ol></aside></div>`; }
+function notesOf(){ const d=WS.cache['wsboard/'+S.params.ws]||{}; return Object.entries(d.notes||{}).filter(([,n])=>n&&typeof n==='object'); }
+function paintBoard(){ const box=document.getElementById('notes'); if(!box) return; const notes=notesOf(); const seen=new Set();
+ notes.forEach(([id,n])=>{ seen.add(id); let el=box.querySelector(`[data-id="${CSS.escape(id)}"]`);
+  if(!el){ el=document.createElement('div'); el.className='sticky'; el.dataset.id=id; el.innerHTML=`<button class="del" data-a="ws-ndel" data-v="${esc(id)}" aria-label="Delete">✕</button><div class="txt"></div><span class="by"></span><button class="vote" data-a="ws-vote" data-v="${esc(id)}"></button>`; box.appendChild(el); }
+  if(WS.drag&&WS.drag.id===id) return; el.className=`sticky c-${n.color||'yellow'}`; el.style.left=(n.x||0)+'px'; el.style.top=(n.y||0)+'px';
+  const t=el.querySelector('.txt'); if(WS.editing!==id) t.textContent=n.text||''; el.querySelector('.by').textContent=(n.by||'').split(' ')[0]; el.querySelector('.vote').textContent='+'+(n.votes||0); });
+ [...box.children].forEach(el=>{ if(!seen.has(el.dataset.id)) el.remove(); });
+ const top=document.getElementById('board-top'); if(top) top.innerHTML=notes.slice().sort((a,b)=>(b[1].votes||0)-(a[1].votes||0)).slice(0,3).map(([,n])=>`<li>${esc(n.text)} <span class="muted num">(${n.votes||0})</span></li>`).join(''); }
+function paintCursors(){ const box=document.getElementById('cursors'); if(!box) return; const peers=livePeers(S.params.ws,'board').filter(p=>!p.sameTab&&p.presence.cursor);
+ box.innerHTML=peers.map(p=>{ const c=p.presence.cursor; const col=esc(p.presence.color||'#6E7B88'); return `<div class="cursor" style="left:${Number(c.x)||0}px;top:${Number(c.y)||0}px"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M1 1l5 14 2-6 6-2z" fill="${col}" stroke="#fff"/></svg><span style="background:${col}">${esc(p.presence.who||'Colleague')}</span></div>`; }).join('')+(WS.fake?`<div class="cursor" id="fakecur" style="left:${WS.fake.x}px;top:${WS.fake.y}px"><svg width="16" height="16" viewBox="0 0 16 16"><path d="M1 1l5 14 2-6 6-2z" fill="#6B4FA0" stroke="#fff"/></svg><span style="background:#6B4FA0">Iris van Dijk (demo)</span></div>`:''); }
+function boardPoint(e){ const b=document.getElementById('board').getBoundingClientRect(); return {x:Math.round(e.clientX-b.left),y:Math.round(e.clientY-b.top)}; }
+document.addEventListener('pointerdown',e=>{ const st=e.target.closest('.sticky'); if(!st||e.target.closest('button,textarea')||WS.editing===st.dataset.id) return; const p=boardPoint(e); WS.drag={id:st.dataset.id,el:st,dx:p.x-parseInt(st.style.left),dy:p.y-parseInt(st.style.top),moved:false}; st.classList.add('dragging'); st.setPointerCapture(e.pointerId); });
+document.addEventListener('pointermove',e=>{ if(S.view!=='wsitem'||S.params.kind!=='board') return; const board=document.getElementById('board'); if(!board) return; const p=boardPoint(e);
+ if(WS.drag){ const x=Math.max(0,Math.min(1430,p.x-WS.drag.dx)), y=Math.max(0,Math.min(880,p.y-WS.drag.dy)); WS.drag.el.style.left=x+'px'; WS.drag.el.style.top=y+'px'; WS.drag.moved=true; WS.drag.x=x; WS.drag.y=y; }
+ if(WS.room&&e.target.closest&&e.target.closest('#board')) WS.room.presence({cursor:{x:p.x,y:p.y}}).catch(()=>{}); });
+document.addEventListener('pointerup',()=>{ if(!WS.drag) return; const d=WS.drag; WS.drag=null; d.el.classList.remove('dragging'); if(d.moved){ const path='wsboard/'+S.params.ws; const c=WS.cache[path]; if(c&&c.notes&&c.notes[d.id]){ c.notes[d.id].x=d.x; c.notes[d.id].y=d.y; } store.write(path,{notes:{[d.id]:{x:d.x,y:d.y}}},true); } });
+document.addEventListener('dblclick',e=>{ const st=e.target.closest('.sticky'); if(!st||WS.editing===st.dataset.id) return; const id=st.dataset.id; const n=(WS.cache['wsboard/'+S.params.ws]?.notes||{})[id]; const t=st.querySelector('.txt'); WS.editing=id; t.innerHTML=`<textarea class="ntxt" aria-label="Sticky note text">${esc(n?n.text:t.textContent)}</textarea>`; const ta=t.querySelector('textarea'); ta.focus(); ta.select(); });
+function simulateIris(ws){ if(WS.simDone||S.view!=='wsitem'||S.params.kind!=='board'||S.params.ws!==ws) return; const notes=Object.fromEntries(notesOf()); if(notes['demo-iris']){ WS.simDone=true; return; } WS.simDone=true;
+ WS.fake={x:700,y:520}; paintCursors(); setTimeout(()=>{ WS.fake={x:1250,y:220}; paintCursors(); },400);
+ setTimeout(()=>{ store.write('wsboard/'+ws,{notes:{'demo-iris':{x:1240,y:215,text:'Discuss the neighbourhood bus proposal with the Ulvenhout village council',color:'blue',votes:0,by:'Iris van Dijk'}}},true); note('Iris van Dijk added a sticky note','Demo: this is how colleagues’ contributions appear live.'); },1300);
+ setTimeout(()=>{ WS.fake=null; paintCursors(); },3200); }
+
+/* ---- Copilot in workspace ---- */
+async function wsCopilot(action){ const out=document.getElementById('ws-cop-out'); if(!out) return; if(!SAMPLE){ out.innerHTML='<p>The AI Copilot is switched off in this online demo.</p>'; return; }
+ const {ws,kind}=S.params; out.innerHTML='<span class="thinking"><i></i><i></i><i></i></span> <span class="small muted">Copilot is thinking…</span>';
+ const base='You are the Learning Copilot of Leer Academie Breda (municipality of Breda) and you help a team in a shared workspace. Answer in clear English at B1 level, short and concrete (max. 180 words), with short bullet lists. Do not invent figures; the content is fictional demo content.\n\n';
+ try{
+  if(kind==='slides'&&action==="Create slides from the document"){
+   const docPath='wsdoc/'+ws; let doc=WS.cache[docPath]; if(!doc){ doc=await new Promise(res=>{ let u=null; u=store.sub(docPath,d=>{ res(d||{}); setTimeout(()=>u&&u(),0); }); }); }
+   const txt=strip(doc.html||'').slice(0,8000); if(!txt){ out.innerHTML='<p>There is no document in this workspace yet.</p>'; return; }
+   const arr=await SAMPLE.json(base+'Turn the document below into 4 to 6 presentation slides for a steering group. Answer with only a JSON array of objects {"title": string, "bullets": [string]} with at most 4 short bullets per slide. Example: [{"title":"What are we asking for?","bullets":["Quarter-hour service on the North corridor"]}]\n\nDocument:\n'+txt);
+   if(!Array.isArray(arr)||!arr.length) throw {code:'invalid_json'};
+   const d=WS.cache['wsslides/'+ws]; WS.undoSlides=clone(d.slides); d.slides=arr.slice(0,8).map(s=>({title:String(s.title||''),body:'<ul>'+(Array.isArray(s.bullets)?s.bullets:[]).slice(0,6).map(b=>`<li>${esc(String(b))}</li>`).join('')+'</ul>'}));
+   WS.slideIdx=0; saveSlides(); paintSlides(false); out.innerHTML=`<p>${arr.length} slides created from the document. Feel free to adjust them.</p>`; document.getElementById('ws-undo').innerHTML='<button class="btn sm" data-a="ws-sl" data-v="undo">Undo</button>'; return; }
+  let ctx='';
+  if(kind==='doc'){ const p=document.getElementById('paper'); ctx='Document:\n'+(p?p.innerText:'').slice(0,12000); }
+  if(kind==='slides'){ const d=WS.cache['wsslides/'+ws]; const s=d.slides[WS.slideIdx]; ctx=`Current slide (${WS.slideIdx+1}): ${s.title}\n${strip(s.body)}\n\nAll slides:\n`+d.slides.map((x,i)=>`${i+1}. ${x.title}: ${strip(x.body)}`).join('\n'); }
+  if(kind==='board') ctx='Sticky notes on the whiteboard (zone determined by x position: Ideas <400, Opportunities <800, Concerns <1200, Actions beyond that):\n'+notesOf().map(([,n])=>`- [${ZONES.slice().reverse().find(z=>n.x>=z[1]-20)?.[0]||'Ideas'}] ${n.text} (${n.votes||0} votes, ${n.by})`).join('\n');
+  const task={ 'Summarise':'Summarise the document in 5 bullets for an alderman.','Simplify':'Give the 5 sentences in the document that are least clear, each with a B1 version next to it.','Find counterarguments':'Give 3 strong counterarguments that a council member or the province could raise against this input, each with a short reply.','What is still missing?':'Which sections or supporting evidence are still missing from this document? Maximum 5 points.','Speaker notes':'Write short speaker notes (max. 80 words) for the current slide.','Summarise the brainstorm':'Summarise the brainstorm per zone and name the ideas with the most votes.','Create action points':'Create 3 to 5 concrete action points from this brainstorm, with a suggestion for who (role) should pick them up.','Which ideas are missing?':'Which 3 ideas or concerns are still missing from the board? Explain briefly.'}[action]||action;
+  const {text}=await SAMPLE(base+task+'\n\n'+ctx,{cache:false,onText:({text})=>{ const o=document.getElementById('ws-cop-out'); if(o) o.innerHTML=md(text); }});
+  const o=document.getElementById('ws-cop-out'); if(o) o.innerHTML=md(text)+(kind==='board'&&action==='Create action points'?'<button class="btn sm" data-a="ws-toacts">Add as sticky notes in Actions</button>':'');
+  WS.lastCop=text;
+ }catch(e){ const o=document.getElementById('ws-cop-out'); if(o) o.innerHTML=`<p style="color:var(--bad)">${e&&e.code==='not_granted'?'You have not given Copilot permission.':e&&e.code==='rate_limited'?'It is a bit busy right now. Please try again shortly.':'That did not work. Please try again.'}</p>`; if(e&&['not_granted','sampling_disabled'].includes(e.code)) SAMPLE=null; } }
+
+/* ---- actions ---- */
+function wsClick(a,v,t,e){ const ws=S.params.ws;
+ switch(a){
+  case 'ws-new': S.modal=['newws',v]; render(); break;
+  case 'ws-open': go('wsitem',{ws:v,kind:t.dataset.k}); break;
+  case 'ws-join': { const w=WS.list[v]||WS.cache['ws/'+v]; if(!w) return; const members=[...new Set([...(w.members||[]),U().n])]; w.members=members; store.write('ws/'+v,{members},true).then(()=>{ note('You\'re in',`You are a member of “${w.title}”.`); render(); }); break; }
+  case 'ws-fmt': { const p=document.getElementById('paper'); if(!p) return; p.focus(); const cmd={bold:['bold'],italic:['italic'],underline:['underline'],ul:['insertUnorderedList'],ol:['insertOrderedList'],undo:['undo'],redo:['redo'],h1:['formatBlock','<h1>'],h2:['formatBlock','<h2>'],p:['formatBlock','<p>'],hilite:['hiliteColor','#FFF3A0']}[v]; if(cmd){ document.execCommand(cmd[0],false,cmd[1]); p.dispatchEvent(new Event('input',{bubbles:true})); } break; }
+  case 'ws-cop': wsCopilot(v); break;
+  case 'ws-slide': WS.slideIdx=+v; paintSlides(false); break;
+  case 'ws-sl': { const d=WS.cache['wsslides/'+ws]; if(!d) return; const i=WS.slideIdx;
+   if(v==='add'){ d.slides.splice(i+1,0,{title:'New slide',body:'<ul><li>Point</li></ul>'}); WS.slideIdx=i+1; }
+   if(v==='dup'){ d.slides.splice(i+1,0,clone(d.slides[i])); WS.slideIdx=i+1; }
+   if(v==='del'){ if(d.slides.length<2) return note('A presentation needs at least one slide'); d.slides.splice(i,1); WS.slideIdx=Math.max(0,i-1); }
+   if(v==='up'&&i>0){ [d.slides[i-1],d.slides[i]]=[d.slides[i],d.slides[i-1]]; WS.slideIdx=i-1; }
+   if(v==='down'&&i<d.slides.length-1){ [d.slides[i+1],d.slides[i]]=[d.slides[i],d.slides[i+1]]; WS.slideIdx=i+1; }
+   if(v==='bul'){ const b=document.querySelector('#slide .s-body'); b.focus(); document.execCommand('insertUnorderedList'); b.dispatchEvent(new Event('input',{bubbles:true})); return; }
+   if(v==='present'){ WS.presenting=true; paintPresent(); return; }
+   if(v==='undo'){ if(WS.undoSlides){ d.slides=WS.undoSlides; WS.undoSlides=null; document.getElementById('ws-undo').innerHTML=''; } }
+   saveSlides(); paintSlides(false); break; }
+  case 'ws-pv': { const d=WS.cache['wsslides/'+ws]; if(v==='x'){ WS.presenting=false; paintPresent(); paintSlides(false); return; } WS.slideIdx=Math.max(0,Math.min(d.slides.length-1,WS.slideIdx+(+v))); paintPresent(); break; }
+  case 'ws-color': WS.color=v; document.querySelectorAll('.swatch').forEach(s=>s.classList.toggle('on',s.dataset.v===v)); break;
+  case 'ws-note': { const sc=document.getElementById('board-scroll'); const id='n'+Date.now().toString(36); const x=Math.min(1400,Math.round(sc.scrollLeft+sc.clientWidth/2-85)), y=Math.min(860,Math.round(sc.scrollTop+sc.clientHeight/2-55)); const n={x,y,text:'New idea',color:WS.color,votes:0,by:U().n}; const path='wsboard/'+ws; WS.cache[path]=WS.cache[path]||{notes:{}}; WS.cache[path].notes=WS.cache[path].notes||{}; WS.cache[path].notes[id]=n; paintBoard(); store.write(path,{notes:{[id]:n}},true);
+   setTimeout(()=>{ const el=document.querySelector(`.sticky[data-id="${id}"]`); if(el) el.dispatchEvent(new MouseEvent('dblclick',{bubbles:true})); },50); break; }
+  case 'ws-vote': { const path='wsboard/'+ws; const n=WS.cache[path]?.notes?.[v]; if(!n) return; n.votes=(n.votes||0)+1; paintBoard(); store.write(path,{notes:{[v]:{votes:n.votes}}},true); break; }
+  case 'ws-ndel': { const path='wsboard/'+ws; if(WS.cache[path]?.notes) WS.cache[path].notes[v]=null; paintBoard(); store.write(path,{notes:{[v]:null}},true); break; }
+  case 'ws-toacts': { const lines=(WS.lastCop||'').split('\n').map(l=>l.replace(/^\s*(\d+[.)]|[-*•])\s+/,'').replace(/\*\*/g,'').trim()).filter(l=>l.length>8).slice(0,5); const path='wsboard/'+ws; const add={}; lines.forEach((l,i)=>{ add['a'+Date.now().toString(36)+i]={x:1240+(i%2)*185,y:370+Math.floor(i/2)*140,text:l.slice(0,140),color:'blue',votes:0,by:'Copilot'}; }); WS.cache[path].notes={...WS.cache[path].notes,...add}; paintBoard(); store.write(path,{notes:add},true); note('Action points added',`${lines.length} sticky notes in the Actions zone.`); break; }
+ }
+}
+function wsKey(e){ if(!WS.presenting) return false; if(e.key==='Escape'){ WS.presenting=false; paintPresent(); paintSlides(false); return true; } if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){ e.preventDefault(); wsClick('ws-pv','1'); return true; } if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); wsClick('ws-pv','-1'); return true; } return false; }
+function wsNewModal(cid){ return `<div class="tile-h"><h2>New workspace</h2></div><form class="tile-b" data-form="newws" data-v="${esc(cid)}"><div class="field"><label for="nw-t">Name</label><input id="nw-t" required value="Accessible stops"></div><div class="field"><label for="nw-d">What are you working on?</label><textarea id="nw-d">Draft a proposal together for accessible stops on the main lines.</textarea></div><p class="small muted">You immediately get a shared document, a presentation and a whiteboard.</p><div class="form-actions"><button type="button" class="btn" data-a="modal" data-v="">Cancel</button><button class="btn primary" type="submit">Create</button></div></form>`; }
+function wsSubmit(k,f,val){ if(k!=='newws') return false; const cid=f.dataset.v; const title=val('nw-t'); if(!title) return true; const id='w'+Date.now().toString(36); const me=U().n;
+ const w={title,desc:val('nw-d'),community:cid,members:[me],created:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})};
+ WS.list[id]=w; S.modal=null;
+ Promise.all([store.write('ws/'+id,w,false),store.write('wsdoc/'+id,{title:title+' – draft',html:`<h1>${esc(title)}</h1><p>${esc(val('nw-d'))}</p><h2>Background</h2><p></p><h2>Proposal</h2><p></p>`,updatedBy:me,updatedAt:Date.now()},false),store.write('wsslides/'+id,{title:title,slides:[{title,body:'<p>'+esc(me)+'</p>'},{title:'What do we want to achieve?',body:'<ul><li></li></ul>'}]},false),store.write('wsboard/'+id,{title:'Brainstorm: '+title,notes:{}},false)])
+  .then(()=>{ go('wsitem',{ws:id,kind:'board'}); note('Workspace created','Invite colleagues by sharing the link; they click Join.'); });
+ return true; }
+document.addEventListener('change',e=>{ if(e.target.id==='acct'){ wsUnmount(); setTimeout(()=>setPresence(),0); } });
+render();
+</script>
+<style>
+.help-fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:80;width:52px;height:52px;border-radius:50%;border:0;background:var(--link);color:#fff;font:700 24px/1 "Source Sans 3",sans-serif;box-shadow:0 6px 18px rgba(15,47,74,.35);cursor:pointer;display:grid;place-items:center}
+.help-fab:hover{filter:brightness(1.1)}
+.help-fab[hidden]{display:none!important}
+.help-fab[aria-expanded="true"]{background:var(--bar)}
+.help-menu{position:fixed;right:20px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:81;width:320px;max-width:calc(100vw - 32px);background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 36px rgba(0,0,0,.2);overflow:hidden}
+.help-menu h3{padding:14px 16px 4px;font-size:16px}
+.help-menu p.sub{padding:0 16px 10px;font-size:13px;color:var(--ink-3)}
+.help-menu button.hm{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line-2);padding:12px 16px;cursor:pointer;color:var(--ink)}
+.help-menu button.hm:hover{background:var(--surface-2)}
+.help-menu .hm b{display:block;font-size:14px}
+.help-menu .hm span{font-size:13px;color:var(--ink-3)}
+.help-menu .hm i{flex:none;width:32px;height:32px;border-radius:8px;display:grid;place-items:center;background:var(--nav-active);color:var(--link);font-style:normal}
+.help-hint{position:fixed;right:84px;bottom:calc(26px + env(safe-area-inset-bottom,0px));z-index:80;background:var(--bar);color:#fff;border-radius:8px;padding:9px 12px;font-size:14px;box-shadow:0 6px 18px rgba(0,0,0,.25);display:flex;gap:10px;align-items:center;max-width:calc(100vw - 110px)}
+.help-hint::after{content:"";position:absolute;right:-6px;bottom:14px;border:6px solid transparent;border-right:0;border-left-color:var(--bar)}
+.help-hint button{background:none;border:0;color:#fff;cursor:pointer;font:inherit}
+.help-hint .go{background:#fff;color:var(--bar);border-radius:4px;padding:3px 9px;font-weight:600}
+.toasts{bottom:calc(84px + env(safe-area-inset-bottom,0px))!important}
+.tour-block{position:fixed;inset:0;z-index:95;background:transparent}
+.tour-hole{position:fixed;z-index:96;border-radius:8px;box-shadow:0 0 0 9999px rgba(10,24,38,.58);pointer-events:none;transition:all .28s cubic-bezier(.4,0,.2,1);outline:2px solid #fff;outline-offset:2px}
+.tour-hole.center{width:0!important;height:0!important;outline:0;left:50%!important;top:50%!important}
+.tour-tip{position:fixed;z-index:97;width:360px;max-width:calc(100vw - 32px);background:var(--surface);color:var(--ink);border-radius:10px;box-shadow:0 16px 44px rgba(0,0,0,.35);padding:16px 18px 14px;transition:left .28s cubic-bezier(.4,0,.2,1),top .28s cubic-bezier(.4,0,.2,1)}
+.tour-tip .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);font-weight:700}
+.tour-tip h3{font-size:18px;margin:4px 0 6px}
+.tour-tip p{font-size:14.5px;color:var(--ink-2);margin:0}
+.tour-tip .foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px}
+.tour-prog{position:absolute;left:0;right:0;top:0;height:4px;background:var(--line-2);border-radius:10px 10px 0 0;overflow:hidden}
+.tour-prog i{display:block;height:100%;background:var(--brand);transition:width .28s}
+.tour-tip .skip{background:none;border:0;color:var(--ink-3);cursor:pointer;font-size:13px;padding:0}
+.tour-tip.big{width:440px}
+@media (prefers-reduced-motion: reduce){.tour-hole,.tour-tip{transition:none}}
+/* ---- Mobile polish ---- */
+html,body{overflow-x:hidden}
+.shell>*{min-width:0}
+.tile,.tile-b{min-width:0}
+.tile-b{overflow-wrap:anywhere}
+.datatable,.tbl{display:block;max-width:100%;overflow-x:auto}
+@media (max-width:900px){
+  .topbar{gap:8px;padding:0 10px}
+  .tb-spacer{display:none}
+  .logo{flex:1;min-width:0}
+  .logo>div{overflow:hidden;text-overflow:ellipsis}
+  .nav{position:sticky;top:52px;z-index:20;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .nav::-webkit-scrollbar{display:none}
+  .nav button{min-height:44px}
+}
+@media (max-width:600px){
+  .logo>div{font-size:14px}
+  .logo small{display:none}
+  .logo>div{display:none}
+  .logo{flex:none}
+  .demo-switch{flex:1;max-width:none}
+  .demo-switch select{max-width:none;width:100%;min-width:0}
+  .demo-switch{padding:2px}
+  .demo-switch select{height:30px;font-size:12px}
+  .lang-switch{padding:4px 8px!important;font-size:13px}
+  .tb-btn{width:40px;height:40px;flex:none}
+  .profile{padding:2px;flex:none}
+  .pop{right:8px;left:8px;width:auto!important;max-width:none}
+  .pagehead h1{font-size:22px}
+  .btn,.tbtn,select,input,textarea{min-height:40px}
+  input,select,textarea{font-size:16px}
+  .tile-h{flex-wrap:wrap;gap:8px}
+  .row.between{flex-wrap:wrap;gap:6px}
+  .tabs{flex-wrap:nowrap;white-space:nowrap;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .toasts{left:8px;right:8px}
+  .ws-stage{min-height:420px}
+  .tour-tip,.tour-tip.big{width:auto;left:12px!important;right:12px;max-width:none}
+}
+</style>
+<script>
+/* ============ HELP & TOUR ============ */
+const T={on:false,steps:[],i:0,name:'',menu:false};
+const byHead=txt=>()=>[...document.querySelectorAll('.tile')].find(t=>{const h=t.querySelector('.tile-h h2,.tile-h h3'); return h&&h.textContent.trim().startsWith(txt);});
+const q=sel=>()=>document.querySelector(sel);
+const nav=v=>()=>document.querySelector(`.nav [data-v="${v}"]`);
+const TOURS={
+ medewerker:[
+  {title:'Welcome to Leer Academie Breda',text:'In 1 minute we’ll show you how you learn here while you work: short lessons, an AI Copilot, missions and collaboration with colleagues. You can stop at any time.',go:['home'],big:true},
+  {el:q('.nav'),title:'The menu',text:'Just like in InSite, you’ll find everything here: your learning offer, your growth, missions, your team, communities, workspaces and working safely.',go:['home'],place:'right'},
+  {el:byHead('My tasks'),title:'My tasks',text:'Mandatory training and things your manager recommends are listed here, with the deadline.'},
+  {el:byHead('Mission of the week'),title:'Mission of the week',text:'A real work assignment as a learning assignment. You learn while you work, and earn XP by applying it.'},
+  {el:byHead('Question of the day'),title:'Question of the day',text:'One question, one minute. Short, spaced repetition helps you remember the material much better.'},
+  {el:byHead('My growth path'),title:'Your growth path',text:'For each domain you see your level grow, from Explorer to Expert. Only you can see your own XP.'},
+  {el:q('.tb-btn[data-v="signals"]'),title:'Signals and tasks',text:'Here you get a notification when someone asks you for feedback, gives you an answer or recommends something.',place:'bottom'},
+  {el:q('.cards-first, .grid.g3 .card'),title:'Learning offer',text:'Short modules that fit your work. Labels show what is mandatory and which modules include a session.',go:['aanbod']},
+  {el:q('.lesson'),title:'Following a lesson',text:'Lessons take 5 to 10 minutes and end with a practice question with an explanation.',go:['module',{id:'ov'}],place:'right'},
+  {el:q('.copilot'),title:'The Learning Copilot',text:'Your AI assistant next to every lesson. Ask questions, get quizzed or practise a conversation. Don’t paste personal data.',place:'left'},
+  {el:q('.cop-prompts'),title:'Quick questions',text:'Choose a button such as “Apply to my work” and the Copilot helps you apply the lesson to what you’re working on right now.',place:'left'},
+  {el:q('.main .grid'),title:'Missions',text:'Choose which work assignment you take on. Afterwards you write a short reflection and can ask a colleague for feedback.',go:['missies']},
+  {el:q('.ws-card'),title:'Workspaces',text:'Work together with colleagues from other departments in a shared document, a presentation or a whiteboard.',go:['werkruimtes']},
+  {el:q('.inbox, .main .tile'),title:'Working safely',text:'Practise recognising phishing. Unsure about an email? Don’t click, report it. Reporting is always the right thing to do.',go:['veilig']},
+  {el:q('.help-fab'),title:'Done!',text:'You can restart this tour at any time via the question mark. Enjoy learning!',go:['home'],place:'left'}
+ ],
+ manager:[
+  {title:'Welcome, team manager',text:'In this short tour you’ll see how to support learning in your team, without extra workload or monitoring of individuals.',go:['home'],big:true},
+  {el:q('.main .grid.g4'),title:'Your team at a glance',text:'Team totals: mandatory training, how many colleagues are active and how many missions have been applied at work.'},
+  {el:byHead('Learning minute'),title:'The learning minute',text:'15 minutes in your team meeting with three fixed questions: what went well, what do we learn, what will we do differently?'},
+  {el:q('.main .notice'),title:'Privacy by design',text:'Per person you only see the status of mandatory training. XP, levels and Copilot conversations stay with the employee.'},
+  {el:q('.main .tile .tbl'),title:'Mandatory training',text:'See who still needs to complete a mandatory module and send a friendly reminder with one click.',go:['team',{p:'beheer'}]},
+  {el:q('form[data-form="recommend"]'),title:'Recommend or assign',text:'Recommend a module to (part of) your team. Colleagues receive a signal and choose for themselves when to do it.',place:'left'},
+  {el:nav('werkruimtes'),title:'Working together',text:'In workspaces your team works with other departments on documents, presentations and brainstorms.',place:'right'},
+  {el:q('.help-fab'),title:'Done!',text:'Via the question mark you can restart this tour or get an explanation of the page you’re on.',go:['home'],place:'left'}
+ ],
+ lo:[
+  {title:'Welcome, Learning & Development',text:'In this tour you’ll see how to manage content, the Copilot and campaigns, and track the impact of learning.',go:['home'],big:true},
+  {el:q('.main .grid.g4'),title:'Impact at a glance',text:'Participation, missions applied at work, Copilot ratings and the status of mandatory training.'},
+  {el:q('.main .grid.g2'),title:'Dashboard by department',text:'All figures are anonymised and only visible from 5 people per group.',go:['beheer',{p:'dashboard'}]},
+  {el:q('form[data-form="prompts"]'),title:'Configuring the Copilot',text:'Decide per module which fixed buttons employees see and what the Copilot does with them.',go:['beheer',{p:'content'}],place:'left'},
+  {el:q('form[data-form="campaign"]'),title:'Phishing campaigns',text:'Plan a practice campaign for a team. Anyone who clicks gets a friendly learning moment. Managers only see team totals.',go:['beheer',{p:'campagnes'}],place:'right'},
+  {el:q('.main .tile'),title:'Moderating communities',text:'Manage communities, appoint experts and keep questions and events lively.',go:['beheer',{p:'communities'}]},
+  {el:q('.help-fab'),title:'Done!',text:'Via the question mark you can restart this tour or get an explanation of the page you’re on.',go:['home'],place:'left'}
+ ]
+};
+const PAGE_HELP={
+ aanbod:[{el:q('.main .row'),title:'Filtering',text:'Filter by domain, mandatory modules or modules with a session.'},{el:q('.grid.g3 .card'),title:'A module',text:'Each card shows the domain, the duration and whether the Copilot is included. Click Start to begin.'}],
+ module:[{el:q('.lessons'),title:'Lessons',text:'Here you see all lessons and your progress. Completed lessons get a tick.',place:'right'},{el:q('.quiz'),title:'Practice question',text:'Answer the question; you get an explanation straight away. Getting it right first time earns XP.'},{el:q('.copilot'),title:'Learning Copilot',text:'Ask questions about the lesson or choose a quick question. The Copilot uses the course material of this module.',place:'left'}],
+ mijn:[{el:byHead('Growth path by domain'),title:'Growth path',text:'Your level per domain and how much XP you still need for the next level.'},{el:byHead('Badges'),title:'Badges',text:'You earn badges for milestones, such as giving feedback or reporting suspicious emails.'}],
+ missies:[{el:q('.main .grid .tile'),title:'A mission',text:'Start a mission, carry it out in your work and complete it with a short reflection.'}],
+ team:[{el:q('.tabs'),title:'Tabs',text:'Overview, learning minute, team feed and team challenge. Managers also have the Team management tab.',place:'bottom'}],
+ communities:[{el:q('.main .grid .tile'),title:'A community',text:'Peers from all departments. Open a community for questions, workspaces, knowledge base and events.'}],
+ community:[{el:q('.tabs'),title:'Sections',text:'Ask questions, collaborate in workspaces, find documents in the knowledge base and sign up for events.',place:'bottom'}],
+ werkruimtes:[{el:q('.ws-card'),title:'Workspace',text:'Click Join to take part. Then open the document, presentation or whiteboard.'}],
+ wsitem:[{el:q('.ws-head'),title:'Working together',text:'On the right you see who is present right now. Changes are saved and shared automatically.',place:'bottom'},{el:q('.ws-side'),title:'Copilot in the workspace',text:'Let the Copilot summarise, find counterarguments or create action points.',place:'left'}],
+ veilig:[{el:q('.inbox'),title:'Practice inbox',text:'Open an email. Unsure? Use the red Report phishing button.'}],
+ beheer:[{el:q('.tabs'),title:'Management',text:'Dashboard, content and Copilot buttons, campaigns and communities.',place:'bottom'}],
+ home:null
+};
+function roleTour(){ const r=U().role; return r==='manager'?TOURS.manager:r==='lo'?TOURS.lo:TOURS.medewerker; }
+function helpUI(){
+ let fab=document.getElementById('help-fab'); if(!fab){ fab=document.createElement('button'); fab.id='help-fab'; fab.className='help-fab'; fab.setAttribute('aria-label','Help and tour'); fab.setAttribute('aria-haspopup','true'); fab.textContent='?'; fab.dataset.tourA='menu'; document.body.appendChild(fab); }
+ fab.setAttribute('aria-expanded',T.menu?'true':'false'); fab.hidden=T.on;
+ let m=document.getElementById('help-menu'); if(m) m.remove(); let h=document.getElementById('help-hint'); if(h) h.remove();
+ if(T.menu&&!T.on){ m=document.createElement('div'); m.id='help-menu'; m.className='help-menu'; m.setAttribute('role','menu');
+  const ph=PAGE_HELP[S.view]; const roleName={medewerker:'employee',manager:'team manager',lo:'Learning & Development'}[U().role];
+  m.innerHTML=`<h3>Help</h3><p class="sub">Signed in as ${esc(U().n)} (${roleName})</p>
+   <button class="hm" data-tour-a="start" role="menuitem"><i>▶</i><div><b>Platform tour</b><span>${roleTour().length} steps · about 1 minute</span></div></button>
+   ${ph?`<button class="hm" data-tour-a="page" role="menuitem"><i>?</i><div><b>Explain this page</b><span>${ph.length} quick tips</span></div></button>`:''}
+   <button class="hm" data-tour-a="copilot" role="menuitem"><i>✦</i><div><b>Ask the Copilot</b><span>Open a module and ask your question</span></div></button>`;
+  document.body.appendChild(m); }
+ const seen=(S.tourSeen||{})[S.user];
+ if(!T.on&&!T.menu&&!seen&&!S.modal){ h=document.createElement('div'); h.id='help-hint'; h.className='help-hint'; h.innerHTML=`<span>New here? Take the short tour.</span><button class="go" data-tour-a="start">Start</button><button data-tour-a="dismiss" aria-label="Close">✕</button>`; document.body.appendChild(h); }
+}
+function markSeen(){ S.tourSeen=S.tourSeen||{}; S.tourSeen[S.user]=true; save(); }
+function tourStart(steps,name){ T.steps=steps; T.i=0; T.on=true; T.menu=false; T.name=name; markSeen(); helpUI(); tourShow(); }
+function tourEnd(){ T.on=false; ['tour-block','tour-hole','tour-tip'].forEach(id=>document.getElementById(id)?.remove()); helpUI(); }
+function tourGo(step){ if(!step.go) return false; const [v,p]=step.go; const same=S.view===v&&(!p||Object.entries(p).every(([k,val])=>S.params[k]===val)); if(same) return false; go(v,p||{}); return true; }
+function tourShow(){ const s=T.steps[T.i]; if(!s) return tourEnd(); const moved=tourGo(s); setTimeout(()=>tourPaint(s), moved?120:0); }
+function tourPaint(s){
+ let block=document.getElementById('tour-block'), hole=document.getElementById('tour-hole'), tip=document.getElementById('tour-tip');
+ if(!block){ block=document.createElement('div'); block.id='tour-block'; block.className='tour-block'; document.body.appendChild(block); }
+ if(!hole){ hole=document.createElement('div'); hole.id='tour-hole'; hole.className='tour-hole center'; document.body.appendChild(hole); }
+ if(!tip){ tip=document.createElement('div'); tip.id='tour-tip'; tip.className='tour-tip'; tip.setAttribute('role','dialog'); tip.setAttribute('aria-live','polite'); document.body.appendChild(tip); }
+ const el=s.el?s.el():null; const n=T.steps.length;
+ tip.className='tour-tip'+(s.big||!el?' big':'');
+ tip.innerHTML=`<div class="eyebrow">${esc(T.name)} · step ${T.i+1} of ${n}</div><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p>
+  <div class="tour-prog" aria-hidden="true"><i style="width:${Math.round((T.i+1)/n*100)}%"></i></div>
+  <div class="foot">${T.i<n-1?'<button class="skip" data-tour-a="end">Skip tour</button>':'<span></span>'}
+  <div class="row" style="gap:6px">${T.i>0?'<button class="btn sm" data-tour-a="prev">Previous</button>':''}<button class="btn sm primary" data-tour-a="next">${T.i<n-1?'Next':'Finish'}</button></div></div>`;
+ if(el){ el.scrollIntoView({block:'center',inline:'nearest',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}); }
+ setTimeout(()=>tourPlace(el,s),el?260:0);
+ setTimeout(()=>tip.querySelector('[data-tour-a="next"]')?.focus({preventScroll:true}),300);
+}
+function tourPlace(el,s){ const hole=document.getElementById('tour-hole'), tip=document.getElementById('tour-tip'); if(!hole||!tip) return;
+ const vw=innerWidth, vh=innerHeight, tw=tip.offsetWidth, th=tip.offsetHeight, pad=8, gap=14;
+ if(!el){ hole.classList.add('center'); hole.style.cssText=''; tip.style.left=Math.max(16,(vw-tw)/2)+'px'; tip.style.top=Math.max(16,(vh-th)/2)+'px'; return; }
+ hole.classList.remove('center'); const r=el.getBoundingClientRect();
+ const x=Math.max(4,r.left-pad), y=Math.max(4,r.top-pad), w=Math.min(vw-8,r.width+pad*2), h=Math.min(vh-8,r.height+pad*2);
+ Object.assign(hole.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px'});
+ const fits={right:x+w+gap+tw<vw-8,left:x-gap-tw>8,bottom:y+h+gap+th<vh-8,top:y-gap-th>8};
+ const order=[s.place||'bottom','bottom','right','left','top'].filter((v,i,a)=>a.indexOf(v)===i);
+ const p=order.find(o=>fits[o]);
+ let L,Tp;
+ if(p==='right'){ L=x+w+gap; Tp=y; } else if(p==='left'){ L=x-gap-tw; Tp=y; } else if(p==='top'){ L=x; Tp=y-gap-th; } else if(p==='bottom'){ L=x; Tp=y+h+gap; } else { L=(vw-tw)/2; Tp=vh-th-24; }
+ tip.style.left=Math.min(Math.max(16,L),vw-tw-16)+'px'; tip.style.top=Math.min(Math.max(16,Tp),vh-th-16)+'px'; }
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-tour-a]'); if(!b){ if(T.menu&&!e.target.closest('#help-menu')){ T.menu=false; helpUI(); } return; }
+ e.stopPropagation(); const a=b.dataset.tourA;
+ if(a==='menu'){ T.menu=!T.menu; helpUI(); }
+ if(a==='start'){ tourStart(roleTour(),'Tour'); }
+ if(a==='page'){ const ph=PAGE_HELP[S.view]; if(ph) tourStart(ph,'About this page'); }
+ if(a==='copilot'){ T.menu=false; helpUI(); go('module',{id:'ov'}); setTimeout(()=>document.getElementById('cop-input')?.focus(),150); }
+ if(a==='dismiss'){ markSeen(); helpUI(); }
+ if(a==='next'){ if(T.i<T.steps.length-1){ T.i++; tourShow(); } else tourEnd(); }
+ if(a==='prev'){ if(T.i>0){ T.i--; tourShow(); } }
+ if(a==='end'){ tourEnd(); }
+},true);
+document.addEventListener('keydown',e=>{ if(!T.on){ if(e.key==='Escape'&&T.menu){ T.menu=false; helpUI(); } return; }
+ if(e.key==='Escape'){ e.preventDefault(); e.stopImmediatePropagation(); tourEnd(); }
+ else if(e.key==='ArrowRight'){ e.preventDefault(); e.stopImmediatePropagation(); if(T.i<T.steps.length-1){T.i++; tourShow();} else tourEnd(); }
+ else if(e.key==='ArrowLeft'){ e.preventDefault(); e.stopImmediatePropagation(); if(T.i>0){T.i--; tourShow();} } },true);
+addEventListener('resize',()=>{ if(T.on){ const s=T.steps[T.i]; tourPlace(s.el?s.el():null,s); } });
+addEventListener('scroll',()=>{ if(T.on){ const s=T.steps[T.i]; tourPlace(s.el?s.el():null,s); } },{passive:true});
+document.addEventListener('change',e=>{ if(e.target.id==='acct'){ T.menu=false; if(T.on) tourEnd(); setTimeout(helpUI,0); } });
+const _render=render; render=function(){ _render(); if(!T.on) helpUI(); };
+helpUI();
+</script>
+
