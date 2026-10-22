@@ -171,4 +171,4 @@ Buttons (primary, secondary, danger, text link with →), input, search, select,
 
 - Segoe UI isn't installed on macOS, so Mac screenshots show the system font.
 - Tile photos (picsum.photos) and colleague portraits (randomuser.me) are placeholders. Replace them with real Breda photography and staff photos (with consent) before launch.
-- `index.html` and `index.en.html` still use the old demo styling. Moving them onto these tokens is part of the features work.
+- `index.html` and `index.en.html` use these tokens through `app.css`. `components.css` is only for the styleguide, because its class names overlap with the app's.
