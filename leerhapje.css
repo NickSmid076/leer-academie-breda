@@ -67,6 +67,9 @@
   border: 1px solid var(--color-border); border-radius: var(--radius-control); background: var(--color-band); color: var(--color-text);
   font: inherit; font-size: var(--text-13); font-weight: 600; cursor: pointer; transition: background-color var(--duration-fast) var(--ease-out);
 }
+.lh-min-btn { border-color: var(--color-accent); border-width: 2px; animation: lh-pop 1.5s ease-in-out 10; }
+@keyframes lh-pop { 0%, 100% { box-shadow: 0 0 0 0 transparent; scale: 1; } 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-accent) 35%, transparent); scale: 1.06; } }
+@media (prefers-reduced-motion: reduce) { .lh-min-btn { animation: none; } }
 .lh-min-btn:hover { background: var(--color-border); }
 .lh-min-btn:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
 .lh-grab { display: none; }
