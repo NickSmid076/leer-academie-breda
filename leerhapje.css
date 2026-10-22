@@ -15,9 +15,9 @@
 /* ---------- Bubble ---------- */
 .lh-bubble {
   position: fixed; right: calc(var(--lh-right) + 4px); bottom: calc(var(--lh-stack) + env(safe-area-inset-bottom, 0px)); z-index: var(--z-bubble);
-  width: 48px; height: 48px; display: grid; place-items: center; padding: 0;
-  border: 1px solid var(--color-border-strong); border-radius: var(--radius-round);
-  background: var(--color-surface); color: var(--color-text-strong); cursor: pointer;
+  min-width: 48px; height: 48px; display: inline-flex; align-items: center; gap: var(--space-8); padding: 0 var(--space-16) 0 var(--space-12);
+  border: 2px solid var(--color-accent); border-radius: var(--radius-round);
+  background: var(--color-surface); color: var(--color-text-strong); font: inherit; font-size: var(--text-14); font-weight: var(--weight-semibold); animation: lh-pop 1.5s ease-in-out 10; cursor: pointer;
   box-shadow: 0 0 0 2px var(--color-bg), var(--shadow-card);
   transition: background-color var(--duration-fast) var(--ease-out), transform var(--duration-fast) var(--ease-out);
 }
@@ -29,13 +29,7 @@
   display: grid; place-items: center; border-radius: 10px; box-shadow: 0 0 0 2px var(--color-surface);
   background: var(--color-count); color: var(--color-on-accent); font-size: var(--text-11); font-weight: var(--weight-semibold); line-height: 1;
 }
-.lh-bubble .lh-tip {
-  position: absolute; right: calc(100% + var(--space-8)); top: 50%; translate: 0 -50%; white-space: nowrap; pointer-events: none;
-  padding: var(--space-4) var(--space-8); background: var(--color-text-strong); color: var(--color-bg);
-  border-radius: var(--radius-control); font-size: var(--text-13); font-weight: var(--weight-semibold);
-  opacity: 0; transition: opacity var(--duration-fast) var(--ease-out);
-}
-.lh-bubble:hover .lh-tip, .lh-bubble:focus-visible .lh-tip { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .lh-bubble { animation: none; } }
 
 /* ---------- Compact panel ---------- */
 .lh-panel {
@@ -67,10 +61,10 @@
   border: 1px solid var(--color-border); border-radius: var(--radius-control); background: var(--color-band); color: var(--color-text);
   font: inherit; font-size: var(--text-13); font-weight: 600; cursor: pointer; transition: background-color var(--duration-fast) var(--ease-out);
 }
-.lh-min-btn { border-color: var(--color-accent); border-width: 2px; animation: lh-pop 1.5s ease-in-out 10; }
+.lh-min-btn { background: var(--color-accent); color: var(--color-on-accent); border-color: var(--color-accent); border-width: 2px; animation: lh-pop 1.5s ease-in-out 10; }
 @keyframes lh-pop { 0%, 100% { box-shadow: 0 0 0 0 transparent; scale: 1; } 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-accent) 35%, transparent); scale: 1.06; } }
 @media (prefers-reduced-motion: reduce) { .lh-min-btn { animation: none; } }
-.lh-min-btn:hover { background: var(--color-border); }
+.lh-min-btn:hover { background: var(--color-accent-hover); }
 .lh-min-btn:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
 .lh-grab { display: none; }
 

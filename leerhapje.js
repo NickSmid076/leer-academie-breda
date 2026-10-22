@@ -225,7 +225,7 @@
     bubble.hidden = !b.show;
     bubble.setAttribute('aria-label', b.label);
     bubble.setAttribute('aria-expanded', String(st.mode === 'compact'));
-    bubble.innerHTML = `${ic('bulb', 24)}${b.n ? `<span class="lh-count" aria-hidden="true">${b.n}</span>` : ''}<span class="lh-tip" aria-hidden="true">${esc(b.label)}</span>`;
+    bubble.innerHTML = `${ic('bulb', 24)}${b.n ? `<span class="lh-count" aria-hidden="true">${b.n}</span>` : ''}<span class="lh-name" aria-hidden="true">Leerhapje</span>`;
 
     const h = get(st.active);
     const open = st.mode === 'compact' && h && (pip || !snoozed());
