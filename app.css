@@ -505,6 +505,12 @@ table.tbl { width: 100%; border-collapse: collapse; font-size: var(--text-14); f
   position: fixed; right: var(--space-24); bottom: calc(96px + env(safe-area-inset-bottom, 0px)); z-index: calc(var(--z-bubble) + 1);
   width: 340px; max-width: calc(100vw - 32px); background: var(--color-surface); box-shadow: var(--shadow-overlay); overflow: hidden;
 }
+.help-menu .hm-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); padding: var(--space-8) var(--space-8) 0 0; }
+.help-menu .hm-head h3 { padding-right: 0; }
+.help-menu .hm-min { display: inline-flex; align-items: center; gap: var(--space-4); min-height: 40px; padding: 0 var(--space-12); border: 2px solid var(--color-accent); border-radius: var(--radius-control); background: var(--color-surface); color: var(--color-text-strong); font: inherit; font-size: var(--text-13); font-weight: 700; cursor: pointer; animation: hm-pop 1.5s ease-in-out 10; }
+.help-menu .hm-min:hover { background: var(--color-accent); color: var(--color-on-accent); }
+@keyframes hm-pop { 0%, 100% { box-shadow: 0 0 0 0 transparent; scale: 1; } 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-accent) 35%, transparent); scale: 1.06; } }
+@media (prefers-reduced-motion: reduce) { .help-menu .hm-min { animation: none; } }
 .help-menu h3 { padding: var(--space-16) var(--space-16) var(--space-4); font-size: var(--text-16); }
 .help-menu p.sub { padding: 0 var(--space-16) var(--space-16); font-size: var(--text-13); color: var(--color-text-muted); }
 .help-menu button.hm { display: flex; gap: var(--space-16); align-items: flex-start; width: 100%; text-align: left; background: none; border: 0; border-top: 1px solid var(--color-border); padding: var(--space-16); cursor: pointer; color: var(--color-text); }

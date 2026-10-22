@@ -917,7 +917,7 @@ function helpUI(){
  let m=document.getElementById('help-menu'); if(m) m.remove(); let h=document.getElementById('help-hint'); if(h) h.remove();
  if(T.menu&&!T.on){ m=document.createElement('div'); m.id='help-menu'; m.className='help-menu'; m.setAttribute('role','menu');
   const ph=PAGE_HELP[S.view]; const roleName={medewerker:'medewerker',manager:'teammanager',lo:'Leren & Ontwikkelen'}[U().role];
-  m.innerHTML=`<h3>Hulp</h3><p class="sub">Ingelogd als ${esc(U().n)} (${roleName})</p>
+  m.innerHTML=`<div class="hm-head"><h3>Hulp</h3><button class="hm-min" data-tour-a="menu" aria-label="Menu minimaliseren">${icon('dismiss',16)}<span>Minimaliseren</span></button></div><p class="sub">Ingelogd als ${esc(U().n)} (${roleName})</p>
    <button class="hm" data-tour-a="start" role="menuitem"><i>${icon('play',18)}</i><div><b>Rondleiding door het platform</b><span>${roleTour().length} stappen · ongeveer 1 minuut</span></div></button>
    ${ph?`<button class="hm" data-tour-a="page" role="menuitem"><i>${icon('help',18)}</i><div><b>Uitleg bij deze pagina</b><span>${ph.length} korte tips</span></div></button>`:''}
    <button class="hm" data-tour-a="copilot" role="menuitem"><i>${icon('spark',18)}</i><div><b>Vraag het de Copilot</b><span>Open een module en stel je vraag</span></div></button>`;
