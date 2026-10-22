@@ -1,0 +1,801 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Styleguide | Leer Academie Breda</title>
+<meta name="description" content="Tokens, app shell en kerncomponenten van de Leer Academie Breda.">
+<meta name="color-scheme" content="light dark">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  /* Styleguide-only helpers. Tokens only, no raw colours. */
+  .sg-section > .container > h2 { margin-bottom: var(--space-8); }
+  .sg-intro { margin-bottom: var(--space-32); color: var(--color-text-muted); }
+  .sg-sub { margin: var(--space-32) 0 var(--space-16); }
+  .sg-intro + .sg-sub, .sg-pair > div > .sg-sub:first-child { margin-top: 0; }
+  .sg-toc { margin-top: var(--space-24) !important; display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-24); margin: 0; padding: 0; list-style: none; font-size: var(--text-14); }
+  .sg-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16); }
+  .sg-states { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--space-16); }
+  .sg-state { display: grid; gap: var(--space-8); justify-items: start; align-content: start; }
+  .sg-state__label { font-size: var(--text-13); line-height: var(--leading-13); color: var(--color-text-muted); }
+  .sg-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: var(--space-16); }
+  .swatch { display: grid; background: var(--color-surface); box-shadow: var(--shadow-card); font-size: var(--text-13); }
+  .swatch__chip { height: 64px; border-bottom: 1px solid var(--color-border); }
+  .swatch__meta { padding: var(--space-8) var(--space-16) var(--space-16); display: grid; gap: 2px; }
+  .swatch__name { font-weight: var(--weight-semibold); color: var(--color-text-strong); }
+  .sg-type { display: grid; gap: var(--space-16); }
+  .sg-type__row { display: grid; grid-template-columns: 120px 1fr; gap: var(--space-24); align-items: baseline; padding-bottom: var(--space-16); border-bottom: 1px solid var(--color-border); }
+  .sg-spacing { display: grid; gap: var(--space-8); }
+  .sg-spacing__row { display: grid; grid-template-columns: 120px 1fr; align-items: center; gap: var(--space-16); font-size: var(--text-13); }
+  .sg-spacing__bar { height: 12px; background: var(--color-text); }
+  .sg-shapes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-24); }
+  .sg-shape { display: grid; gap: var(--space-8); font-size: var(--text-13); }
+  .sg-shape__box { height: 72px; border: 1px solid var(--color-border-strong); background: var(--color-surface); }
+  .sg-form { align-items: start; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-24) var(--space-48); }
+  .sg-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-24); align-items: start; }
+  .sg-toasts { display: grid; gap: var(--space-8); max-width: 440px; }
+  .sg-bubble-demo { position: relative; display: flex; justify-content: flex-end; align-items: flex-end; gap: var(--space-8); padding: var(--space-24); background: var(--color-band); min-height: 120px; }
+  .sg-bubble-demo .assistant__prompt { margin-bottom: var(--space-8); }
+  .sg-nav-demo { border-bottom: 1px solid var(--color-border); }
+  .sg-hov { color: var(--color-text-strong); }
+  .sg-hov::after { background: var(--color-border-strong); }
+  .sg-foc { outline: 2px solid var(--color-focus); outline-offset: -2px; }
+  @media (max-width: 1023px) { .sg-states { grid-template-columns: repeat(3, minmax(0, 1fr)); } .sg-shapes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 767px) {
+    .sg-states { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .sg-form, .sg-pair { grid-template-columns: minmax(0, 1fr); }
+    .sg-type__row, .sg-spacing__row { grid-template-columns: 72px 1fr; gap: var(--space-8); }
+    .sg-type__sample { overflow-wrap: anywhere; }
+  }
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+<symbol id="i-add" viewBox="0 0 24 24"><path d="M12 3.25c.41 0 .75.34.75.75v7.25H20a.75.75 0 0 1 0 1.5h-7.25V20a.75.75 0 0 1-1.5 0v-7.25H4a.75.75 0 0 1 0-1.5h7.25V4c0-.41.34-.75.75-.75"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 2a7.5 7.5 0 0 1 7.5 7.25v4.35l1.38 3.15a1.25 1.25 0 0 1-1.15 1.75H15a3 3 0 0 1-6 .18v-.18H4.27a1.25 1.25 0 0 1-1.14-1.75L4.5 13.6V9.5C4.5 5.35 7.85 2 12 2m1.5 16.5h-3a1.5 1.5 0 0 0 3 .15zM12 3.5c-3.32 0-6 2.67-6 6v4.4L4.66 17h14.7L18 13.9V9.29a6 6 0 0 0-6-5.78"/></symbol>
+<symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M13.27 4.2a.75.75 0 0 0-1.04 1.1l6.25 5.95H3.75a.75.75 0 0 0 0 1.5h14.73l-6.25 5.95a.75.75 0 0 0 1.04 1.1l7.42-7.08a1 1 0 0 0 0-1.44z"/></symbol>
+<symbol id="i-book-open" viewBox="0 0 24 24"><path d="M12 19.14c-.5.53-1.21.86-2 .86H3.75C2.78 20 2 19.22 2 18.25V5.75C2 4.78 2.78 4 3.75 4H10c.79 0 1.5.33 2 .86.5-.53 1.21-.86 2-.86h6.25c.97 0 1.75.78 1.75 1.75v12.5c0 .97-.78 1.75-1.75 1.75H14c-.79 0-1.5-.33-2-.86M3.5 5.75v12.5c0 .14.11.25.25.25H10c.69 0 1.25-.56 1.25-1.25V6.75c0-.69-.56-1.25-1.25-1.25H3.75a.25.25 0 0 0-.25.25m9.25 11.5c0 .69.56 1.25 1.25 1.25h6.25q.23-.02.25-.25V5.75a.25.25 0 0 0-.25-.25H14c-.69 0-1.25.56-1.25 1.25z"/></symbol>
+<symbol id="i-building" viewBox="0 0 24 24"><path d="M6.25 3.5a.75.75 0 0 0-.75.75V20.5h2v-2.75c0-.69.56-1.25 1.25-1.25h6.5c.69 0 1.25.56 1.25 1.25v2.75h2v-8.75a.75.75 0 0 0-.75-.75h-2a.75.75 0 0 1-.75-.75v-6a.75.75 0 0 0-.75-.75zM9 18v2.5h2.25V18zm3.75 0v2.5H15V18zm6.5 4H4.75a.75.75 0 0 1-.75-.75v-17C4 3.01 5 2 6.25 2h8c1.24 0 2.25 1 2.25 2.25V9.5h1.25c1.24 0 2.25 1 2.25 2.25v9.5c0 .41-.34.75-.75.75M7.5 6.5a1 1 0 1 1 2 0 1 1 0 0 1-2 0m1 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2m0-3.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2M12 5.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m0 7a1 1 0 1 0 0 2 1 1 0 0 0 0-2m3.5 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2M12 9a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><path d="M17.75 3C19.55 3 21 4.46 21 6.25v11.5c0 1.8-1.46 3.25-3.25 3.25H6.25A3.25 3.25 0 0 1 3 17.75V6.25C3 4.45 4.46 3 6.25 3zm1.75 5.5h-15v9.25c0 .97.78 1.75 1.75 1.75h11.5c.97 0 1.75-.78 1.75-1.75zm-11.75 6a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5m4.25 0a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5m-4.25-4a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5m4.25 0a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5m4.25 0a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5m1.5-6H6.25c-.97 0-1.75.78-1.75 1.75V7h15v-.75c0-.97-.78-1.75-1.75-1.75"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 1-4.59 18.89L3.6 21.96a1.25 1.25 0 0 1-1.54-1.54l1.06-3.83A10 10 0 0 1 12 2m0 1.5a8.5 8.5 0 0 0-7.43 12.64l.15.27-1.1 3.98 3.98-1.11.27.15A8.5 8.5 0 1 0 12 3.5M8.75 13h4.5a.75.75 0 0 1 .1 1.5h-4.6a.75.75 0 0 1-.1-1.5zh4.5zm0-3.5h6.5a.75.75 0 0 1 .1 1.5h-6.6a.75.75 0 0 1-.1-1.5zh6.5z"/></symbol>
+<symbol id="i-checkmark" viewBox="0 0 24 24"><path d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5c.3.3.77.3 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94z"/></symbol>
+<symbol id="i-checkmark-circle" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20m0 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17m-1.25 9.94 4.47-4.47a.75.75 0 0 1 1.13.98l-.07.08-5 5a.75.75 0 0 1-.98.07l-.08-.07-2.5-2.5a.75.75 0 0 1 .98-1.13l.08.07zl4.47-4.47z"/></symbol>
+<symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M4.22 8.47c.3-.3.77-.3 1.06 0L12 15.19l6.72-6.72a.75.75 0 1 1 1.06 1.06l-7.25 7.25c-.3.3-.77.3-1.06 0L4.22 9.53a.75.75 0 0 1 0-1.06"/></symbol>
+<symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="M15.53 4.22c.3.3.3.77 0 1.06L8.81 12l6.72 6.72a.75.75 0 1 1-1.06 1.06l-7.25-7.25a.75.75 0 0 1 0-1.06l7.25-7.25c.3-.3.77-.3 1.06 0"/></symbol>
+<symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="M8.47 4.22c-.3.3-.3.77 0 1.06L15.19 12l-6.72 6.72a.75.75 0 1 0 1.06 1.06l7.25-7.25c.3-.3.3-.77 0-1.06L9.53 4.22a.75.75 0 0 0-1.06 0"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 1 17 0 8.5 8.5 0 0 1-17 0M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 4.65a.75.75 0 0 0-1.5.1v6.1c.06.37.37.65.75.65h4.1a.75.75 0 0 0-.1-1.5H12V6.65"/></symbol>
+<symbol id="i-dismiss" viewBox="0 0 24 24"><path d="m4.4 4.55.07-.08a.75.75 0 0 1 .98-.07l.08.07L12 10.94l6.47-6.47a.75.75 0 1 1 1.06 1.06L13.06 12l6.47 6.47c.27.27.3.68.07.98l-.07.08a.75.75 0 0 1-.98.07l-.08-.07L12 13.06l-6.47 6.47a.75.75 0 0 1-1.06-1.06L10.94 12 4.47 5.53a.75.75 0 0 1-.07-.98l.07-.08z"/></symbol>
+<symbol id="i-error-circle" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20m0 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17m0 11a1 1 0 1 1 0 2 1 1 0 0 1 0-2M12 7c.37 0 .69.28.74.65v4.6a.75.75 0 0 1-1.48.1l-.01-.1v-4.5c0-.41.33-.75.74-.75"/></symbol>
+<symbol id="i-filter" viewBox="0 0 24 24"><path d="M13.5 16a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5zm3-5a.75.75 0 0 1 0 1.5h-9a.75.75 0 0 1 0-1.5zm3-5a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1 0-1.5z"/></symbol>
+<symbol id="i-hat-graduation" viewBox="0 0 24 24"><path d="M9.9 3.7a3.9 3.9 0 0 1 4.2 0l8.05 5.17a.75.75 0 0 1 .01 1.26L19 12.19v5.56q0 .25-.15.45l-.01.02-.11.13q-.11.14-.32.33c-.28.27-.7.62-1.25.96A9.7 9.7 0 0 1 12 21a9.7 9.7 0 0 1-5.16-1.36 7 7 0 0 1-1.69-1.44 1 1 0 0 1-.15-.45V12.2l-2-1.3v5.36a.75.75 0 1 1-1.5 0V9.5q.02-.42.36-.64zm4.22 11.68a3.9 3.9 0 0 1-4.24 0l-3.38-2.2v4.29l.13.13q.31.32 1 .76A8 8 0 0 0 12 19.5a8 8 0 0 0 4.37-1.14 6 6 0 0 0 1.13-.89v-4.3zm-.84-10.42c-.78-.5-1.78-.5-2.56 0L3.63 9.51l7.07 4.62c.79.51 1.81.51 2.6 0l7.07-4.62z"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M10.55 2.53c.84-.7 2.06-.7 2.9 0l6.75 5.7c.5.42.8 1.05.8 1.71v9.31c0 .97-.78 1.75-1.75 1.75h-3.5c-.97 0-1.75-.78-1.75-1.75v-5a.25.25 0 0 0-.25-.25h-3.5a.25.25 0 0 0-.25.25v5c0 .97-.78 1.75-1.75 1.75h-3.5C3.78 21 3 20.22 3 19.25v-9.3c0-.67.3-1.3.8-1.73zm1.93 1.15a.75.75 0 0 0-.96 0l-6.75 5.7a.8.8 0 0 0-.27.56v9.31c0 .14.11.25.25.25h3.5q.23-.01.25-.25v-5c0-.97.78-1.75 1.75-1.75h3.5c.97 0 1.75.78 1.75 1.75v5q.02.23.25.25h3.5q.23-.01.25-.25v-9.3q0-.36-.27-.58z"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20m0 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17m0 7c.41 0 .75.34.75.75v5a.75.75 0 0 1-1.5 0v-5c0-.41.34-.75.75-.75M12 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/></symbol>
+<symbol id="i-more-horizontal" viewBox="0 0 24 24"><path d="M7.75 12a1.75 1.75 0 1 1-3.5 0 1.75 1.75 0 0 1 3.5 0m6 0a1.75 1.75 0 1 1-3.5 0 1.75 1.75 0 0 1 3.5 0M18 13.75a1.75 1.75 0 1 0 0-3.5 1.75 1.75 0 0 0 0 3.5"/></symbol>
+<symbol id="i-navigation" viewBox="0 0 24 24"><path d="M2.75 18h18.5a.75.75 0 0 1 .1 1.5H2.75a.75.75 0 0 1-.1-1.5zh18.5zm0-6.5h18.5a.75.75 0 0 1 .1 1.5H2.75a.75.75 0 0 1-.1-1.5zh18.5zm0-6.5h18.5a.75.75 0 0 1 .1 1.5H2.75a.75.75 0 0 1-.1-1.49zh18.5z"/></symbol>
+<symbol id="i-open" viewBox="0 0 24 24"><path d="M6.25 4.5c-.97 0-1.75.78-1.75 1.75v11.5c0 .97.78 1.75 1.75 1.75h11.5c.97 0 1.75-.78 1.75-1.75v-4a.75.75 0 0 1 1.5 0v4c0 1.8-1.46 3.25-3.25 3.25H6.25A3.25 3.25 0 0 1 3 17.75V6.25C3 4.45 4.46 3 6.25 3h4a.75.75 0 0 1 0 1.5zM13 3.75c0-.41.34-.75.75-.75h6.5c.41 0 .75.34.75.75v6.5a.75.75 0 0 1-1.5 0V5.56l-5.22 5.22a.75.75 0 0 1-1.06-1.06l5.22-5.22h-4.69a.75.75 0 0 1-.75-.75"/></symbol>
+<symbol id="i-people" viewBox="0 0 24 24"><path d="M5.5 8a2.5 2.5 0 1 1 5 0 2.5 2.5 0 0 1-5 0M8 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8m7.5 5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0M17 6a3 3 0 1 0 0 6 3 3 0 0 0 0-6m-2.75 13.04q1.04.44 2.75.46c2.28 0 3.59-.7 4.3-1.56a3 3 0 0 0 .7-1.73v-.03c0-1.2-.97-2.18-2.18-2.18H14.1q.6.63.81 1.5h4.91a.7.7 0 0 1 .68.7l-.04.18q-.05.25-.32.6C19.8 17.42 18.97 18 17 18c-.98 0-1.67-.15-2.17-.34q-.14.62-.58 1.38M4.25 14C3.01 14 2 15 2 16.25v.28l.01.2q.02.21.1.53c.09.42.29.98.68 1.55C3.61 19.97 5.17 21 8 21s4.39-1.03 5.2-2.2a4.5 4.5 0 0 0 .8-2.27v-.28c0-1.24-1-2.25-2.25-2.25zm-.75 2.5v-.25c0-.41.34-.75.75-.75h7.5c.41 0 .75.34.75.75v.34l-.06.33c-.07.28-.2.65-.46 1.02-.5.71-1.56 1.56-3.98 1.56s-3.49-.85-3.98-1.56a3 3 0 0 1-.52-1.43"/></symbol>
+<symbol id="i-people-team" viewBox="0 0 24 24"><path d="M14.75 10c.97 0 1.75.78 1.75 1.75v4.75a4.5 4.5 0 0 1-9 0v-4.75c0-.97.79-1.75 1.75-1.75zm0 1.5h-5.5a.25.25 0 0 0-.25.25v4.75a3 3 0 0 0 6 0v-4.75a.25.25 0 0 0-.25-.25m-11-1.5h3.38q-.53.63-.62 1.5H3.75a.25.25 0 0 0-.25.25V15a2.5 2.5 0 0 0 3.08 2.43q.13.76.45 1.43Q6.55 19 6 19a4 4 0 0 1-4-4v-3.25c0-.97.78-1.75 1.75-1.75m13.12 0h3.38c.97 0 1.75.78 1.75 1.75V15a4 4 0 0 1-5.03 3.87q.32-.68.46-1.44.27.07.57.07a2.5 2.5 0 0 0 2.5-2.5v-3.25a.25.25 0 0 0-.25-.25h-2.76a2.7 2.7 0 0 0-.62-1.5M12 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6m6.5 1a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5m-13 0a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5m6.5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m6.5 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-13 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/></symbol>
+<symbol id="i-person" viewBox="0 0 24 24"><path d="M17.75 14C19 14 20 15 20 16.25v.57c0 .9-.32 1.76-.9 2.44Q16.74 22.01 12 22q-4.74.01-7.1-2.74a3.8 3.8 0 0 1-.9-2.43v-.58C4 15 5.01 14 6.25 14zm0 1.5H6.25a.75.75 0 0 0-.75.75v.58c0 .53.2 1.05.54 1.46C7.3 19.76 9.26 20.5 12 20.5q4.09 0 5.96-2.21c.35-.41.54-.93.54-1.47v-.57a.75.75 0 0 0-.75-.75M12 2a5 5 0 1 1 0 10 5 5 0 0 1 0-10m0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><path d="M16.1 17.16a8 8 0 1 1 1.06-1.06l4.62 4.62a.75.75 0 1 1-1.06 1.06zM17.5 11a6.5 6.5 0 1 0-13 0 6.5 6.5 0 0 0 13 0"/></symbol>
+<symbol id="i-sign-out" viewBox="0 0 24 24"><path d="M8.5 11.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2M12 4.35V11h7.44l-1.72-1.72a.75.75 0 0 1-.07-.98l.07-.08a.75.75 0 0 1 .98-.07l.08.07 3 3c.26.26.29.68.07.97l-.07.09-3 3a.75.75 0 0 1-1.13-.97l.07-.09 1.71-1.72H12v6.75c0 .47-.42.82-.88.74l-8.5-1.5a.75.75 0 0 1-.62-.74v-12c0-.37.27-.68.63-.74l8.5-1.4c.46-.07.87.28.87.74m-1.5.89-7 1.15v10.73l7 1.24zM13 18.5h.87a.75.75 0 0 0 .65-.75l-.01-4.25H13zm0-8.5V5h.75c.37 0 .69.28.74.65v.1L14.5 10z"/></symbol>
+<symbol id="i-warning" viewBox="0 0 24 24"><path d="M9.14 3.7a3.25 3.25 0 0 1 5.72 0l6.74 12.5a3.25 3.25 0 0 1-2.86 4.8H5.25a3.25 3.25 0 0 1-2.86-4.8zm4.4.72a1.75 1.75 0 0 0-3.08 0L3.7 16.92a1.75 1.75 0 0 0 1.54 2.58h13.5a1.75 1.75 0 0 0 1.53-2.58zM12 15a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-7.5c.41 0 .75.34.75.75v4.5a.75.75 0 0 1-1.5 0v-4.5c0-.41.34-.75.75-.75"/></symbol>
+<symbol id="i-weather-moon" viewBox="0 0 24 24"><path d="M20.03 17a10 10 0 0 1-16.9.68.75.75 0 0 1 .36-1.13c3.77-1.35 5.79-2.91 6.96-5.15 1.23-2.35 1.55-4.93.69-8.46A.75.75 0 0 1 11.9 2 10 10 0 0 1 20.03 17m-8.25-4.9c-1.25 2.39-3.31 4.1-6.82 5.5a8.5 8.5 0 0 0 13.77-1.35 8.5 8.5 0 0 0-5.9-12.63c.64 3.39.22 6.05-1.05 8.48"/></symbol>
+<symbol id="i-weather-sunny" viewBox="0 0 24 24"><path d="M12 2c.41 0 .75.34.75.75v1.5a.75.75 0 0 1-1.5 0v-1.5c0-.41.34-.75.75-.75m0 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10m0-1.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7m9.25-2.75a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5zM12 19c.41 0 .75.34.75.75v1.5a.75.75 0 0 1-1.5 0v-1.5c0-.41.34-.75.75-.75m-7.75-6.25a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5zm-.03-8.53c.3-.3.77-.3 1.06 0l1.5 1.5a.75.75 0 0 1-1.06 1.06l-1.5-1.5a.75.75 0 0 1 0-1.06m1.06 15.56a.75.75 0 1 1-1.06-1.06l1.5-1.5a.75.75 0 1 1 1.06 1.06zm14.5-15.56a.75.75 0 0 0-1.06 0l-1.5 1.5a.75.75 0 0 0 1.06 1.06l1.5-1.5c.3-.3.3-.77 0-1.06m-1.06 15.56a.75.75 0 1 0 1.06-1.06l-1.5-1.5a.75.75 0 1 0-1.06 1.06z"/></symbol>
+</svg>
+<a class="skip-link" href="#main">Naar de inhoud</a>
+
+<header class="app-header">
+  <div class="container topbar">
+    <a class="wordmark" href="./" aria-label="Leer Academie Breda, naar de startpagina">
+      <svg class="wordmark__marks" viewBox="0 0 52 18" aria-hidden="true"><g stroke="currentColor" stroke-width="4"><path d="M2 2l14 14M16 2L2 16"/><path d="M19 2l14 14M33 2L19 16"/><path d="M36 2l14 14M50 2L36 16"/></g></svg>
+      <span class="wordmark__text">Leer Academie Breda</span>
+    </a>
+
+    <form class="topbar__search search" role="search" action="#" onsubmit="return false">
+      <label class="visually-hidden" for="q">Zoek in het leeraanbod</label>
+      <input class="search__input" id="q" type="search" placeholder="Zoek een training, e-learning of collega" autocomplete="off">
+      <button class="search__btn" type="submit" aria-label="Zoeken"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg></button>
+    </form>
+
+    <div class="topbar__actions">
+      <button class="icon-btn topbar__search-toggle" type="button" aria-label="Zoeken" aria-expanded="false"><svg class="icon icon--24" aria-hidden="true"><use href="#i-search"/></svg></button>
+
+      <div class="menu-anchor">
+        <button class="icon-btn" type="button" data-menu-trigger aria-controls="menu-notifications" aria-expanded="false" aria-label="Meldingen, 3 ongelezen">
+          <svg class="icon icon--24" aria-hidden="true"><use href="#i-alert"/></svg>
+          <span class="count" aria-hidden="true">3</span>
+        </button>
+        <div class="menu" id="menu-notifications" hidden>
+          <div class="menu__section"><h2 class="text-16">Meldingen</h2></div>
+          <div class="notification"><strong class="text-14">Informatiebeveiliging 2026 verloopt over 5 dagen</strong><span class="text-13 muted">Verplichte training</span></div>
+          <div class="notification"><strong class="text-14">Je manager heeft "Feedback geven" aanbevolen</strong><span class="text-13 muted">Gisteren</span></div>
+          <div class="notification"><strong class="text-14">Nieuwe leerminuut voor team Stadsontwikkeling</strong><span class="text-13 muted">Maandag</span></div>
+          <div class="menu__section"><a class="link-arrow text-14" href="#">Alle meldingen<svg class="icon icon--16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></div>
+        </div>
+      </div>
+
+      <div class="menu-anchor">
+        <button class="profile-btn" type="button" data-menu-trigger aria-controls="menu-profile" aria-expanded="false">
+          <span class="avatar avatar--32" aria-hidden="true">SV</span>
+          <span class="profile-btn__text"><span class="profile-btn__name">Sanne Verhoeven</span><span class="profile-btn__role" data-role-label>Medewerker</span></span>
+          <svg class="icon icon--16" aria-hidden="true"><use href="#i-chevron-down"/></svg>
+          <span class="visually-hidden">Profielmenu</span>
+        </button>
+        <div class="menu" id="menu-profile" hidden>
+          <div class="menu__section">
+            <fieldset style="border:0;margin:0;padding:0">
+              <legend class="menu__label">Bekijk de academie als</legend>
+              <div class="segmented">
+                <input type="radio" name="role" id="role-m" value="medewerker" checked><label for="role-m">Medewerker</label>
+                <input type="radio" name="role" id="role-t" value="manager"><label for="role-t">Manager</label>
+                <input type="radio" name="role" id="role-l" value="lo"><label for="role-l">L&amp;O</label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="menu__section">
+            <label class="switch"><input type="checkbox" role="switch" data-theme-toggle> Donker thema</label>
+          </div>
+          <div class="menu__section" style="padding-inline:0">
+            <a class="menu__item" href="#"><svg class="icon" aria-hidden="true"><use href="#i-person"/></svg>Mijn profiel</a>
+            <a class="menu__item" href="#"><svg class="icon" aria-hidden="true"><use href="#i-sign-out"/></svg>Uitloggen</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav class="mainnav container" aria-label="Hoofdmenu">
+    <ul class="mainnav__list">
+      <li><a class="mainnav__link" href="#">Overzicht</a></li>
+      <li><a class="mainnav__link" href="#">Leeraanbod</a></li>
+      <li><a class="mainnav__link" href="#">Mijn leren</a></li>
+      <li data-roles="manager lo"><a class="mainnav__link" href="#">Team</a></li>
+      <li data-roles="lo"><a class="mainnav__link" href="#">Beheer</a></li>
+      <li><a class="mainnav__link" href="./" aria-current="page">Styleguide</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="page-header">
+    <div class="verbinding" aria-hidden="true">
+      <svg class="verbinding__cross" viewBox="0 0 24 24"><path d="M3 3l18 18M21 3L3 21" stroke="currentColor" stroke-width="5"/></svg>
+    </div>
+    <div class="container page-header__inner">
+      <nav class="breadcrumb" aria-label="Kruimelpad">
+        <ol>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Over de academie</a></li>
+          <li><span aria-current="page">Styleguide</span></li>
+        </ol>
+      </nav>
+      <h1 class="page-header__title">Styleguide</h1>
+      <p class="page-header__lead">De bouwstenen van de Leer Academie Breda. Rood is voor actie en aandacht, de rest blijft rustig.</p>
+      <ul class="sg-toc page-header__actions" aria-label="Op deze pagina">
+        <li><a href="#kleur">Kleur</a></li>
+        <li><a href="#typografie">Typografie</a></li>
+        <li><a href="#ruimte">Ruimte en vorm</a></li>
+        <li><a href="#knoppen">Knoppen</a></li>
+        <li><a href="#formulieren">Formulieren</a></li>
+        <li><a href="#kaarten">Kaarten</a></li>
+        <li><a href="#navigatie">Navigatie</a></li>
+        <li><a href="#feedback">Feedback</a></li>
+        <li><a href="#tabel">Tabel</a></li>
+        <li><a href="#assistent">Assistent</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Overview strip: stats + key tiles, shows the AFAS density in context -->
+  <section class="band" aria-labelledby="h-voorbeeld">
+    <div class="container">
+      <h2 id="h-voorbeeld" class="visually-hidden">Voorbeeld</h2>
+      <div class="stats">
+        <div class="stat card">
+          <span class="stat__value stat__value--attention">3</span>
+          <span class="stat__label">open acties voor jou</span>
+          <a class="link-arrow stat__link" href="#">Bekijk je acties<svg class="icon icon--16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        </div>
+        <div class="stat card">
+          <span class="stat__value">12</span>
+          <span class="stat__label">trainingen afgerond dit jaar</span>
+          <a class="link-arrow stat__link" href="#">Naar Mijn leren<svg class="icon icon--16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        </div>
+        <div class="stat card">
+          <span class="stat__value">680</span>
+          <span class="stat__label">collega's leren deze maand mee</span>
+          <a class="link-arrow stat__link" href="#">Zie wat zij volgen<svg class="icon icon--16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KLEUR -->
+  <section class="band band--grey sg-section" id="kleur" aria-labelledby="h-kleur">
+    <div class="container">
+      <h2 id="h-kleur">Kleur</h2>
+      <p class="sg-intro">Eén accent: Bredarood. Alle andere kleuren zijn neutraal of geven een status aan. Contrast staat bij elke kleur.</p>
+
+      <h3 class="sg-sub">Bredarood</h3>
+      <div class="sg-swatches">
+        <div class="swatch"><div class="swatch__chip" style="background:var(--red-500)"></div><div class="swatch__meta"><span class="swatch__name">red-500 #EB002F</span><span>Knoppen, focus, tellers</span><span class="muted">Wit erop 4,59:1</span></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--red-600)"></div><div class="swatch__meta"><span class="swatch__name">red-600 #D1002A</span><span>Links en kleine tekst</span><span class="muted">Op grijs 5,01:1</span></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--red-700)"></div><div class="swatch__meta"><span class="swatch__name">red-700 #C20027</span><span>Hover</span><span class="muted">Wit erop 6,32:1</span></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--red-800)"></div><div class="swatch__meta"><span class="swatch__name">red-800 #A80022</span><span>Ingedrukt, fout</span><span class="muted">Op wit 7,81:1</span></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--red-900)"></div><div class="swatch__meta"><span class="swatch__name">red-900 #8A001C</span><span>Gevarenknop</span><span class="muted">Wit erop 10,01:1</span></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--red-300)"></div><div class="swatch__meta"><span class="swatch__name">red-300 #FF6B7D</span><span>Links en focus in donker</span><span class="muted">Op #171717 6,53:1</span></div></div>
+      </div>
+
+      <h3 class="sg-sub">Neutraal</h3>
+      <div class="sg-swatches">
+        <div class="swatch"><div class="swatch__chip" style="background:var(--neutral-1000)"></div><div class="swatch__meta"><span class="swatch__name">#000000</span><span>Koppen</span></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--neutral-900)"></div><div class="swatch__meta"><span class="swatch__name">#171717</span><span>Tekst, donkere achtergrond</span></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--neutral-800)"></div><div class="swatch__meta"><span class="swatch__name">#262626</span><span>Kaart in donker</span></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--neutral-500)"></div><div class="swatch__meta"><span class="swatch__name">#616161</span><span>Secundaire tekst</span><span class="muted">Op wit 6,19:1</span></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--neutral-50)"></div><div class="swatch__meta"><span class="swatch__name">#F2F2F2</span><span>Grijze band</span></div></div>
+        <div class="swatch"><div class="swatch__chip" style="background:var(--neutral-0)"></div><div class="swatch__meta"><span class="swatch__name">#FFFFFF</span><span>Pagina, kaart</span></div></div>
+      </div>
+
+      <h3 class="sg-sub">Status</h3>
+      <div class="sg-row">
+        <span class="badge badge--success"><svg class="icon" aria-hidden="true"><use href="#i-checkmark-circle"/></svg>Afgerond</span>
+        <span class="badge badge--warning"><svg class="icon" aria-hidden="true"><use href="#i-warning"/></svg>Verloopt binnenkort</span>
+        <span class="badge badge--danger"><svg class="icon" aria-hidden="true"><use href="#i-error-circle"/></svg>Verlopen</span>
+        <span class="badge badge--info"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>Nieuw aanbod</span>
+        <span class="badge">Concept</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPOGRAFIE -->
+  <section class="band sg-section" id="typografie" aria-labelledby="h-type">
+    <div class="container">
+      <h2 id="h-type">Typografie</h2>
+      <p class="sg-intro">Segoe UI in twee gewichten: 400 voor tekst, 600 voor koppen en knoppen. Op een Mac zie je het systeemfont.</p>
+      <div class="sg-type">
+        <div class="sg-type__row"><span class="text-13 muted">37 / 600</span><span class="sg-type__sample" style="font-size:var(--text-37);line-height:var(--leading-37);font-weight:600">Rond je verplichte training af</span></div>
+        <div class="sg-type__row"><span class="text-13 muted">29 / 600</span><span class="sg-type__sample" style="font-size:var(--text-29);line-height:var(--leading-29);font-weight:600">Verder waar je gebleven was</span></div>
+        <div class="sg-type__row"><span class="text-13 muted">20 / 600</span><span class="sg-type__sample" style="font-size:var(--text-20);line-height:var(--leading-20);font-weight:600">Informatiebeveiliging 2026</span></div>
+        <div class="sg-type__row"><span class="text-13 muted">16 / 400</span><span class="sg-type__sample text-16">In twintig minuten weet je hoe je phishing herkent en wat je dan doet.</span></div>
+        <div class="sg-type__row"><span class="text-13 muted">15 / 400</span><span class="sg-type__sample">Standaardtekst. Je kunt de training pauzeren en later verdergaan.</span></div>
+        <div class="sg-type__row"><span class="text-13 muted">14 / 400</span><span class="sg-type__sample text-14">Compacte tekst in tabellen, menu's en formulieren.</span></div>
+        <div class="sg-type__row"><span class="text-13 muted">13 / 400</span><span class="sg-type__sample text-13">Metadata: 20 minuten, e-learning, verplicht</span></div>
+        <div class="sg-type__row"><span class="text-13 muted">11 / 600</span><span class="sg-type__sample" style="font-size:var(--text-11);font-weight:600">Labels in de tabbalk en tellers</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RUIMTE EN VORM -->
+  <section class="band band--grey sg-section" id="ruimte" aria-labelledby="h-ruimte">
+    <div class="container">
+      <h2 id="h-ruimte">Ruimte en vorm</h2>
+      <p class="sg-intro">Alles op een raster van 8 pixels. Bijna rechte hoeken, één schaduw voor kaarten.</p>
+      <div class="sg-pair">
+        <div>
+          <h3 class="sg-sub">Ruimte</h3>
+          <div class="sg-spacing">
+            <div class="sg-spacing__row"><span>8</span><span class="sg-spacing__bar" style="width:8px"></span></div>
+            <div class="sg-spacing__row"><span>16</span><span class="sg-spacing__bar" style="width:16px"></span></div>
+            <div class="sg-spacing__row"><span>24</span><span class="sg-spacing__bar" style="width:24px"></span></div>
+            <div class="sg-spacing__row"><span>48</span><span class="sg-spacing__bar" style="width:48px"></span></div>
+            <div class="sg-spacing__row"><span>64</span><span class="sg-spacing__bar" style="width:64px"></span></div>
+          </div>
+        </div>
+        <div>
+          <h3 class="sg-sub">Beweging</h3>
+          <p class="text-14">120 ms voor hover en focus, 200 ms voor menu's, dialogen en meldingen. Altijd met een zachte uitloop. Wie minder beweging wil, krijgt directe overgangen.</p>
+        </div>
+      </div>
+      <h3 class="sg-sub">Hoeken en schaduw</h3>
+      <div class="sg-shapes">
+        <div class="sg-shape"><div class="sg-shape__box" style="border-radius:var(--radius-control)"></div><span>2px: knop, veld, label</span></div>
+        <div class="sg-shape"><div class="sg-shape__box" style="border-radius:0;border:0;box-shadow:var(--shadow-card)"></div><span>0px + schaduw: kaart</span></div>
+        <div class="sg-shape"><div class="sg-shape__box" style="border-radius:var(--radius-search);height:40px"></div><span>Rond: alleen het zoekveld</span></div>
+        <div class="sg-shape"><div class="sg-shape__box" style="border-radius:0;background:var(--color-band);border:0"></div><span>Geen schaduw: banden, menu, knoppen</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KNOPPEN -->
+  <section class="band sg-section" id="knoppen" aria-labelledby="h-knoppen">
+    <div class="container">
+      <h2 id="h-knoppen">Knoppen en links</h2>
+      <p class="sg-intro">Eén rode knop per scherm voor de belangrijkste actie. De rest is een secundaire knop of een link met pijl.</p>
+
+      <h3 class="sg-sub">Primair</h3>
+      <div class="sg-states">
+        <div class="sg-state"><button class="btn btn--primary" type="button">Start training</button><span class="sg-state__label">Standaard</span></div>
+        <div class="sg-state"><button class="btn btn--primary is-hover" type="button" tabindex="-1">Start training</button><span class="sg-state__label">Hover</span></div>
+        <div class="sg-state"><button class="btn btn--primary is-focus" type="button" tabindex="-1">Start training</button><span class="sg-state__label">Focus</span></div>
+        <div class="sg-state"><button class="btn btn--primary is-active" type="button" tabindex="-1">Start training</button><span class="sg-state__label">Ingedrukt</span></div>
+        <div class="sg-state"><button class="btn btn--primary" type="button" disabled>Start training</button><span class="sg-state__label">Uitgeschakeld</span></div>
+        <div class="sg-state"><button class="btn btn--primary" type="button" aria-busy="true" tabindex="-1"><span class="spinner" aria-hidden="true"></span>Bezig</button><span class="sg-state__label">Laden</span></div>
+      </div>
+
+      <h3 class="sg-sub">Secundair</h3>
+      <div class="sg-states">
+        <div class="sg-state"><button class="btn btn--secondary" type="button">Later bekijken</button><span class="sg-state__label">Standaard</span></div>
+        <div class="sg-state"><button class="btn btn--secondary is-hover" type="button" tabindex="-1">Later bekijken</button><span class="sg-state__label">Hover</span></div>
+        <div class="sg-state"><button class="btn btn--secondary is-focus" type="button" tabindex="-1">Later bekijken</button><span class="sg-state__label">Focus</span></div>
+        <div class="sg-state"><button class="btn btn--secondary is-active" type="button" tabindex="-1">Later bekijken</button><span class="sg-state__label">Ingedrukt</span></div>
+        <div class="sg-state"><button class="btn btn--secondary" type="button" disabled>Later bekijken</button><span class="sg-state__label">Uitgeschakeld</span></div>
+        <div class="sg-state"><button class="btn btn--secondary" type="button" aria-busy="true" tabindex="-1"><span class="spinner" aria-hidden="true"></span>Opslaan</button><span class="sg-state__label">Laden</span></div>
+      </div>
+
+      <h3 class="sg-sub">Link met pijl</h3>
+      <div class="sg-states">
+        <div class="sg-state"><a class="link-arrow" href="#">Bekijk alle trainingen<svg class="icon icon--16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a><span class="sg-state__label">Standaard</span></div>
+        <div class="sg-state"><a class="link-arrow is-hover" href="#" tabindex="-1">Bekijk alle trainingen<svg class="icon icon--16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a><span class="sg-state__label">Hover</span></div>
+        <div class="sg-state"><a class="link-arrow is-focus" href="#" tabindex="-1">Bekijk alle trainingen<svg class="icon icon--16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a><span class="sg-state__label">Focus</span></div>
+        <div class="sg-state"><a class="link-arrow is-active" href="#" tabindex="-1">Bekijk alle trainingen<svg class="icon icon--16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a><span class="sg-state__label">Ingedrukt</span></div>
+        <div class="sg-state"><a class="link-arrow" aria-disabled="true">Bekijk alle trainingen<svg class="icon icon--16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a><span class="sg-state__label">Uitgeschakeld</span></div>
+        <div class="sg-state"><span class="link-arrow muted" aria-busy="true"><span class="spinner" aria-hidden="true"></span>Laden</span><span class="sg-state__label">Laden</span></div>
+      </div>
+
+      <h3 class="sg-sub">Gevaar</h3>
+      <p class="text-14 muted" style="margin-bottom:var(--space-16)">Donkerder rood en altijd met icoon. Staat nooit naast een rode primaire knop.</p>
+      <div class="sg-row">
+        <button class="btn btn--danger" type="button"><svg class="icon" aria-hidden="true"><use href="#i-dismiss"/></svg>Inschrijving annuleren</button>
+        <button class="btn btn--danger is-hover" type="button" tabindex="-1"><svg class="icon" aria-hidden="true"><use href="#i-dismiss"/></svg>Hover</button>
+        <button class="btn btn--danger" type="button" disabled><svg class="icon" aria-hidden="true"><use href="#i-dismiss"/></svg>Uitgeschakeld</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULIEREN -->
+  <section class="band band--grey sg-section" id="formulieren" aria-labelledby="h-form">
+    <div class="container">
+      <h2 id="h-form">Formulieren</h2>
+      <p class="sg-intro">Label boven het veld, uitleg eronder, foutmelding met icoon. Nooit de placeholder als label.</p>
+      <div class="sg-form">
+        <div class="field">
+          <label class="field__label" for="f1">Naam van de training</label>
+          <input class="input" id="f1" type="text" placeholder="Bijvoorbeeld: Feedback geven">
+          <span class="field__hint">Standaard</span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="f2">Naam van de training</label>
+          <input class="input is-hover" id="f2" type="text" value="Feedback geven">
+          <span class="field__hint">Hover</span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="f3">Naam van de training</label>
+          <input class="input is-focus" id="f3" type="text" value="Feedback geven">
+          <span class="field__hint">Focus</span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="f4">Datum van afronding</label>
+          <input class="input" id="f4" type="text" value="31-02-2026" aria-invalid="true" aria-describedby="f4-err">
+          <span class="field__error" id="f4-err"><svg class="icon icon--16" aria-hidden="true"><use href="#i-error-circle"/></svg>Deze datum bestaat niet. Kies een datum in februari tot en met de 28e.</span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="f5">Kostenplaats</label>
+          <input class="input" id="f5" type="text" value="Wordt door L&amp;O ingevuld" disabled>
+          <span class="field__hint">Uitgeschakeld</span>
+        </div>
+        <div class="field">
+          <label class="field__label" for="f6">Vakgebied</label>
+          <div class="select-wrap">
+            <select class="select" id="f6">
+              <option>Alle vakgebieden</option>
+              <option>Dienstverlening</option>
+              <option>Informatiebeveiliging</option>
+              <option>Leidinggeven</option>
+              <option>Stadsontwikkeling</option>
+            </select>
+          </div>
+          <span class="field__hint">Keuzelijst</span>
+        </div>
+        <div class="field">
+          <span class="field__label" id="zoek-label">Zoekveld</span>
+          <div class="search">
+            <input class="search__input" type="search" aria-labelledby="zoek-label" placeholder="Zoek een training">
+            <button class="search__btn" type="button" aria-label="Zoeken"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg></button>
+          </div>
+          <span class="field__hint">Rond, zoals op breda.nl</span>
+        </div>
+        <fieldset class="field" style="border:0;margin:0;padding:0">
+          <legend class="field__label" style="margin-bottom:var(--space-8)">Vinkjes en schakelaars</legend>
+          <label class="check"><input type="checkbox"> Alleen verplichte trainingen</label>
+          <label class="check"><input type="checkbox" checked> Toon afgeronde trainingen</label>
+          <label class="check"><input type="checkbox" disabled> Uitgeschakeld</label>
+          <label class="switch"><input type="checkbox" role="switch" checked> Herinnering per e-mail</label>
+          <label class="switch"><input type="checkbox" role="switch"> Wekelijkse samenvatting</label>
+          <label class="switch"><input type="checkbox" role="switch" disabled> Uitgeschakeld</label>
+        </fieldset>
+      </div>
+    </div>
+  </section>
+
+  <!-- KAARTEN -->
+  <section class="band sg-section" id="kaarten" aria-labelledby="h-kaarten">
+    <div class="container">
+      <h2 id="h-kaarten">Kaarten en tegels</h2>
+      <p class="sg-intro">Witte kaarten zonder ronde hoeken op een grijze band. Eén kernwoord in de titel krijgt rood.</p>
+    </div>
+    <div class="band band--grey">
+      <div class="container">
+        <div class="grid grid--3">
+          <article class="card tile">
+            <img class="tile__img" src="https://picsum.photos/seed/breda-security-laptop/640/360" alt="" width="640" height="360" loading="lazy">
+            <div class="tile__body">
+              <div class="tile__meta"><span class="badge badge--action">Verplicht</span><span>20 minuten</span></div>
+              <h3 class="tile__title">Rond je <em>verplichte training</em> af</h3>
+              <p class="text-14">Informatiebeveiliging 2026. Je hebt nog 5 dagen.</p>
+              <a class="btn btn--primary btn--small" href="#">Verder met training</a>
+            </div>
+          </article>
+          <article class="card tile">
+            <img class="tile__img" src="https://picsum.photos/seed/breda-team-meeting/640/360" alt="" width="640" height="360" loading="lazy">
+            <div class="tile__body">
+              <div class="tile__meta"><span>Workshop</span><span>2 dagdelen</span></div>
+              <h3 class="tile__title">Leer <em>feedback geven</em> dat landt</h3>
+              <p class="text-14">Aanbevolen door je manager. Nog 8 plekken vrij in maart.</p>
+              <a class="btn btn--secondary btn--small" href="#">Bekijk data</a>
+            </div>
+          </article>
+          <article class="card tile is-loading" aria-busy="true" aria-label="Training wordt geladen">
+            <div class="tile__img"></div>
+            <div class="tile__body" style="width:100%">
+              <span class="skeleton skeleton--line" style="width:40%"></span>
+              <span class="skeleton" style="height:24px;width:85%"></span>
+              <span class="skeleton skeleton--line" style="width:70%"></span>
+              <span class="skeleton" style="height:32px;width:120px;margin-top:var(--space-8)"></span>
+            </div>
+          </article>
+        </div>
+
+        <div class="grid grid--2" style="margin-top:var(--space-24)">
+          <article class="card tile tile--row">
+            <img class="tile__img" src="https://picsum.photos/seed/breda-city-walk/320/320" alt="" width="320" height="320" loading="lazy">
+            <div class="tile__body">
+              <h3 class="tile__title">De <em>Omgevingswet</em> in de praktijk</h3>
+              <p class="text-14">Korte e-learning voor iedereen die vergunningen behandelt.</p>
+              <a class="link-arrow text-14" href="#">Meer informatie<svg class="icon icon--16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+            </div>
+          </article>
+          <article class="card tile tile--row">
+            <img class="tile__img" src="https://picsum.photos/seed/breda-library-desk/320/320" alt="" width="320" height="320" loading="lazy">
+            <div class="tile__body">
+              <h3 class="tile__title">Schrijven in <em>begrijpelijke taal</em></h3>
+              <p class="text-14">Brieven die inwoners in één keer snappen.</p>
+              <a class="link-arrow text-14" href="#">Meer informatie<svg class="icon icon--16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="container" style="margin-top:var(--space-48)">
+      <h3 class="sg-sub">Collega's</h3>
+      <div class="grid grid--3">
+        <figure class="card colleague" style="margin:0">
+          <span class="avatar avatar--56"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="" width="56" height="56" loading="lazy"></span>
+          <figcaption><div class="colleague__name">Fatima el Amrani</div><div class="colleague__role">Klantadviseur, Publiekszaken</div></figcaption>
+          <blockquote class="colleague__quote">“Na de training begrijpelijke taal schrijf ik brieven in de helft van de tijd.”</blockquote>
+        </figure>
+        <figure class="card colleague" style="margin:0">
+          <span class="avatar avatar--56"><img src="https://randomuser.me/api/portraits/men/41.jpg" alt="" width="56" height="56" loading="lazy"></span>
+          <figcaption><div class="colleague__name">Joris van Dongen</div><div class="colleague__role">Teamleider, Stadsontwikkeling</div></figcaption>
+          <blockquote class="colleague__quote">“De leerminuut is vast onderdeel van ons teamoverleg geworden.”</blockquote>
+        </figure>
+        <figure class="card colleague" style="margin:0">
+          <span class="avatar avatar--56" aria-hidden="true">LB</span>
+          <figcaption><div class="colleague__name">Lotte Brouwers</div><div class="colleague__role">Adviseur, Leren en Ontwikkelen</div></figcaption>
+          <blockquote class="colleague__quote">“Zonder foto tonen we initialen. Ook dat blijft herkenbaar.”</blockquote>
+        </figure>
+      </div>
+
+      <h3 class="sg-sub">Ook interessant</h3>
+      <div class="related">
+        <ul class="related__list">
+          <li class="related__item"><strong>Leerminuut: omgaan met agressie aan de balie</strong><span class="text-14 muted">5 minuten, video</span><a class="link-arrow text-14" href="#">Bekijk de leerminuut<svg class="icon icon--16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></li>
+          <li class="related__item"><strong>Teamuitdaging: 10 trainingen in oktober</strong><span class="text-14 muted">Team Stadsontwikkeling</span><a class="link-arrow text-14" href="#">Doe mee met je team<svg class="icon icon--16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></li>
+          <li class="related__item"><strong>Kennissessie: AI in je dagelijkse werk</strong><span class="text-14 muted">Do 14 nov, Stadskantoor</span><a class="link-arrow text-14" href="#">Schrijf je in<svg class="icon icon--16" aria-hidden="true"><use href="#i-arrow-right"/></svg></a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAVIGATIE -->
+  <section class="band band--grey sg-section" id="navigatie" aria-labelledby="h-nav">
+    <div class="container">
+      <h2 id="h-nav">Navigatie, tabs en tellers</h2>
+      <p class="sg-intro">Horizontaal menu zoals op breda.nl en in AFAS. Rode lijn onder het actieve item.</p>
+
+      <h3 class="sg-sub">Hoofdmenu, alle staten</h3>
+      <div class="sg-nav-demo" aria-hidden="true">
+        <ul class="mainnav__list">
+          <li><span class="mainnav__link" aria-current="page">Actief</span></li>
+          <li><span class="mainnav__link sg-hov">Hover</span></li>
+          <li><span class="mainnav__link sg-foc">Focus</span></li>
+          <li><span class="mainnav__link">Standaard</span></li>
+        </ul>
+      </div>
+
+      <h3 class="sg-sub">Tabs</h3>
+      <div class="tabs" data-tabs>
+        <div class="tabs__list" role="tablist" aria-label="Mijn leren">
+          <button class="tabs__tab" role="tab" id="tab-1" aria-selected="true" aria-controls="panel-1">Bezig <span class="count">3</span></button>
+          <button class="tabs__tab" role="tab" id="tab-2" aria-selected="false" aria-controls="panel-2" tabindex="-1">Afgerond</button>
+          <button class="tabs__tab" role="tab" id="tab-3" aria-selected="false" aria-controls="panel-3" tabindex="-1">Opgeslagen</button>
+          <button class="tabs__tab" role="tab" id="tab-4" aria-selected="false" tabindex="-1" disabled>Certificaten</button>
+        </div>
+        <div class="tabs__panel" role="tabpanel" id="panel-1" aria-labelledby="tab-1">
+          <div class="grid grid--3">
+            <div class="progress"><div class="progress__top"><span>Informatiebeveiliging 2026</span><span class="nums">60%</span></div><div class="progress__track" role="progressbar" aria-label="Informatiebeveiliging 2026" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><div class="progress__bar" style="--value:60%"></div></div></div>
+            <div class="progress progress--overdue"><div class="progress__top"><span>Privacy en AVG <span class="badge badge--danger"><svg class="icon" aria-hidden="true"><use href="#i-error-circle"/></svg>Verlopen</span></span><span class="nums">25%</span></div><div class="progress__track" role="progressbar" aria-label="Privacy en AVG, verlopen" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><div class="progress__bar" style="--value:25%"></div></div></div>
+            <div class="progress progress--done"><div class="progress__top"><span>Integriteit</span><span class="nums">100%</span></div><div class="progress__track" role="progressbar" aria-label="Integriteit" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><div class="progress__bar" style="--value:100%"></div></div></div>
+          </div>
+        </div>
+        <div class="tabs__panel" role="tabpanel" id="panel-2" aria-labelledby="tab-2" hidden><p>Je hebt dit jaar 12 trainingen afgerond.</p></div>
+        <div class="tabs__panel" role="tabpanel" id="panel-3" aria-labelledby="tab-3" hidden><p>Je hebt 2 trainingen opgeslagen voor later.</p></div>
+      </div>
+
+      <div class="sg-pair" style="margin-top:var(--space-32)">
+        <div>
+          <h3 class="sg-sub">Badges en tellers</h3>
+          <div class="sg-row">
+            <span class="badge badge--action">3 open acties</span>
+            <span class="count">3</span>
+            <span class="count">12</span>
+            <span class="count">99+</span>
+            <span class="badge">E-learning</span>
+            <span class="badge">Klassikaal</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="sg-sub">Avatars</h3>
+          <div class="sg-row">
+            <span class="avatar avatar--24" aria-hidden="true">SV</span>
+            <span class="avatar avatar--32" aria-hidden="true">SV</span>
+            <span class="avatar" aria-hidden="true">SV</span>
+            <span class="avatar avatar--56"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Fatima el Amrani" width="56" height="56" loading="lazy"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEEDBACK -->
+  <section class="band sg-section" id="feedback" aria-labelledby="h-feedback">
+    <div class="container">
+      <h2 id="h-feedback">Meldingen, dialoog en lege staat</h2>
+      <p class="sg-intro">Een melding verdwijnt vanzelf. Een dialoog alleen als iemand iets onomkeerbaars doet.</p>
+
+      <div class="sg-pair">
+        <div>
+          <h3 class="sg-sub">Melding (toast)</h3>
+          <div class="sg-toasts">
+            <div class="toast toast--success" role="presentation">
+              <svg class="icon toast__icon" aria-hidden="true"><use href="#i-checkmark-circle"/></svg>
+              <div><div class="toast__title">Je bent ingeschreven</div><div>Feedback geven, dinsdag 11 maart.</div></div>
+              <button class="toast__close" type="button" aria-label="Sluiten"><svg class="icon icon--16" aria-hidden="true"><use href="#i-dismiss"/></svg></button>
+            </div>
+            <div class="toast toast--danger" role="presentation">
+              <svg class="icon toast__icon" aria-hidden="true"><use href="#i-error-circle"/></svg>
+              <div><div class="toast__title">Opslaan is niet gelukt</div><div>Controleer je verbinding. <a class="toast__action" href="#">Opnieuw proberen</a></div></div>
+              <button class="toast__close" type="button" aria-label="Sluiten"><svg class="icon icon--16" aria-hidden="true"><use href="#i-dismiss"/></svg></button>
+            </div>
+          </div>
+          <button class="btn btn--secondary" type="button" data-demo-toast style="margin-top:var(--space-16)">Toon een melding</button>
+
+          <h3 class="sg-sub">Inline bericht</h3>
+          <div class="stack">
+            <div class="alert alert--info"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg><div><div class="alert__title">Nieuw in het leeraanbod</div><div>Vanaf november kun je e-learnings ook op je telefoon volgen.</div></div></div>
+            <div class="alert alert--warning"><svg class="icon" aria-hidden="true"><use href="#i-warning"/></svg><div><div class="alert__title">Bijna verlopen</div><div>Informatiebeveiliging 2026 moet over 5 dagen af zijn.</div></div></div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="sg-sub">Dialoog</h3>
+          <div class="dialog dialog--static" role="presentation">
+            <div class="dialog__body">
+              <div class="dialog__head"><svg class="icon icon--24" aria-hidden="true"><use href="#i-warning"/></svg><div class="stack"><h4>Inschrijving annuleren?</h4><p class="text-14">Je plek bij Feedback geven op 11 maart gaat naar de wachtlijst. Dit kun je niet ongedaan maken.</p></div></div>
+            </div>
+            <div class="dialog__footer">
+              <button class="btn btn--secondary" type="button">Inschrijving houden</button>
+              <button class="btn btn--danger" type="button"><svg class="icon" aria-hidden="true"><use href="#i-dismiss"/></svg>Annuleren</button>
+            </div>
+          </div>
+          <button class="btn btn--secondary" type="button" data-demo-dialog style="margin-top:var(--space-16)">Open de dialoog</button>
+        </div>
+      </div>
+
+      <h3 class="sg-sub">Lege staat</h3>
+      <div class="empty">
+        <div class="verbinding" aria-hidden="true"><svg class="verbinding__cross" viewBox="0 0 24 24"><path d="M3 3l18 18M21 3L3 21" stroke="currentColor" stroke-width="5"/></svg></div>
+        <svg class="icon icon--24 empty__icon" aria-hidden="true"><use href="#i-book-open"/></svg>
+        <h4>Je hebt nog niets opgeslagen</h4>
+        <p class="text-14 muted">Zie je een training die je later wilt doen? Kies Opslaan en hij komt hier te staan.</p>
+        <a class="btn btn--primary" href="#">Naar het leeraanbod</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TABEL -->
+  <section class="band band--grey sg-section" id="tabel" aria-labelledby="h-tabel">
+    <div class="container">
+      <h2 id="h-tabel">Tabel</h2>
+      <p class="sg-intro">Voor overzichten van managers en L&amp;O. Cijfers staan recht onder elkaar.</p>
+      <div class="table-wrap" tabindex="0" role="region" aria-labelledby="tbl-cap">
+        <table class="table">
+          <caption id="tbl-cap">Verplichte trainingen, team Stadsontwikkeling</caption>
+          <thead>
+            <tr><th scope="col">Training</th><th scope="col">Status</th><th scope="col">Deadline</th><th scope="col">Voortgang team</th><th scope="col" class="table__num">Deelnemers</th><th scope="col"><span class="visually-hidden">Actie</span></th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Informatiebeveiliging 2026</td>
+              <td><span class="badge badge--warning"><svg class="icon" aria-hidden="true"><use href="#i-warning"/></svg>Verloopt binnenkort</span></td>
+              <td>27 okt 2026</td>
+              <td><div class="progress"><div class="progress__track" role="progressbar" aria-label="Voortgang informatiebeveiliging" aria-valuenow="64" aria-valuemin="0" aria-valuemax="100"><div class="progress__bar" style="--value:64%"></div></div><span class="text-13 muted">64%</span></div></td>
+              <td class="table__num">18 / 28</td>
+              <td><a href="#">Herinner team</a></td>
+            </tr>
+            <tr>
+              <td>Privacy en AVG</td>
+              <td><span class="badge badge--danger"><svg class="icon" aria-hidden="true"><use href="#i-error-circle"/></svg>Verlopen</span></td>
+              <td>1 okt 2026</td>
+              <td><div class="progress progress--overdue"><div class="progress__track" role="progressbar" aria-label="Voortgang privacy" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100"><div class="progress__bar" style="--value:82%"></div></div><span class="text-13 muted">82%</span></div></td>
+              <td class="table__num">23 / 28</td>
+              <td><a href="#">Bekijk wie</a></td>
+            </tr>
+            <tr>
+              <td>Integriteit</td>
+              <td><span class="badge badge--success"><svg class="icon" aria-hidden="true"><use href="#i-checkmark-circle"/></svg>Afgerond</span></td>
+              <td>1 jun 2026</td>
+              <td><div class="progress progress--done"><div class="progress__track" role="progressbar" aria-label="Voortgang integriteit" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><div class="progress__bar" style="--value:100%"></div></div><span class="text-13 muted">100%</span></div></td>
+              <td class="table__num">28 / 28</td>
+              <td><a href="#">Rapport</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ASSISTENT -->
+  <section class="band sg-section" id="assistent" aria-labelledby="h-assistent">
+    <div class="container">
+      <h2 id="h-assistent">Assistent</h2>
+      <p class="sg-intro">Zwevende knop rechtsonder, zoals in AFAS. De assistent zelf komt later; dit is alleen het visuele onderdeel.</p>
+      <div class="sg-bubble-demo" aria-hidden="true">
+        <span class="assistant__prompt">Wat kan ik voor je doen?</span>
+        <span class="assistant__btn"><svg class="icon icon--24" aria-hidden="true"><use href="#i-chat"/></svg></span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="app-footer">
+  <div class="container app-footer__grid">
+    <div>
+      <h2>Leer Academie Breda</h2>
+      <p>Het leerplatform voor iedereen die bij de gemeente Breda werkt. Samen blijven we leren.</p>
+    </div>
+    <div>
+      <h2>Hulp</h2>
+      <ul class="text-14">
+        <li><a href="#">Veelgestelde vragen</a></li>
+        <li><a href="#">Contact met L&amp;O</a></li>
+        <li><a href="#">Toegankelijkheid</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Over deze site</h2>
+      <ul class="text-14">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Cookies</a></li>
+        <li><a href="./">Styleguide</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- Simple Breda skyline: trees, houses, the castle, the Grote Kerk, the station tower -->
+  <svg class="skyline" viewBox="0 0 1200 80" preserveAspectRatio="xMidYMax slice" height="72" aria-hidden="true" fill="currentColor">
+    <rect x="0" y="76" width="1200" height="4"/>
+    <circle cx="40" cy="62" r="8"/><circle cx="56" cy="58" r="9"/><circle cx="72" cy="63" r="7"/><rect x="54" y="64" width="3" height="12"/>
+    <path d="M96 76V54l14-12 14 12v22zM128 76V48h36v28zM168 76V56l11-10 11 10v20z"/>
+    <path d="M232 76V46h12V30l6-10 6 10v16h14V36h4V26l8-14 8 14v10h4v10h14V30l6-10 6 10v16h12v30z"/>
+    <circle cx="364" cy="62" r="8"/><circle cx="380" cy="59" r="9"/><rect x="378" y="64" width="3" height="12"/>
+    <path d="M404 76V58l10-9 10 9v18zM428 76V54l12-10 12 10v22zM456 76V60l9-8 9 8v16zM478 76V56h28v20z"/>
+    <path d="M520 76V50l30-14 30 14v26z"/>
+    <path d="M584 76V28h6V18h4V10h3V2h2v8h3v8h4v10h6v48z"/>
+    <path d="M616 76V52h40v24z"/>
+    <circle cx="676" cy="62" r="8"/><circle cx="692" cy="58" r="10"/><circle cx="708" cy="63" r="7"/><rect x="690" y="64" width="3" height="12"/>
+    <path d="M730 76V56l12-10 12 10v20zM758 76V50h30v26zM792 76V58l10-9 10 9v18z"/>
+    <path d="M840 76V44h22v32zM866 76V14h30v62zM900 76V34h20v42z"/>
+    <path d="M940 76V60l8-7 8 7v16zM960 76V54l12-10 12 10v22z"/>
+    <circle cx="1010" cy="61" r="9"/><circle cx="1028" cy="58" r="10"/><rect x="1026" y="64" width="3" height="12"/>
+    <path d="M1050 76V48h40v28zM1094 76V56l11-10 11 10v20zM1120 76V52h26v24z"/>
+    <circle cx="1166" cy="62" r="8"/><circle cx="1182" cy="59" r="9"/><rect x="1180" y="64" width="3" height="12"/>
+  </svg>
+</footer>
+
+<!-- Mobile bottom tab bar -->
+<nav class="tabbar" aria-label="Hoofdmenu mobiel">
+  <ul class="tabbar__list">
+    <li><a class="tabbar__link" href="#"><svg class="icon icon--24" aria-hidden="true"><use href="#i-home"/></svg>Overzicht</a></li>
+    <li><a class="tabbar__link" href="#"><svg class="icon icon--24" aria-hidden="true"><use href="#i-book-open"/></svg>Aanbod</a></li>
+    <li><a class="tabbar__link" href="#" aria-current="page"><svg class="icon icon--24" aria-hidden="true"><use href="#i-hat-graduation"/></svg>Mijn leren</a></li>
+    <li data-roles="manager lo"><a class="tabbar__link" href="#"><svg class="icon icon--24" aria-hidden="true"><use href="#i-people-team"/></svg>Team</a></li>
+    <li data-roles="lo"><a class="tabbar__link" href="#"><svg class="icon icon--24" aria-hidden="true"><use href="#i-building"/></svg>Beheer</a></li>
+  </ul>
+</nav>
+
+<!-- Assistant bubble (visual component only) -->
+<div class="assistant">
+  <button class="assistant__prompt" type="button" data-assistant-open>Wat kan ik voor je doen?</button>
+  <button class="assistant__btn" type="button" data-assistant-toggle aria-expanded="false" aria-controls="assistant-panel" aria-label="Open de assistent">
+    <svg class="icon icon--24" aria-hidden="true"><use href="#i-chat"/></svg>
+  </button>
+  <div class="assistant__panel" id="assistant-panel" role="dialog" aria-labelledby="assistant-title" hidden>
+    <div class="assistant__head">
+      <h2 class="text-16" id="assistant-title">Assistent</h2>
+      <button class="icon-btn" type="button" data-assistant-close aria-label="Sluit de assistent"><svg class="icon" aria-hidden="true"><use href="#i-dismiss"/></svg></button>
+    </div>
+    <div class="assistant__messages">
+      <div class="assistant__msg">Hoi Sanne. Wat kan ik voor je doen? Ik help je straks met het vinden van trainingen.</div>
+    </div>
+    <div class="assistant__compose">
+      <label class="visually-hidden" for="assistant-input">Je vraag</label>
+      <input class="input" id="assistant-input" type="text" placeholder="Binnenkort beschikbaar" disabled>
+      <button class="btn btn--primary" type="button" disabled>Stuur</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-region" role="status" aria-live="polite" id="toast-region"></div>
+
+<dialog class="dialog" id="demo-dialog" aria-labelledby="demo-dialog-title">
+  <form method="dialog">
+    <div class="dialog__body">
+      <div class="dialog__head"><svg class="icon icon--24" aria-hidden="true"><use href="#i-warning"/></svg><div class="stack"><h2 class="text-20" id="demo-dialog-title">Inschrijving annuleren?</h2><p class="text-14">Je plek bij Feedback geven op 11 maart gaat naar de wachtlijst. Dit kun je niet ongedaan maken.</p></div></div>
+    </div>
+    <div class="dialog__footer">
+      <button class="btn btn--secondary" value="keep" autofocus>Inschrijving houden</button>
+      <button class="btn btn--danger" value="cancel"><svg class="icon" aria-hidden="true"><use href="#i-dismiss"/></svg>Annuleren</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="../shell.js"></script>
+<script>
+  // Styleguide demos: tabs, toast, dialog
+  document.querySelectorAll('[data-tabs]').forEach((tabs) => {
+    const list = [...tabs.querySelectorAll('[role="tab"]')].filter((t) => !t.disabled);
+    function select(tab) {
+      list.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute('aria-controls'));
+        if (panel) panel.hidden = !on;
+      });
+      tab.focus();
+    }
+    list.forEach((t, i) => {
+      t.addEventListener('click', () => select(t));
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') select(list[(i + 1) % list.length]);
+        if (e.key === 'ArrowLeft') select(list[(i - 1 + list.length) % list.length]);
+      });
+    });
+  });
+
+  const region = document.getElementById('toast-region');
+  document.querySelector('[data-demo-toast]').addEventListener('click', () => {
+    const t = document.createElement('div');
+    t.className = 'toast toast--success is-entering';
+    t.innerHTML = '<svg class="icon toast__icon" aria-hidden="true"><use href="#i-checkmark-circle"/></svg><div><div class="toast__title">Opgeslagen voor later</div><div>Je vindt de training onder Mijn leren.</div></div><button class="toast__close" type="button" aria-label="Sluiten"><svg class="icon icon--16" aria-hidden="true"><use href="#i-dismiss"/></svg></button>';
+    t.querySelector('button').addEventListener('click', () => t.remove());
+    region.append(t);
+    setTimeout(() => t.remove(), 6000);
+  });
+
+  const dlg = document.getElementById('demo-dialog');
+  document.querySelector('[data-demo-dialog]').addEventListener('click', () => dlg.showModal());
+</script>
+</body>
+</html>
