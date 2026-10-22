@@ -200,12 +200,12 @@
   function panelHTML(h) {
     const tools = [
       canPip && !pip && !mobile() ? ['pip', 'pip', 'Zet naast je werk (zwevend venster)'] : null,
-      ['min', 'min', 'Minimaliseren'],
       H().expand ? ['expand', 'max', 'Groot openen'] : null,
       ['close', 'close', 'Sluiten'],
     ].filter(Boolean).map(([a, i, l]) => `<button type="button" class="lh-icon-btn" data-lh="${a}" data-k="tool-${a}" aria-label="${l}" title="${l}">${ic(i)}</button>`).join('');
+    const minBtn = `<button type="button" class="lh-min-btn" data-lh="min" data-k="tool-min" aria-label="Minimaliseren" title="Minimaliseren">${ic('min')}<span>Minimaliseren</span></button>`;
     return `<button type="button" class="lh-grab" data-lh="min" tabindex="-1" aria-hidden="true"></button>
-      <div class="lh-head"><div class="lh-titles"><div class="lh-eyebrow">${ic('bulb', 16)} Leerhapje · ${h.minutes} min</div><h2 class="lh-title" id="lh-title" tabindex="-1">${esc(h.title)}</h2></div><div class="lh-tools">${tools}</div></div>
+      <div class="lh-head"><div class="lh-titles"><div class="lh-eyebrow">${ic('bulb', 16)} Leerhapje · ${h.minutes} min</div><h2 class="lh-title" id="lh-title" tabindex="-1">${esc(h.title)}</h2></div><div class="lh-tools">${minBtn}${tools}</div></div>
       ${progHTML(h)}<div class="lh-body">${stepHTML(h, prog(h.id).step, false)}</div>${footHTML(h, false)}`;
   }
 
