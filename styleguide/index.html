@@ -8,6 +8,7 @@
 <meta name="color-scheme" content="light dark">
 <link rel="stylesheet" href="../tokens.css">
 <link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="../leerhapje.css">
 <style>
   /* Styleguide-only helpers. Tokens only, no raw colours. */
   .sg-section > .container > h2 { margin-bottom: var(--space-8); }
@@ -183,6 +184,7 @@
         <li><a href="#feedback">Feedback</a></li>
         <li><a href="#tabel">Tabel</a></li>
         <li><a href="#assistent">Assistent</a></li>
+        <li><a href="#leerhapje">Leerhapje</a></li>
       </ul>
     </div>
   </section>
@@ -667,6 +669,22 @@
       </div>
     </div>
   </section>
+
+  <!-- LEERHAPJE -->
+  <section class="band band--grey sg-section" id="leerhapje" aria-labelledby="h-leerhapje">
+    <div class="container">
+      <h2 id="h-leerhapje">Leerhapje</h2>
+      <p class="sg-intro">Een oefening van 1 tot 3 minuten in de hoek rechtsonder, terwijl je doorwerkt. Een nieuw leerhapje verschijnt alleen als knop met een teller en gaat nooit vanzelf open. Het staat boven de assistent; er is er altijd maar één open.</p>
+      <div class="row" style="display:flex;flex-wrap:wrap;gap:var(--space-8);margin-top:var(--space-16)">
+        <button class="btn btn--primary" type="button" data-lh-demo="phishing-mail">Lever “Is deze mail echt?”</button>
+        <button class="btn btn--secondary" type="button" data-lh-demo="copilot-of-niet">Lever “Copilot of niet?”</button>
+        <button class="btn btn--secondary" type="button" data-lh-demo="zeg-het-in-b1">Lever “Zeg het in B1”</button>
+        <button class="btn btn--secondary" type="button" data-lh-reset>Leerhapjes resetten</button>
+      </div>
+      <p class="text-14" id="lh-demo-pip" style="margin-top:var(--space-16)"></p>
+      <div style="margin-top:var(--space-24);max-width:560px" id="lh-demo-list"></div>
+    </div>
+  </section>
 </main>
 
 <footer class="app-footer">
@@ -761,6 +779,22 @@
 </dialog>
 
 <script src="../shell.js"></script>
+<script src="../leerhapjes.js"></script>
+<script src="../leerhapje.js"></script>
+<script>
+  // Leerhapje demo: deliver a bite to the bubble (simulated trigger)
+  (function () {
+    const list = document.getElementById('lh-demo-list');
+    const paintList = () => { list.innerHTML = Leerhapje.listHTML(); };
+    window.LeerhapjeHost = { changed: paintList };
+    document.querySelectorAll('[data-lh-demo]').forEach((b) => b.addEventListener('click', () => Leerhapje.deliver(b.dataset.lhDemo, 'demo')));
+    document.querySelector('[data-lh-reset]').addEventListener('click', () => Leerhapje.reset());
+    document.getElementById('lh-demo-pip').textContent = Leerhapje.supportsPip
+      ? 'Je browser ondersteunt “Zet naast je werk”: het leerhapje kan in een zwevend venster boven Outlook, Word of AFAS staan.'
+      : 'Je browser ondersteunt geen zwevend venster. Het leerhapje blijft dan in de pagina.';
+    paintList();
+  })();
+</script>
 <script>
   // Styleguide demos: tabs, toast, dialog
   document.querySelectorAll('[data-tabs]').forEach((tabs) => {

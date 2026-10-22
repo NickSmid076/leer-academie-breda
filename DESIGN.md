@@ -159,7 +159,39 @@ All live in the styleguide with default, hover, focus, active, disabled and load
 
 Buttons (primary, secondary, danger, text link with →), input, search, select, checkbox, switch, card/tile (vertical and row, plus a loading skeleton), stat block, colleague card, "Ook interessant" block, tabs, badge and count, progress bar (neutral, done, overdue), avatar (initials or photo), toast, inline alert, dialog (native `<dialog>`), empty state, table, assistant bubble, breadcrumb, footer, bottom tab bar.
 
-## 7. Accessibility notes
+## 7. Leerhapje (mini-player)
+
+A learning moment of 1 to 3 minutes that runs in the bottom-right corner while people keep working. Files: `leerhapje.css` (tokens only), `leerhapje.js` (player), `leerhapjes.js` (content). Demo trigger: the Leerhapje section on `/styleguide`.
+
+**States**
+- **Bubble:** 48px round, surface colour with a strong border, so it never competes with the red assistant button. The red count shows how many leerhapjes are waiting. A new leerhapje only ever shows up here; it never opens by itself.
+- **Compact:** `--panel-w` × `--panel-h` (360 × 480), a 3px red top edge and `--shadow-overlay`. That is about 16% of a 1366 × 768 screen. On short screens the height shrinks so the panel never runs under the top bar. It's a labelled `region`, not a dialog: no backdrop and no focus trap. Esc minimises it and returns focus. Header: Zet naast je werk, Minimaliseren, Groot openen, Sluiten. Footer: Later (15 min / 1 uur / morgen) and the main action.
+- **Expanded:** the `leerhapje` view in the app, at the same step, with Vorige and Verkleinen.
+- **Mobile (<767px):** compact becomes a bottom sheet of 60% height above the tab bar. Swipe it down to go back to the bubble. The assistant hides while the sheet is open.
+- **Floating window:** where the browser has the Document Picture-in-Picture API, "Zet naast je werk" moves the panel itself (not a copy) into an always-on-top window, so state stays in sync. Closing the window brings the panel back as the bubble. The button is hidden where the API is missing and on phones.
+
+**Corner stack.** The assistant (56px) stays at the bottom. The leerhapje bubble and panel sit 16px above it (`--lh-stack`). Only one is open at a time: opening one minimises the other. Toasts move left of an open panel.
+
+**Layers.** `--z-bubble` 200 < `--z-panel` 250 < `--z-menu` 300 < `--z-toast` 400.
+
+**Content format** (`leerhapjes.js`)
+
+```js
+{ id, title, minutes, skill, course, steps: [
+  { type: 'context', kind: 'mail' | 'teams' | 'letter', intro, ...scene },
+  { type: 'hotspot', prompt, kind: 'mail' | 'text', parts: [{ id, label?, text, flag, feedback }] },
+  { type: 'choice',  prompt, situation?, options: [{ label, correct, feedback }] },
+  { type: 'result',  points, well, tip }
+] }
+```
+
+**Feedback copy.** Short, kind and specific; always say why. Lead with "Goed gezien." or "Bijna.", never "Fout!". Right answers are green with a check icon. Other answers use the danger colour with an info icon and offer "Nog een keer". Feedback is announced through one polite live region.
+
+**Delivery hook.** Call `Leerhapje.deliver(id, reason)` to put a leerhapje in the bubble. Today the styleguide button and the Home list do this. Later, an idle or between-meetings signal (Graph free/busy, Idle Detection API with consent) can call the same function.
+
+**Progress** is stored per leerhapje in `localStorage` (`lab-lh-v1`): step, answers, found hotspots and snooze time. It survives navigation and reloads.
+
+## 8. Accessibility notes
 
 - Every text/background pair is AA in both themes (see tables above). UI borders and focus rings are at least 3:1.
 - Focus: 2px solid ring, 2px offset, `--color-focus` (red in light, `#FF6B7D` in dark, white on the red footer).
@@ -167,8 +199,9 @@ Buttons (primary, secondary, danger, text link with →), input, search, select,
 - Touch targets in the top bar, tab bar and buttons are 44px.
 - Text selection, caret, scrollbar and underline offset are themed from the palette.
 
-## 8. Known gaps
+## 9. Known gaps
 
 - Segoe UI isn't installed on macOS, so Mac screenshots show the system font.
 - Tile photos (picsum.photos) and colleague portraits (randomuser.me) are placeholders. Replace them with real Breda photography and staff photos (with consent) before launch.
+- The leerhapje content is Dutch only and isn't loaded on `index.en.html` yet.
 - `index.html` and `index.en.html` use these tokens through `app.css`. `components.css` is only for the styleguide, because its class names overlap with the app's.

@@ -98,6 +98,8 @@
   --gutter: 24px;
   --topbar-h: 64px;
   --tabbar-h: 64px;
+  --panel-w: 360px;        /* leerhapje mini-player */
+  --panel-h: 480px;
 
   /* Radius */
   --radius-control: 2px;   /* buttons, inputs, tags */
@@ -117,6 +119,7 @@
   /* Layers */
   --z-sticky: 100;
   --z-bubble: 200;
+  --z-panel: 250;          /* floating mini-player, below menus */
   --z-menu: 300;
   --z-toast: 400;
 }

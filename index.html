@@ -2,6 +2,7 @@
 <title>Leer Academie Breda</title>
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="leerhapje.css">
 <script>try{const t=new URLSearchParams(location.search).get('theme')||localStorage.getItem('lab-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}</script>
 
 <div id="app"></div>
@@ -254,7 +255,7 @@ function navItems(){
  if(u.role==='lo') items.push(['beheer','Beheer','cog']);
  return items;
 }
-function navOn(v){ return S.view===v||(v==='aanbod'&&S.view==='module')||(v==='communities'&&S.view==='community')||(v==='werkruimtes'&&S.view==='wsitem'); }
+function navOn(v){ return S.view===v||(v==='home'&&S.view==='leerhapje')||(v==='aanbod'&&S.view==='module')||(v==='communities'&&S.view==='community')||(v==='werkruimtes'&&S.view==='wsitem'); }
 function isDark(){ const d=document.documentElement.dataset.theme; return d?d==='dark':matchMedia('(prefers-color-scheme: dark)').matches; }
 function topbar(){
  const u=U(); const n=unread(u); const nav=navItems();
@@ -301,14 +302,20 @@ function render(){
  Object.entries(keep).forEach(([id,v])=>{const el=document.getElementById(id); if(el&&!el.value) el.value=v;});
  const cb=document.querySelector('.cop-body'); if(cb) cb.scrollTop=cb.scrollHeight;
  if(window.wsAfterRender) wsAfterRender();
+ if(window.Leerhapje) Leerhapje.afterRender();
 }
 function view(){ const v=S.view; const u=U();
  if(v==='home') return u.role==='manager'?homeManager():u.role==='lo'?homeLO():homeEmp();
  if(v==='aanbod') return viewAanbod(); if(v==='module') return viewModule(); if(v==='mijn') return viewMijn();
  if(v==='missies') return viewMissies(); if(v==='team') return viewTeam(); if(v==='communities') return viewCommunities();
- if(v==='community') return viewCommunity(); if(v==='wsitem') return viewWSItem(); if(v==='werkruimtes') return viewWSAll(); if(v==='veilig') return viewVeilig(); if(v==='beheer') return viewBeheer();
+ if(v==='community') return viewCommunity(); if(v==='wsitem') return viewWSItem(); if(v==='werkruimtes') return viewWSAll(); if(v==='veilig') return viewVeilig(); if(v==='beheer') return viewBeheer(); if(v==='leerhapje') return viewLeerhapje();
  return '';
 }
+
+/* ============ LEERHAPJES ============ */
+function lhTile(){ if(!window.Leerhapje) return ''; return `<div class="tile" style="margin-top:16px"><div class="tile-h"><h2>Leerhapjes</h2><span class="chip">1 tot 3 minuten</span></div><div class="tile-b"><p class="small muted">Korte oefeningen die je in de hoek van je scherm doet, terwijl je gewoon doorwerkt.</p>${Leerhapje.listHTML()}</div></div>`; }
+function viewLeerhapje(){ const h=window.Leerhapje&&Leerhapje.get(S.params.id); if(!h) return '';
+ return `<div class="crumbs"><button data-a="go" data-v="home">Home</button> › Leerhapje</div><div class="pagehead"><div><h1>${esc(h.title)}</h1><p>Leerhapje · ${h.minutes} minuten · ${esc(DOMAINS[h.skill]||h.skill)}</p></div></div><div class="lh-full" id="lh-full" data-id="${esc(h.id)}"></div>`; }
 
 /* ============ HOME ============ */
 function greeting(){ const h=new Date().getHours(); return h<12?'Goedemorgen':h<18?'Goedemiddag':'Goedenavond'; }
@@ -330,6 +337,7 @@ function challengeTile(){ const c=S.team.challenge; const pr=Math.round((c.pctMo
 function eventsTile(){ const ev=S.community.ov.events; return `<div class="tile"><div class="tile-h"><h2>Komende bijeenkomsten</h2></div><div class="tile-b"><ul class="list">${ev.map((e,i)=>`<li><span class="ico info">${icon('cal',16)}</span><div class="grow"><b>${esc(e.t)}</b><div class="small muted">${esc(e.when)} · ${esc(e.where)}</div></div><span class="chip ${e.type==='fysiek'?'blend':''}">${e.type}</span></li>`).join('')}</ul></div></div>`; }
 function homeEmp(){ const u=U(); return `<div class="pagehead"><div><h1>${greeting()}, ${esc(u.n.split(' ')[0])}</h1><p>Dit staat er deze week voor je klaar. Alles kost een paar minuten en past in je werk.</p></div><div class="row"><button class="btn" data-a="go" data-v="werkruimtes">${icon('grid',16)} Werkruimtes</button><button class="btn" data-a="go" data-v="aanbod">${icon('book',16)} Leeraanbod</button></div></div>
  <div class="grid g3">${tasksTile()}${missionTile()}${qotd()}</div>
+ ${lhTile()}
  <div class="grid g3" style="margin-top:16px">${growthTile()}${challengeTile()}${eventsTile()}</div>
  <div class="tile" style="margin-top:16px"><div class="tile-h"><h2>Verder waar je gebleven was</h2></div><div class="tile-b"><div class="grid g2">${['ov','ai'].map(mid=>{const m=MODULES[mid]; const p=u.progress[mid]; return `<div class="row"><span class="ico info">${icon('book',16)}</span><div class="grow"><b>${esc(m.title)}</b><div class="small muted">Les ${(p?.cur??0)+1}: ${esc(m.lessons[p?.cur??0]?.t||'')}</div><div class="bar" style="margin-top:4px"><i style="width:${modPct(u,mid)}%"></i></div></div><button class="btn sm primary" data-a="open" data-v="${mid}">Verder</button></div>`;}).join('')}</div></div></div>`; }
 function secDoneCount(){ return TEAM.filter(t=>t.id==='sanne'?modDone(S.users.sanne,'sec'):t.sec).length; }
@@ -345,7 +353,7 @@ function homeManager(){ const u=U(); const done=secDoneCount(); return `<div cla
   ${challengeTile()}
   ${tasksTile()}
  </div>
- <div class="notice small" style="margin-top:16px">${icon('shield',14)} Als manager zie je per persoon alleen de status van verplichte trainingen. Al het andere zie je als teamtotaal, zodat leren vrijwillig en veilig blijft.</div>`; }
+ <div class="notice small" style="margin-top:16px">${icon('shield',14)} Als manager zie je per persoon alleen de status van verplichte trainingen. Al het andere zie je als teamtotaal, zodat leren vrijwillig en veilig blijft.</div>${lhTile()}`; }
 function homeLO(){ const u=U(); const fb=S.copFeedback||{up:41,down:7}; return `<div class="pagehead"><div><h1>${greeting()}, ${esc(u.n.split(' ')[0])}</h1><p>Leer Academie Breda · overzicht organisatie (demo-data)</p></div><div class="row"><button class="btn" data-a="go" data-v="beheer" data-p="content">Content beheren</button><button class="btn primary" data-a="go" data-v="beheer" data-p="campagnes">${icon('flag',16)} Campagne plannen</button></div></div>
  <div class="grid g4">
   <div class="tile kpi"><div class="l">Wekelijks actieve medewerkers</div><div class="v num">61%</div><div class="small muted">+9 punt t.o.v. vorige maand</div></div>
@@ -356,7 +364,7 @@ function homeLO(){ const u=U(); const fb=S.copFeedback||{up:41,down:7}; return `
  <div class="grid g2" style="margin-top:16px">
   <div class="tile"><div class="tile-h"><h2>Campagnes</h2><button class="btn ghost sm" data-a="go" data-v="beheer" data-p="campagnes">Beheren</button></div><div class="tile-b"><ul class="list">${S.campaigns.map(c=>`<li><span class="ico task">${icon('flag',16)}</span><div class="grow"><b>${esc(CAMPAIGN_TEMPLATES[c.tpl].n)}</b><div class="small muted">${esc(c.target)} · ${esc(c.when)}</div></div><span class="chip ${c.status==='afgerond'?'ok':c.status==='actief'?'warn':''}">${c.status}</span></li>`).join('')}</ul></div></div>
   <div class="tile"><div class="tile-h"><h2>Signalen</h2></div><div class="tile-b"><ul class="list">${u.signals.map(s=>`<li><span class="ico info">${icon('bell',16)}</span><div class="grow">${esc(s.t)}</div><button class="btn sm" data-a="signal" data-v="${s.id}">Open</button></li>`).join('')}<li><span class="ico info">${icon('chat',16)}</span><div class="grow">Nieuwe vraag zonder antwoord in <b>Mobiliteit &amp; OV</b> (Ahmed Benali)</div><button class="btn sm" data-a="community" data-v="ov">Open</button></li></ul></div></div>
- </div>`; }
+ </div>${lhTile()}`; }
 
 /* ============ LEERAANBOD ============ */
 function viewAanbod(){ const f=S.params.f||'alle'; const q=(S.params.q||'').toLowerCase(); const u=U();
@@ -974,5 +982,20 @@ helpUI();
 <script>
 // Dark theme switch in the profile menu
 document.addEventListener('change',e=>{ if(e.target.dataset.change!=='theme') return; const t=e.target.checked?'dark':'light'; document.documentElement.dataset.theme=t; try{ localStorage.setItem('lab-theme',t); }catch(err){} });
+</script>
+<script src="leerhapjes.js"></script>
+<script>
+// Connects the leerhapje mini-player to this app.
+window.LeerhapjeHost={
+ expand(id){ if(S.view!=='leerhapje') S.lhBack=[S.view,S.params]; go('leerhapje',{id}); },
+ collapse(){ const b=S.lhBack||['home',{}]; S.lhBack=null; go(b[0]==='leerhapje'?'home':b[0],b[1]||{}); },
+ openCourse(id){ go('module',{id}); },
+ addPoints(skill,pts,why){ if(DOMAINS[skill]) addXP(skill,pts,why); save(); },
+ closeOthers(){ if(T.menu){ T.menu=false; helpUI(); } if(S.pop){ S.pop=null; render(); } },
+ changed(){ const l=document.querySelector('#main .lh-list'); if(l) l.outerHTML=Leerhapje.listHTML(); } // update in place, never steal focus
+};
+</script>
+<script src="leerhapje.js"></script>
+<script>render(); // first paint with the leerhapje list and player
 </script>
 </body></html>
