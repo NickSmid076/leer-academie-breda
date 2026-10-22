@@ -1,0 +1,206 @@
+/* Leer Academie Breda: design tokens.
+   Sources for every value are listed in DESIGN.md.
+   Light is the default; dark follows the system setting unless
+   <html data-theme="light|dark"> overrides it. */
+
+:root {
+  color-scheme: light;
+
+  /* Brand red scale (Breda red #EB002F, sampled from breda.nl) */
+  --red-50: #fdecef;
+  --red-100: #fbd3db;
+  --red-300: #ff6b7d;
+  --red-500: #eb002f;
+  --red-600: #d1002a;
+  --red-700: #c20027;
+  --red-800: #a80022;
+  --red-900: #8a001c;
+
+  /* Neutrals (Microsoft) plus two documented helper steps */
+  --neutral-0: #ffffff;
+  --neutral-50: #f2f2f2;
+  --neutral-150: #e0e0e0;   /* helper: decorative dividers only */
+  --neutral-400: #757575;   /* helper: control borders, 3:1+ */
+  --neutral-500: #616161;
+  --neutral-800: #262626;
+  --neutral-900: #171717;
+  --neutral-1000: #000000;
+
+  /* Semantic: surfaces and text */
+  --color-bg: var(--neutral-0);
+  --color-band: var(--neutral-50);
+  --color-surface: var(--neutral-0);
+  --color-surface-sunken: var(--neutral-50);
+  --color-text: var(--neutral-900);
+  --color-text-strong: var(--neutral-1000);
+  --color-text-muted: var(--neutral-500);
+  --color-border: var(--neutral-150);
+  --color-border-strong: var(--neutral-400);
+  --color-skeleton: var(--neutral-150);
+
+  /* Semantic: action and attention (the only places red appears) */
+  --color-accent: var(--red-500);
+  --color-accent-hover: var(--red-700);
+  --color-accent-pressed: var(--red-800);
+  --color-on-accent: var(--neutral-0);
+  --color-accent-soft: var(--red-50);
+  --color-link: var(--red-600);
+  --color-link-hover: var(--red-800);
+  --color-focus: var(--red-500);
+  --color-count: var(--red-500);
+
+  /* Semantic: status. Danger is darker than the action red and
+     always carries an icon. Info is slate so it never competes. */
+  --color-danger: var(--red-800);
+  --color-danger-fill: var(--red-900);
+  --color-danger-soft: #fbeaec;
+  --color-success: #0f7b3f;
+  --color-success-soft: #e6f3eb;
+  --color-warning: #8a5a00;
+  --color-warning-soft: #fff4d6;
+  --color-info: #44617a;
+  --color-info-soft: #edf1f4;
+  --color-progress: var(--neutral-800);
+
+  /* Footer band */
+  --color-footer: var(--red-500);
+  --color-on-footer: var(--neutral-0);
+
+  /* Pattern (45 degree verbinding lines) */
+  --color-pattern: rgba(0, 0, 0, 0.14);
+  --color-pattern-accent: var(--red-500);
+
+  /* Typography (Microsoft: Segoe UI, 400 and 600 only) */
+  --font-sans: "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --weight-regular: 400;
+  --weight-semibold: 600;
+
+  --text-11: 11px;  --leading-11: 1.27;
+  --text-13: 13px;  --leading-13: 1.38;
+  --text-14: 14px;  --leading-14: 1.43;
+  --text-15: 15px;  --leading-15: 1.47;
+  --text-16: 16px;  --leading-16: 1.5;
+  --text-20: 20px;  --leading-20: 1.3;
+  --text-29: 29px;  --leading-29: 1.2;
+  --text-37: 37px;  --leading-37: 1.2;
+
+  /* Spacing (8px base) */
+  --space-4: 4px;   /* half step, icon gaps only */
+  --space-8: 8px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+
+  /* Layout */
+  --page-max: 1200px;
+  --gutter: 24px;
+  --topbar-h: 64px;
+  --tabbar-h: 64px;
+
+  /* Radius */
+  --radius-control: 2px;   /* buttons, inputs, tags */
+  --radius-card: 0px;
+  --radius-search: 20px;   /* Breda pattern: rounded search field */
+  --radius-round: 50%;     /* avatars, switch thumb, assistant button */
+
+  /* Elevation: one shadow, cards only */
+  --shadow-card: rgba(0, 0, 0, 0.13) 0 3px 7px, rgba(0, 0, 0, 0.11) 0 1px 2px;
+  --shadow-overlay: rgba(0, 0, 0, 0.13) 0 3px 7px, rgba(0, 0, 0, 0.11) 0 1px 2px;
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Layers */
+  --z-sticky: 100;
+  --z-bubble: 200;
+  --z-menu: 300;
+  --z-toast: 400;
+}
+
+/* Dark theme values, shared by the media query and the manual switch */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-bg: var(--neutral-900);
+    --color-band: #1f1f1f;
+    --color-surface: var(--neutral-800);
+    --color-surface-sunken: #1f1f1f;
+    --color-text: var(--neutral-50);
+    --color-text-strong: var(--neutral-0);
+    --color-text-muted: #a6a6a6;
+    --color-border: #3a3a3a;
+    --color-border-strong: #8a8a8a;
+    --color-skeleton: #3a3a3a;
+    --color-accent: var(--red-500);
+    --color-accent-hover: var(--red-700);
+    --color-accent-pressed: var(--red-800);
+    --color-accent-soft: #3d1219;
+    --color-link: var(--red-300);
+    --color-link-hover: #ff99a5;
+    --color-focus: var(--red-300);
+    --color-count: var(--red-500);
+    --color-danger: #ff8291;
+    --color-danger-fill: var(--red-800);
+    --color-danger-soft: #3d1219;
+    --color-success: #5cc08a;
+    --color-success-soft: #173226;
+    --color-warning: #e3a94a;
+    --color-warning-soft: #382b14;
+    --color-info: #9db4c8;
+    --color-info-soft: #1e2a35;
+    --color-progress: var(--neutral-50);
+    --color-footer: var(--red-800);
+    --color-pattern: rgba(255, 255, 255, 0.16);
+    --color-pattern-accent: var(--red-300);
+    --shadow-card: rgba(0, 0, 0, 0.5) 0 3px 7px, rgba(0, 0, 0, 0.4) 0 1px 2px;
+    --shadow-overlay: rgba(0, 0, 0, 0.5) 0 3px 7px, rgba(0, 0, 0, 0.4) 0 1px 2px;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-bg: var(--neutral-900);
+  --color-band: #1f1f1f;
+  --color-surface: var(--neutral-800);
+  --color-surface-sunken: #1f1f1f;
+  --color-text: var(--neutral-50);
+  --color-text-strong: var(--neutral-0);
+  --color-text-muted: #a6a6a6;
+  --color-border: #3a3a3a;
+  --color-border-strong: #8a8a8a;
+  --color-skeleton: #3a3a3a;
+  --color-accent: var(--red-500);
+  --color-accent-hover: var(--red-700);
+  --color-accent-pressed: var(--red-800);
+  --color-accent-soft: #3d1219;
+  --color-link: var(--red-300);
+  --color-link-hover: #ff99a5;
+  --color-focus: var(--red-300);
+  --color-count: var(--red-500);
+  --color-danger: #ff8291;
+  --color-danger-fill: var(--red-800);
+  --color-danger-soft: #3d1219;
+  --color-success: #5cc08a;
+  --color-success-soft: #173226;
+  --color-warning: #e3a94a;
+  --color-warning-soft: #382b14;
+  --color-info: #9db4c8;
+  --color-info-soft: #1e2a35;
+  --color-progress: var(--neutral-50);
+  --color-footer: var(--red-800);
+  --color-pattern: rgba(255, 255, 255, 0.16);
+  --color-pattern-accent: var(--red-300);
+  --shadow-card: rgba(0, 0, 0, 0.5) 0 3px 7px, rgba(0, 0, 0, 0.4) 0 1px 2px;
+  --shadow-overlay: rgba(0, 0, 0, 0.5) 0 3px 7px, rgba(0, 0, 0, 0.4) 0 1px 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+  }
+}
